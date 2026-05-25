@@ -1,0 +1,45 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Outbrain Amplify API — Targeting
+  description: 'Outbrain Amplify API — Audience and contextual targeting per campaign. Includes geo, platform,
+    OS, browser, and interest segment targeting.'
+  tags:
+  - Outbrain
+  - Amplify
+  - Targeting
+  created: '2026-05-25'
+  modified: '2026-05-25'
+binds:
+- namespace: env
+  keys:
+    OUTBRAIN_OB_TOKEN: OUTBRAIN_OB_TOKEN
+capability:
+  consumes:
+  - type: http
+    namespace: amplify-targeting
+    baseUri: https://api.outbrain.com/amplify/v0.1
+    resources:
+    - name: audience-targeting
+      path: /campaigns/{campaignId}/targeting/audience
+      operations:
+      - name: getaudiencetargeting
+        method: GET
+      - name: updateaudiencetargeting
+        method: PUT
+    authentication:
+      type: apikey
+      key: OB-TOKEN-V1
+      value: '{{env.OUTBRAIN_OB_TOKEN}}'
+      placement: header
+  exposes:
+  - type: mcp
+    namespace: amplify-targeting-mcp
+    port: 9090
+    transport: http
+    tools:
+    - name: outbrain-amplify-get-audience-targeting
+      hints:
+        readOnly: true
+      call: amplify-targeting.getaudiencetargeting
+    - name: outbrain-amplify-update-audience-targeting
+      call: amplify-targeting.updateaudiencetargeting

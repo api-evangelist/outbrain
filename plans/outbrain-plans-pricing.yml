@@ -1,0 +1,113 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Outbrain (Teads)
+providerId: outbrain
+created: '2026-05-25'
+modified: '2026-05-25'
+reconciled: true
+tags:
+  - Advertising
+  - Native Advertising
+  - CTV
+  - Open Web
+  - Performance Marketing
+description: >
+  Outbrain / Teads is an auction-based open-internet advertising platform. There
+  is no SKU-style published API price list; commercial access is auction-priced
+  (CPC, CPM, CPV, CPCV) plus negotiated managed-service fees. The Amplify API
+  itself is free to authorized partners — campaigns spend on the underlying ad
+  auction.
+sources:
+  - https://www.outbrain.com/partner-api/
+  - https://developer.outbrain.com/home-page/amplify-api/
+  - https://www.teads.com/
+plans:
+  - id: outbrain-amplify-self-service
+    name: Amplify Self-Service
+    type: usage-based
+    description: >
+      Auction-priced native advertising on Outbrain Amplify. Advertisers fund
+      campaigns and bid CPC; the API is free to authorized partners.
+    entries:
+      - label: Cost-per-click bid
+        name: cpc
+        type: metered
+        metric: clicks
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: auction
+        userMultiplied: false
+      - label: Minimum advertiser deposit
+        name: minimum-deposit
+        type: prerequisite
+        metric: usd
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: '50.00'
+        userMultiplied: false
+  - id: outbrain-amplify-managed
+    name: Amplify Managed Service
+    type: managed
+    description: >
+      Managed-service tier with dedicated account management, creative
+      services, and predictive AI optimization. Pricing negotiated.
+    entries:
+      - label: Managed campaign spend
+        name: spend
+        type: metered
+        metric: usd
+        limit: -1
+        timeFrame: monthly
+        geo: global
+        unit: 1
+        price: negotiated
+        userMultiplied: false
+  - id: teads-programmatic
+    name: Teads Programmatic / Direct
+    type: managed
+    description: >
+      Premium video, display, and CTV inventory across 10,000+ media
+      environments. Bought via direct IO, PMP deals, or open auction.
+    entries:
+      - label: CPM (video / display / CTV)
+        name: cpm
+        type: metered
+        metric: impressions
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1000
+        price: auction
+        userMultiplied: false
+      - label: CPV / CPCV (video)
+        name: cpv
+        type: metered
+        metric: views
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: auction
+        userMultiplied: false
+  - id: outbrain-engage-publisher
+    name: Engage Publisher (Revenue Share)
+    type: revenue-share
+    description: >
+      Publishers integrate the Outbrain JS Widget or Mobile SDK and earn a
+      revenue share on paid (sponsored) recommendations served.
+    entries:
+      - label: Revenue share
+        name: revshare
+        type: revenue-share
+        metric: percentage
+        limit: -1
+        timeFrame: monthly
+        geo: global
+        unit: 1
+        price: negotiated
+        userMultiplied: false

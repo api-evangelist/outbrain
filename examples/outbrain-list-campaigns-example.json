@@ -1,0 +1,36 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://api.outbrain.com/amplify/v0.1/marketers/00fffae27d28d61a8718a05b1fac3ddbeb/campaigns",
+    "headers": {
+      "OB-TOKEN-V1": "MTcwMC4uLg=="
+    }
+  },
+  "response": {
+    "count": 2,
+    "campaigns": [
+      {
+        "id": "00f1234567890abcde",
+        "name": "Spring Promo - Performance",
+        "marketerId": "00fffae27d28d61a8718a05b1fac3ddbeb",
+        "enabled": true,
+        "budgetId": "00bb22ccdd",
+        "cpc": 0.45,
+        "objective": "conversions",
+        "startDate": "2026-03-01",
+        "endDate": "2026-06-30"
+      },
+      {
+        "id": "00f0987654321fedcba",
+        "name": "Brand Awareness CTV",
+        "marketerId": "00fffae27d28d61a8718a05b1fac3ddbeb",
+        "enabled": true,
+        "budgetId": "00bb33ddee",
+        "cpc": 0.30,
+        "objective": "awareness",
+        "startDate": "2026-04-15",
+        "endDate": "2026-12-31"
+      }
+    ]
+  }
+}

@@ -1,0 +1,49 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Outbrain (Teads)
+providerId: outbrain
+created: '2026-05-25'
+modified: '2026-05-25'
+reconciled: true
+tags:
+  - Advertising
+  - Rate Limiting
+description: Published rate limits for the Outbrain Amplify API. Documented in the Outbrain Developer Center.
+sources:
+  - https://developer.outbrain.com/home-page/amplify-api/documentation/
+  - https://amplifyv01.docs.apiary.io/
+algorithm: fixed-window
+responseCodes:
+  throttled: 429
+  quotaExceeded: 429
+limits:
+  - api: Outbrain Amplify API
+    scope: authentication
+    description: 'Authentication endpoint /login limited to 2 requests per hour per user.'
+    requests: 2
+    window: 3600s
+    perSubject: user
+  - api: Outbrain Amplify API
+    scope: token
+    description: 'A single OB-TOKEN-V1 token is limited to 30 requests per second across all endpoints.'
+    requests: 30
+    window: 1s
+    perSubject: token
+  - api: Outbrain Amplify API
+    scope: performance-reporting
+    description: 'Performance reporting endpoints (/reports/marketers/{marketerId}/campaigns and /periodicContent) limited to 10 requests per minute per marketer.'
+    requests: 10
+    window: 60s
+    perSubject: marketer
+  - api: Outbrain Amplify API
+    scope: realtime-reporting
+    description: 'Real-time performance reporting (/reports/marketers/{marketerId}/realtime) limited to 50 requests per minute per marketer.'
+    requests: 50
+    window: 60s
+    perSubject: marketer
+tokenLifecycle:
+  tokenHeader: OB-TOKEN-V1
+  acquireEndpoint: /login
+  authMethod: HTTP Basic
+  tokenType: opaque

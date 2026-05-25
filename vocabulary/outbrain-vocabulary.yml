@@ -1,0 +1,79 @@
+specification: API Commons Vocabulary
+specificationVersion: '0.1'
+provider: Outbrain (Teads)
+providerId: outbrain
+created: '2026-05-25'
+modified: '2026-05-25'
+description: >
+  Operational and capability vocabulary for the combined Outbrain / Teads open-internet
+  advertising platform — covering native (Amplify), premium video, CTV, conversion
+  measurement, and publisher content recommendations.
+domains:
+  - id: native-advertising
+    label: Native Advertising
+    terms:
+      - Marketer
+      - Campaign
+      - PromotedLink
+      - Budget
+      - AudienceTargeting
+      - Bid
+      - CPC
+      - Conversion Bid Strategy
+  - id: open-web-monetization
+    label: Open Web Publisher Monetization
+    terms:
+      - Engage
+      - JS Widget
+      - Mobile SDK
+      - Smartfeed
+      - Recommendation
+      - Organic Recommendation
+      - Paid Recommendation
+      - Mediation
+      - Disclosure
+  - id: ctv-video
+    label: CTV and Video
+    terms:
+      - Outstream
+      - InRead
+      - Connected TV
+      - CTV
+      - Predictive AI
+      - Omnichannel Graph
+      - Teads Studio
+  - id: measurement
+    label: Measurement and Attribution
+    terms:
+      - Impression
+      - Click
+      - View
+      - Completed View
+      - Conversion
+      - Conversion API
+      - Server-Side Pixel
+      - First-Party Data
+  - id: programmatic
+    label: Programmatic Integrations
+    terms:
+      - OpenRTB
+      - Prebid
+      - PMP Deal
+      - Direct IO
+      - Auction
+      - Floor Price
+identifiers:
+  - name: marketerId
+    description: Identifier of a marketer (advertiser account) in Amplify.
+  - name: campaignId
+    description: Identifier of an Amplify campaign.
+  - name: promotedLinkId
+    description: Identifier of a promoted link (creative).
+  - name: budgetId
+    description: Identifier of a shared budget.
+  - name: publisherKey
+    description: Outbrain publisher key used for Engage widgets.
+  - name: widgetJSId
+    description: Per-publisher widget identifier (e.g. AR_1).
+  - name: pixel_id
+    description: Teads conversion pixel identifier.

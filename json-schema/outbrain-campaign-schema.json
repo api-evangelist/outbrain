@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/outbrain/main/json-schema/outbrain-campaign-schema.json",
+  "title": "Outbrain Amplify Campaign",
+  "description": "An Outbrain Amplify campaign — a container for promoted links targeting a defined audience under a marketer.",
+  "type": "object",
+  "required": ["id", "name", "marketerId"],
+  "properties": {
+    "id": { "type": "string", "description": "Outbrain-assigned campaign identifier." },
+    "name": { "type": "string" },
+    "marketerId": { "type": "string", "description": "Identifier of the marketer (customer account) that owns this campaign." },
+    "enabled": { "type": "boolean" },
+    "budgetId": { "type": "string" },
+    "cpc": { "type": "number", "description": "Cost-per-click bid in the marketer's currency." },
+    "objective": { "type": "string", "enum": ["traffic", "awareness", "conversions", "leadGeneration"] },
+    "startDate": { "type": "string", "format": "date" },
+    "endDate": { "type": "string", "format": "date" },
+    "creationTime": { "type": "string", "format": "date-time" },
+    "lastModified": { "type": "string", "format": "date-time" },
+    "targeting": {
+      "type": "object",
+      "properties": {
+        "geoTargeting": { "type": "array", "items": { "type": "string" } },
+        "platformTargeting": { "type": "array", "items": { "type": "string", "enum": ["DESKTOP", "TABLET", "SMARTPHONE"] } },
+        "operatingSystems": { "type": "array", "items": { "type": "string" } },
+        "browsers": { "type": "array", "items": { "type": "string" } },
+        "interestSegments": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

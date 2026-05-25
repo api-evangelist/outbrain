@@ -1,0 +1,68 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Outbrain Amplify API — Promoted Links
+  description: 'Outbrain Amplify API — Promoted Links. Manage individual ad creatives (headlines, URLs, thumbnails)
+    inside a campaign. Self-contained Naftiko capability.'
+  tags:
+  - Outbrain
+  - Amplify
+  - Promoted Links
+  - Creatives
+  created: '2026-05-25'
+  modified: '2026-05-25'
+binds:
+- namespace: env
+  keys:
+    OUTBRAIN_OB_TOKEN: OUTBRAIN_OB_TOKEN
+capability:
+  consumes:
+  - type: http
+    namespace: amplify-promoted-links
+    baseUri: https://api.outbrain.com/amplify/v0.1
+    description: Outbrain Amplify promoted link (creative) management.
+    resources:
+    - name: campaign-promoted-links
+      path: /campaigns/{campaignId}/promotedLinks
+      operations:
+      - name: listpromotedlinks
+        method: GET
+        description: List promoted links for a campaign.
+      - name: createpromotedlink
+        method: POST
+        description: Create a promoted link.
+    - name: promoted-link
+      path: /promotedLinks/{promotedLinkId}
+      operations:
+      - name: getpromotedlink
+        method: GET
+        description: Get a promoted link by id.
+      - name: updatepromotedlink
+        method: PUT
+        description: Update a promoted link.
+    authentication:
+      type: apikey
+      key: OB-TOKEN-V1
+      value: '{{env.OUTBRAIN_OB_TOKEN}}'
+      placement: header
+  exposes:
+  - type: mcp
+    namespace: amplify-promoted-links-mcp
+    port: 9090
+    transport: http
+    tools:
+    - name: outbrain-amplify-list-promoted-links
+      description: List promoted links for a campaign.
+      hints:
+        readOnly: true
+      call: amplify-promoted-links.listpromotedlinks
+    - name: outbrain-amplify-create-promoted-link
+      description: Create a promoted link.
+      call: amplify-promoted-links.createpromotedlink
+    - name: outbrain-amplify-get-promoted-link
+      description: Get a promoted link by id.
+      hints:
+        readOnly: true
+      call: amplify-promoted-links.getpromotedlink
+    - name: outbrain-amplify-update-promoted-link
+      description: Update a promoted link.
+      call: amplify-promoted-links.updatepromotedlink

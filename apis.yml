@@ -1,0 +1,283 @@
+aid: outbrain
+url: https://raw.githubusercontent.com/api-evangelist/outbrain/refs/heads/main/apis.yml
+apis:
+- aid: outbrain:outbrain-amplify-api
+  name: Outbrain Amplify API
+  tags:
+  - Advertising
+  - Native Advertising
+  - Open Web
+  - Campaigns
+  humanURL: https://developer.outbrain.com/home-page/amplify-api/
+  properties:
+  - url: https://developer.outbrain.com/home-page/amplify-api/
+    type: Documentation
+  - url: https://developer.outbrain.com/home-page/amplify-api/documentation/
+    type: Documentation
+  - url: https://amplifyv01.docs.apiary.io/
+    type: Documentation
+  - url: openapi/outbrain-amplify-api-openapi.yml
+    type: OpenAPI
+  - url: json-schema/outbrain-campaign-schema.json
+    type: JSONSchema
+  - url: json-schema/outbrain-promoted-link-schema.json
+    type: JSONSchema
+  - url: json-structure/outbrain-campaign-structure.json
+    type: JSONStructure
+  - url: json-ld/outbrain-context.jsonld
+    type: JSONLD
+  - type: NaftikoCapability
+    url: capabilities/amplify-marketers.yaml
+  - type: NaftikoCapability
+    url: capabilities/amplify-campaigns.yaml
+  - type: NaftikoCapability
+    url: capabilities/amplify-promoted-links.yaml
+  - type: NaftikoCapability
+    url: capabilities/amplify-budgets.yaml
+  - type: NaftikoCapability
+    url: capabilities/amplify-targeting.yaml
+  - type: NaftikoCapability
+    url: capabilities/amplify-reporting.yaml
+  description: >
+    The Outbrain Amplify API enables advertisers, agencies, and technology
+    partners to integrate Amplify campaign management and reporting into their
+    own platforms. Core resources are Marketer, Campaign, PromotedLink, Budget,
+    AudienceTargeting, and a family of PerformanceBy* reporting endpoints.
+    Authentication is HTTP Basic at /login (2 req/hour) returning an OB-TOKEN-V1
+    token (30 req/sec, 10 req/min for reporting, 50 req/min for realtime).
+- aid: outbrain:outbrain-engage-api
+  name: Outbrain Engage API
+  tags:
+  - Advertising
+  - Content Discovery
+  - Recommendations
+  - Open Web
+  - Publisher
+  humanURL: https://developer.outbrain.com/apis/
+  properties:
+  - url: https://developer.outbrain.com/apis/
+    type: Documentation
+  - url: https://developer.outbrain.com/apis/engage-web-technologies/
+    type: Documentation
+  - url: https://developer.outbrain.com/outbrain-javascript-implementation-guide/
+    type: Documentation
+  - url: openapi/outbrain-engage-api-openapi.yml
+    type: OpenAPI
+  - url: json-schema/outbrain-recommendation-schema.json
+    type: JSONSchema
+  - type: NaftikoCapability
+    url: capabilities/engage-recommendations.yaml
+  description: >
+    Publisher-facing content recommendation API. Returns mixed organic and paid
+    (sponsored) recommendations for rendering in Outbrain widgets via the JS
+    Widget, the iOS/Android Mobile SDK, Smartfeed, and mediation integrations
+    across the open web.
+- aid: outbrain:outbrain-teads-conversion-api
+  name: Teads / Outbrain Conversion API
+  tags:
+  - Advertising
+  - Conversion API
+  - Server Side
+  - Measurement
+  - First Party Data
+  humanURL: https://www.teads.com
+  properties:
+  - url: https://www.teads.com
+    type: Documentation
+  - url: https://github.com/teads/teads-advertiser-conversion-api-gtm-template
+    type: SourceCode
+  - url: openapi/outbrain-teads-conversion-api-openapi.yml
+    type: OpenAPI
+  - type: NaftikoCapability
+    url: capabilities/teads-conversion-api.yaml
+  description: >
+    Server-to-server Conversion API for advertisers running on the combined
+    Teads / Outbrain open-internet platform. Lets advertisers send first-party
+    conversion events (Purchase, Lead, AddToCart, ViewContent) directly from
+    backends or server-side GTM, independent of browser cookies. Modeled on the
+    public Teads server-side GTM template.
+name: Outbrain
+tags:
+- Advertising
+- Native Advertising
+- Open Web
+- CTV
+- Connected TV
+- Video Advertising
+- Content Discovery
+- Programmatic
+- Performance Marketing
+- AdTech
+- Teads
+kind: contract
+image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+access: 3rd-Party
+common:
+- type: Portal
+  url: https://www.outbrain.com
+- type: Portal
+  url: https://www.teads.com
+- url: https://developer.outbrain.com
+  name: Outbrain Developer Center
+  type: Documentation
+- url: https://developer.outbrain.com/apis/
+  name: APIs Overview
+  type: Documentation
+- url: https://developer.outbrain.com/home-page/amplify-api/
+  name: Amplify API Home
+  type: Documentation
+- url: https://developer.outbrain.com/home-page/amplify-api/documentation/
+  name: Amplify API Documentation
+  type: Documentation
+- url: https://amplifyv01.docs.apiary.io/
+  name: Amplify API Apiary
+  type: Documentation
+- url: https://teadsapi.docs.apiary.io/
+  name: Teads API Apiary
+  type: Documentation
+- url: https://www.outbrain.com/partner-api/
+  name: Partner API Access Request
+  type: SignUp
+- url: https://developer.outbrain.com/home-page/amplify-api/apply/
+  name: Amplify API Application
+  type: SignUp
+- url: https://developer.outbrain.com/outbrain-javascript-implementation-guide/
+  name: JS Widget Implementation Guide
+  type: Documentation
+- url: https://developer.outbrain.com/apis/outbrain-js-api-guide/
+  name: JS API Guide
+  type: Documentation
+- url: https://sdk.outbrain.com
+  name: Outbrain Mobile SDK
+  type: SDK
+- url: https://www.outbrain.com/help/advertisers/amplify-api/
+  name: How to use the Outbrain API
+  type: Documentation
+- url: https://academy.teads.com
+  name: Teads Academy
+  type: Training
+- url: https://engineering.teads.com
+  name: Teads Engineering Blog
+  type: Blog
+- url: https://blog.outbrain.com
+  name: Outbrain Blog
+  type: Blog
+- url: https://www.outbrain.com/blog/
+  name: Outbrain Blog (alt)
+  type: Blog
+- url: https://www.teads.com/blog/
+  name: Teads Blog
+  type: Blog
+- url: https://investors.teads.com
+  name: Investor Relations
+  type: Documentation
+- url: https://www.outbrain.com/legal/
+  name: Legal
+  type: TermsOfService
+- url: https://www.outbrain.com/privacy/
+  type: PrivacyPolicy
+- url: https://www.outbrain.com/help/
+  type: Support
+- url: https://groups.google.com/g/outbrain-amplifyapi
+  name: Amplify API Google Group
+  type: Forum
+- url: https://github.com/outbrain
+  type: GitHubOrganization
+- url: https://github.com/teads
+  type: GitHubOrganization
+- url: https://github.com/teads/TeadsSDK-iOS
+  name: Teads iOS SDK
+  type: SDK
+- url: https://github.com/teads/TeadsSDK-android
+  name: Teads Android SDK
+  type: SDK
+- url: https://github.com/teads/TeadsSDK-ReactNative
+  name: Teads React Native SDK
+  type: SDK
+- url: https://github.com/teads/teads-gtm-template
+  name: Teads GTM Template
+  type: Tool
+- url: https://github.com/teads/teads-advertiser-conversion-api-gtm-template
+  name: Teads Conversion API GTM Server Template
+  type: Tool
+- url: https://github.com/teads/prebid-server-fork
+  name: Teads Prebid Server fork
+  type: Tool
+- url: https://github.com/outbrain/go-secretcrypt
+  name: go-secretcrypt
+  type: Tool
+- url: https://github.com/outbrain/gracefulshutdown
+  name: gracefulshutdown
+  type: Tool
+- url: https://github.com/outbrain/elasticsearch_exporter
+  name: Elasticsearch Prometheus Exporter
+  type: Tool
+- type: LinkedIn
+  url: https://www.linkedin.com/company/teads
+- type: LinkedIn
+  url: https://www.linkedin.com/company/outbrain
+- type: Twitter
+  url: https://twitter.com/outbrain
+- type: Twitter
+  url: https://twitter.com/teads
+- url: plans/outbrain-plans-pricing.yml
+  type: Plans
+- url: rate-limits/outbrain-rate-limits.yml
+  type: RateLimits
+- url: finops/outbrain-finops.yml
+  type: FinOps
+- url: vocabulary/outbrain-vocabulary.yml
+  type: Vocabulary
+- url: rules/outbrain-rules.yml
+  type: SpectralRules
+- type: Features
+  data:
+  - Outbrain Amplify — open-web native advertising platform with self-service and managed offerings
+  - Teads — premium video, display, and CTV inventory across 10,000+ media environments in 50+ markets
+  - Combined open-internet platform reaching 2B+ consumers/month with 20,000+ direct advertisers
+  - Amplify API for programmatic campaign management — Marketer, Campaign, PromotedLink, Budget, Targeting
+  - Performance and real-time reporting APIs (10 req/min and 50 req/min per marketer)
+  - OB-TOKEN-V1 bearer authentication acquired via /login HTTP Basic
+  - Engage API for publisher-side content recommendations (organic + paid)
+  - JS Widget for web (WordPress, GAM, mediation guides) and Mobile SDK for iOS / Android / React Native / Flutter
+  - Conversion API (server-to-server) for cookieless conversion measurement and Predictive AI optimization
+  - Teads Conversion API GTM server-side template (open source)
+  - Teads SDKs for iOS, Android, and React Native (open source on github.com/teads)
+  - Prebid Server fork on github.com/teads for OpenRTB / programmatic integrations
+  - Predictive AI engine — 1B predictions/sec across 500+ microservices, 18B ad opportunities/day, 8M req/sec
+  - Omnichannel Graph with audience, contextual, conversion, and purchase signals
+  - High-impact creative formats via Teads Studio (outstream, InRead, CTV)
+  - Conversion Bid Strategy for goal-based bidding in Amplify
+  - Direct IO, PMP deals, and open exchange paths for buy-side integrations
+  - Headquartered in NYC and managed in the US; combined company trades NASDAQ&#58; OB; brand consolidated as Teads
+  - Engineering hubs in Paris, Netanya, Montpellier, Ljubljana
+  sources:
+  - https://www.outbrain.com
+  - https://www.teads.com
+  - https://developer.outbrain.com
+  - https://amplifyv01.docs.apiary.io
+  - https://github.com/teads
+  - https://github.com/outbrain
+  - https://engineering.teads.com
+  - https://www.sec.gov/Archives/edgar/data/0001454938/000145493824000146/exhibit991812024.htm
+  updated: '2026-05-25'
+created: '2026-05-25T00:00:00.000Z'
+modified: '2026-05-25'
+position: Consuming
+description: >
+  Outbrain Inc. (NASDAQ&#58; OB), which closed its acquisition of Teads in early
+  2025 and now operates publicly as Teads, is one of the largest open-internet
+  advertising platforms — reaching 2 billion+ consumers per month across 50+
+  markets, with 20,000+ direct advertisers and 10,000+ premium media properties.
+  The combined company spans open-web native (Outbrain Amplify), premium video,
+  display, and Connected TV (Teads), powered by a Predictive AI engine and an
+  omnichannel data graph. Developer surface area centers on the Amplify API
+  (campaign management + reporting), the Engage API (publisher content
+  recommendations and the JS Widget / Mobile SDK), and a server-side Conversion
+  API for cookieless measurement and optimization.
+maintainers:
+- FN: Kin Lane
+  email: info@apievangelist.com
+  X: apievangelist
+  url: https://apievangelist.com
+specificationVersion: '0.16'

@@ -1,0 +1,26 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://api.outbrain.com/amplify/v0.1/reports/marketers/00fffae27d28d61a8718a05b1fac3ddbeb/realtime",
+    "headers": {
+      "OB-TOKEN-V1": "MTcwMC4uLg=="
+    }
+  },
+  "response": {
+    "marketerId": "00fffae27d28d61a8718a05b1fac3ddbeb",
+    "from": "2026-05-25",
+    "to": "2026-05-25",
+    "results": [
+      {
+        "key": "00f1234567890abcde",
+        "impressions": 482133,
+        "clicks": 5821,
+        "spend": 2619.45,
+        "conversions": 137,
+        "ctr": 0.0121,
+        "cpc": 0.45,
+        "cpa": 19.12
+      }
+    ]
+  }
+}

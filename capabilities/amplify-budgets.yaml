@@ -1,0 +1,54 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Outbrain Amplify API — Budgets
+  description: 'Outbrain Amplify API — Budgets. Create and manage daily, monthly, and total budgets attached to
+    campaigns under a marketer.'
+  tags:
+  - Outbrain
+  - Amplify
+  - Budgets
+  created: '2026-05-25'
+  modified: '2026-05-25'
+binds:
+- namespace: env
+  keys:
+    OUTBRAIN_OB_TOKEN: OUTBRAIN_OB_TOKEN
+capability:
+  consumes:
+  - type: http
+    namespace: amplify-budgets
+    baseUri: https://api.outbrain.com/amplify/v0.1
+    resources:
+    - name: marketer-budgets
+      path: /marketers/{marketerId}/budgets
+      operations:
+      - name: listbudgets
+        method: GET
+      - name: createbudget
+        method: POST
+    - name: budget
+      path: /budgets/{budgetId}
+      operations:
+      - name: getbudget
+        method: GET
+    authentication:
+      type: apikey
+      key: OB-TOKEN-V1
+      value: '{{env.OUTBRAIN_OB_TOKEN}}'
+      placement: header
+  exposes:
+  - type: mcp
+    namespace: amplify-budgets-mcp
+    port: 9090
+    transport: http
+    tools:
+    - name: outbrain-amplify-list-budgets
+      hints:
+        readOnly: true
+      call: amplify-budgets.listbudgets
+    - name: outbrain-amplify-create-budget
+      call: amplify-budgets.createbudget
+    - name: outbrain-amplify-get-budget
+      hints:
+        readOnly: true
+      call: amplify-budgets.getbudget

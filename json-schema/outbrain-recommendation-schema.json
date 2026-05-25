@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/outbrain/main/json-schema/outbrain-recommendation-schema.json",
+  "title": "Outbrain Engage Recommendation",
+  "description": "A single content recommendation returned by the Outbrain Engage API for rendering in a publisher widget.",
+  "type": "object",
+  "required": ["id", "content", "url", "origin"],
+  "properties": {
+    "id": { "type": "string" },
+    "content": { "type": "string", "description": "Headline text of the recommendation." },
+    "url": { "type": "string", "format": "uri" },
+    "thumbnail": {
+      "type": "object",
+      "properties": {
+        "url": { "type": "string", "format": "uri" },
+        "width": { "type": "integer" },
+        "height": { "type": "integer" }
+      }
+    },
+    "origin": { "type": "string", "enum": ["ORGANIC", "PAID"] },
+    "source_name": { "type": "string" },
+    "publish_date": { "type": "string", "format": "date-time" },
+    "disclosure": {
+      "type": "object",
+      "properties": {
+        "informationUrl": { "type": "string", "format": "uri" },
+        "prefix": { "type": "string" }
+      }
+    }
+  }
+}

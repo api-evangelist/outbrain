@@ -1,0 +1,54 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "schema": "https://schema.org/",
+    "outbrain": "https://api.outbrain.com/amplify/v0.1/",
+    "teads": "https://r.teads.tv/",
+    "Marketer": {
+      "@id": "outbrain:Marketer",
+      "@type": "schema:Organization"
+    },
+    "Campaign": {
+      "@id": "outbrain:Campaign",
+      "@type": "schema:AdvertisingCampaign"
+    },
+    "PromotedLink": {
+      "@id": "outbrain:PromotedLink",
+      "@type": "schema:Advertisement"
+    },
+    "Budget": {
+      "@id": "outbrain:Budget",
+      "@type": "schema:MonetaryAmount"
+    },
+    "Recommendation": {
+      "@id": "outbrain:Recommendation",
+      "@type": "schema:Recommendation"
+    },
+    "ConversionEvent": {
+      "@id": "teads:ConversionEvent",
+      "@type": "schema:Action"
+    },
+    "AudienceTargeting": {
+      "@id": "outbrain:AudienceTargeting",
+      "@type": "schema:Audience"
+    },
+    "PerformanceReport": {
+      "@id": "outbrain:PerformanceReport",
+      "@type": "schema:Dataset"
+    },
+    "id": "@id",
+    "name": "schema:name",
+    "url": "schema:url",
+    "currency": "schema:priceCurrency",
+    "marketerId": "outbrain:marketer",
+    "campaignId": "outbrain:campaign",
+    "objective": "schema:advertisingObjective",
+    "cpc": "outbrain:costPerClick",
+    "impressions": "outbrain:impressions",
+    "clicks": "outbrain:clicks",
+    "spend": "schema:totalPrice",
+    "conversions": "outbrain:conversions",
+    "ctr": "outbrain:clickThroughRate",
+    "cpa": "outbrain:costPerAcquisition"
+  }
+}

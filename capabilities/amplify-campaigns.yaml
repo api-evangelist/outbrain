@@ -1,0 +1,127 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Outbrain Amplify API — Campaigns
+  description: 'Outbrain Amplify API — Campaigns. List, create, retrieve, and update campaigns under a marketer.
+    Self-contained Naftiko capability covering one Outbrain Amplify business surface.'
+  tags:
+  - Outbrain
+  - Amplify
+  - Campaigns
+  - Native Advertising
+  created: '2026-05-25'
+  modified: '2026-05-25'
+binds:
+- namespace: env
+  keys:
+    OUTBRAIN_OB_TOKEN: OUTBRAIN_OB_TOKEN
+capability:
+  consumes:
+  - type: http
+    namespace: amplify-campaigns
+    baseUri: https://api.outbrain.com/amplify/v0.1
+    description: Outbrain Amplify campaign management capability.
+    resources:
+    - name: marketer-campaigns
+      path: /marketers/{marketerId}/campaigns
+      operations:
+      - name: listcampaignsbymarketer
+        method: GET
+        description: List campaigns for a marketer.
+        outputRawFormat: json
+        inputParameters:
+        - name: marketerId
+          in: path
+          type: string
+          required: true
+      - name: createcampaign
+        method: POST
+        description: Create a campaign for a marketer.
+        inputParameters:
+        - name: marketerId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          required: true
+    - name: campaign
+      path: /campaigns/{campaignId}
+      operations:
+      - name: getcampaign
+        method: GET
+        description: Get a campaign by id.
+        inputParameters:
+        - name: campaignId
+          in: path
+          type: string
+          required: true
+      - name: updatecampaign
+        method: PUT
+        description: Update a campaign.
+        inputParameters:
+        - name: campaignId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          required: true
+    authentication:
+      type: apikey
+      key: OB-TOKEN-V1
+      value: '{{env.OUTBRAIN_OB_TOKEN}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: amplify-campaigns-rest
+    port: 8080
+    description: REST adapter for Outbrain Amplify Campaigns.
+    resources:
+    - path: /v1/marketers/{marketerId}/campaigns
+      name: marketer-campaigns
+      operations:
+      - method: GET
+        name: listcampaignsbymarketer
+        call: amplify-campaigns.listcampaignsbymarketer
+      - method: POST
+        name: createcampaign
+        call: amplify-campaigns.createcampaign
+    - path: /v1/campaigns/{campaignId}
+      name: campaign
+      operations:
+      - method: GET
+        name: getcampaign
+        call: amplify-campaigns.getcampaign
+      - method: PUT
+        name: updatecampaign
+        call: amplify-campaigns.updatecampaign
+  - type: mcp
+    namespace: amplify-campaigns-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Outbrain Amplify Campaigns.
+    tools:
+    - name: outbrain-amplify-list-campaigns
+      description: List campaigns for a marketer.
+      hints:
+        readOnly: true
+      call: amplify-campaigns.listcampaignsbymarketer
+    - name: outbrain-amplify-create-campaign
+      description: Create a campaign for a marketer.
+      hints:
+        readOnly: false
+        destructive: false
+      call: amplify-campaigns.createcampaign
+    - name: outbrain-amplify-get-campaign
+      description: Get a campaign by id.
+      hints:
+        readOnly: true
+      call: amplify-campaigns.getcampaign
+    - name: outbrain-amplify-update-campaign
+      description: Update a campaign.
+      hints:
+        readOnly: false
+        destructive: false
+      call: amplify-campaigns.updatecampaign

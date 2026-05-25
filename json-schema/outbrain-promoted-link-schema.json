@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/outbrain/main/json-schema/outbrain-promoted-link-schema.json",
+  "title": "Outbrain Amplify Promoted Link",
+  "description": "A single piece of promoted content (ad creative) inside an Outbrain Amplify campaign.",
+  "type": "object",
+  "required": ["id", "campaignId", "text", "url"],
+  "properties": {
+    "id": { "type": "string" },
+    "campaignId": { "type": "string" },
+    "text": { "type": "string", "description": "Headline / title for the promoted link." },
+    "url": { "type": "string", "format": "uri", "description": "Landing page URL." },
+    "imageUrl": { "type": "string", "format": "uri" },
+    "cachedImageUrl": { "type": "string", "format": "uri" },
+    "enabled": { "type": "boolean" },
+    "status": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+    "lastModified": { "type": "string", "format": "date-time" }
+  }
+}

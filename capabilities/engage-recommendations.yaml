@@ -1,0 +1,75 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Outbrain Engage API — Recommendations
+  description: 'Outbrain Engage API — Publisher-side content recommendations. Powers the Outbrain JS Widget,
+    Mobile SDK, and mediation integrations across the open web.'
+  tags:
+  - Outbrain
+  - Engage
+  - Recommendations
+  - Content Discovery
+  created: '2026-05-25'
+  modified: '2026-05-25'
+binds:
+- namespace: env
+  keys:
+    OUTBRAIN_PUBLISHER_KEY: OUTBRAIN_PUBLISHER_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: engage-recommendations
+    baseUri: https://odb.outbrain.com
+    resources:
+    - name: get-recommendations
+      path: /utils/get
+      operations:
+      - name: getrecommendations
+        method: GET
+        description: Fetch personalized content recommendations for a publisher widget.
+        inputParameters:
+        - name: widgetJSId
+          in: query
+          type: string
+          required: true
+        - name: permalink
+          in: query
+          type: string
+          required: true
+        - name: publisherKey
+          in: query
+          type: string
+          required: true
+    - name: report-impression
+      path: /report/impression
+      operations:
+      - name: reportimpression
+        method: POST
+        description: Report widget impressions.
+    - name: report-click
+      path: /report/click
+      operations:
+      - name: reportclick
+        method: POST
+        description: Report a recommendation click.
+    authentication:
+      type: apikey
+      key: publisherKey
+      value: '{{env.OUTBRAIN_PUBLISHER_KEY}}'
+      placement: query
+  exposes:
+  - type: mcp
+    namespace: engage-recommendations-mcp
+    port: 9090
+    transport: http
+    tools:
+    - name: outbrain-engage-get-recommendations
+      description: Fetch personalized content recommendations.
+      hints:
+        readOnly: true
+      call: engage-recommendations.getrecommendations
+    - name: outbrain-engage-report-impression
+      description: Report widget impressions.
+      call: engage-recommendations.reportimpression
+    - name: outbrain-engage-report-click
+      description: Report a recommendation click.
+      call: engage-recommendations.reportclick

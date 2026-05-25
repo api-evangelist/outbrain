@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-structure.org/draft/2025-01/schema",
+  "name": "OutbrainCampaignStructure",
+  "type": "object",
+  "description": "Operational structure of an Outbrain Amplify campaign — the relationships between Marketer, Campaign, PromotedLink, Budget, and AudienceTargeting as exposed by the Amplify API.",
+  "properties": {
+    "Marketer": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "currency": { "type": "string" },
+        "campaigns": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/Campaign" }
+        },
+        "budgets": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/Budget" }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Campaign": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "cpc": { "type": "number" },
+        "objective": { "type": "string" },
+        "budgetId": { "type": "string" },
+        "promotedLinks": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/PromotedLink" }
+        },
+        "targeting": { "$ref": "#/definitions/AudienceTargeting" }
+      }
+    },
+    "PromotedLink": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "text": { "type": "string" },
+        "url": { "type": "string", "format": "uri" },
+        "enabled": { "type": "boolean" },
+        "status": { "type": "string" }
+      }
+    },
+    "Budget": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "amount": { "type": "number" },
+        "type": { "type": "string" },
+        "currency": { "type": "string" }
+      }
+    },
+    "AudienceTargeting": {
+      "type": "object",
+      "properties": {
+        "geoTargeting": { "type": "array", "items": { "type": "string" } },
+        "platformTargeting": { "type": "array", "items": { "type": "string" } },
+        "interestSegments": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}
