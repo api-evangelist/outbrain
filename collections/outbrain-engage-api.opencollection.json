@@ -1,0 +1,106 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Outbrain Engage API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "publisherKey",
+      "value": "{{publisherKey}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Recommendations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Recommendations For A Widget",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://odb.outbrain.com/utils/get",
+            "params": [
+              {
+                "name": "widgetJSId",
+                "value": "",
+                "type": "query",
+                "description": "The publisher widget ID (e.g. AR_1, AR_2)."
+              },
+              {
+                "name": "permalink",
+                "value": "",
+                "type": "query",
+                "description": "Canonical URL of the page rendering the widget."
+              },
+              {
+                "name": "publisherKey",
+                "value": "",
+                "type": "query",
+                "description": "Outbrain publisher key."
+              },
+              {
+                "name": "idx",
+                "value": "",
+                "type": "query",
+                "description": "Widget index on the page."
+              },
+              {
+                "name": "pageNum",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Fetch a set of recommended content items for a given publisher widget. Recommendations include both organic content and sponsored (paid) promoted links. Driven by the publisher key, widget ID, and the page URL.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Events",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Report A Widget Impression",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://odb.outbrain.com/report/impression",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Report that an Outbrain widget rendered impressions for one or more recommendations."
+        },
+        {
+          "info": {
+            "name": "Report A Recommendation Click",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://odb.outbrain.com/report/click",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Report a user click on a recommendation served by an Outbrain widget."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

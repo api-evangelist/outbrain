@@ -1,0 +1,54 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Teads Advertiser Conversion API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Conversions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Send A Server Side Conversion Event",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://r.teads.tv/capi/event",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit a conversion event (e.g. purchase, lead, sign-up, add-to-cart) from the advertiser's backend to Teads. Used for measurement, conversion attribution, and feeding Teads' predictive AI optimization engine without requiring browser-side pixels.\n"
+        },
+        {
+          "info": {
+            "name": "Send A Batch Of Conversion Events",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://r.teads.tv/capi/event/batch",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit up to 1000 conversion events in a single request."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

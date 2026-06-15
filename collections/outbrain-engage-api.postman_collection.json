@@ -1,0 +1,373 @@
+{
+  "item": [
+    {
+      "id": "b93c8ad3-1e4c-4d52-a89c-855695ebfa2e",
+      "name": "Recommendations",
+      "description": {
+        "content": "Retrieve content recommendations",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "74eba77f-d8e1-450f-8ac5-1eaac9acccef",
+          "name": "Get Recommendations For A Widget",
+          "request": {
+            "name": "Get Recommendations For A Widget",
+            "description": {
+              "content": "Fetch a set of recommended content items for a given publisher widget. Recommendations include both organic content and sponsored (paid) promoted links. Driven by the publisher key, widget ID, and the page URL.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "utils",
+                "get"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "widgetJSId",
+                  "value": "<string>",
+                  "description": "(Required) The publisher widget ID (e.g. AR_1, AR_2)."
+                },
+                {
+                  "disabled": false,
+                  "key": "permalink",
+                  "value": "<uri>",
+                  "description": "(Required) Canonical URL of the page rendering the widget."
+                },
+                {
+                  "disabled": false,
+                  "key": "publisherKey",
+                  "value": "<string>",
+                  "description": "(Required) Outbrain publisher key."
+                },
+                {
+                  "disabled": false,
+                  "key": "idx",
+                  "value": "<integer>",
+                  "description": "Widget index on the page."
+                },
+                {
+                  "disabled": false,
+                  "key": "pageNum",
+                  "value": "<integer>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f4727765-d320-4531-8368-f11e582180c6",
+              "name": "Recommendations payload.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "utils",
+                    "get"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "widgetJSId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "permalink",
+                      "value": "<uri>"
+                    },
+                    {
+                      "key": "publisherKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "idx",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "pageNum",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "publisherKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": {\n    \"success\": true,\n    \"id\": \"string\"\n  },\n  \"settings\": {},\n  \"response\": {\n    \"recommendations\": [\n      {\n        \"id\": \"string\",\n        \"content\": \"string\",\n        \"url\": \"https://QserEkBpYOkXp.tboJaqnRkiNBjIvilSWM89d8HAkaOWfC2AVvyaa.0yGs8V51+Gp\",\n        \"thumbnail\": {\n          \"url\": \"http://nXJtCywcifiakRAJQ.ocwcAyAEn,oYnBSY4rlh\",\n          \"width\": 7223,\n          \"height\": 7569\n        },\n        \"origin\": \"ORGANIC\",\n        \"source_name\": \"string\",\n        \"publish_date\": \"1992-11-27T16:02:05.320Z\",\n        \"disclosure\": {\n          \"informationUrl\": \"http://BEVzanK.xkFbSkPe.GsPLe19cXbHBuTqt.xlhUbs6iGQgDjpAsck8D8OgiSJx\",\n          \"prefix\": \"string\"\n        }\n      },\n      {\n        \"id\": \"string\",\n        \"content\": \"string\",\n        \"url\": \"https://vrgJFc.sjnylOYxv,vr5rmBuoBJ-GQxe7hNW60gOHXzXZiPPKtfSo70EXN\",\n        \"thumbnail\": {\n          \"url\": \"https://tJqbxnzjUvvkuvcUyxSbDJxp.fof9nTmzUcXrY5KPwpnsZbO,r7dGkQkQMxAzr\",\n          \"width\": 2317,\n          \"height\": 5741\n        },\n        \"origin\": \"ORGANIC\",\n        \"source_name\": \"string\",\n        \"publish_date\": \"1986-09-04T06:17:53.804Z\",\n        \"disclosure\": {\n          \"informationUrl\": \"http://lSczYNhvIpedyaZoyCXH.lhbA-jEZ4EJdKwMUxxGPLWOMZwC.6\",\n          \"prefix\": \"string\"\n        }\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "332fc8cb-72ab-4fa2-af4e-ddd23b7bc637",
+      "name": "Widgets",
+      "description": {
+        "content": "Publisher widget configuration",
+        "type": "text/plain"
+      },
+      "item": [],
+      "event": []
+    },
+    {
+      "id": "7cb27f7e-c31b-454b-9a0c-4d23c1f102a9",
+      "name": "Events",
+      "description": {
+        "content": "Impression and click events",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e1e22df8-552d-4d98-b3b9-91110e6dfe34",
+          "name": "Report A Widget Impression",
+          "request": {
+            "name": "Report A Widget Impression",
+            "description": {
+              "content": "Report that an Outbrain widget rendered impressions for one or more recommendations.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "report",
+                "impression"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"widgetJSId\": \"<string>\",\n  \"publisherKey\": \"<string>\",\n  \"recommendationIds\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"permalink\": \"<uri>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2a80472f-58a4-469d-949b-cc50340e5682",
+              "name": "Event recorded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "report",
+                    "impression"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "publisherKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"widgetJSId\": \"<string>\",\n  \"publisherKey\": \"<string>\",\n  \"recommendationIds\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"permalink\": \"<uri>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0db215de-1e9b-4366-ad13-0a5c42c634aa",
+          "name": "Report A Recommendation Click",
+          "request": {
+            "name": "Report A Recommendation Click",
+            "description": {
+              "content": "Report a user click on a recommendation served by an Outbrain widget.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "report",
+                "click"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"widgetJSId\": \"<string>\",\n  \"publisherKey\": \"<string>\",\n  \"recommendationId\": \"<string>\",\n  \"permalink\": \"<uri>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b216725c-4665-4029-a32c-778b94f84cc1",
+              "name": "Event recorded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "report",
+                    "click"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "publisherKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"widgetJSId\": \"<string>\",\n  \"publisherKey\": \"<string>\",\n  \"recommendationId\": \"<string>\",\n  \"permalink\": \"<uri>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://odb.outbrain.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "publisherKey"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "query"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "84ae889c-55fc-43f0-99a2-963076b65686",
+    "name": "Outbrain Engage API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Outbrain Engage API powers content recommendation widgets across the open web. It is the publisher-facing interface for retrieving personalized content recommendations (organic + sponsored) to render in Outbrain widgets. Used by the Outbrain JS Widget, the Mobile SDK (iOS/Android), Smartfeed implementations, and app mediation integrations.\n\n\nContact Support:\n Name: Outbrain Developer Center",
+      "type": "text/plain"
+    }
+  }
+}

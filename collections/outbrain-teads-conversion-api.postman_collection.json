@@ -1,0 +1,277 @@
+{
+  "item": [
+    {
+      "id": "93d6e996-ff80-4f76-ac1d-70c0d2bc16a9",
+      "name": "Conversions",
+      "description": {
+        "content": "Server-side conversion events",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d320fa43-d6b0-4e2d-8e01-577bf78835d8",
+          "name": "Send A Server Side Conversion Event",
+          "request": {
+            "name": "Send A Server Side Conversion Event",
+            "description": {
+              "content": "Submit a conversion event (e.g. purchase, lead, sign-up, add-to-cart) from the advertiser's backend to Teads. Used for measurement, conversion attribution, and feeding Teads' predictive AI optimization engine without requiring browser-side pixels.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "capi",
+                "event"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"event_name\": \"<string>\",\n  \"event_time\": \"<integer>\",\n  \"pixel_id\": \"<string>\",\n  \"event_id\": \"<string>\",\n  \"event_source_url\": \"<uri>\",\n  \"action_source\": \"<string>\",\n  \"user_data\": {\n    \"em\": \"<string>\",\n    \"ph\": \"<string>\",\n    \"client_ip_address\": \"<string>\",\n    \"client_user_agent\": \"<string>\",\n    \"external_id\": \"<string>\"\n  },\n  \"custom_data\": {\n    \"currency\": \"<string>\",\n    \"value\": \"<number>\",\n    \"content_ids\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"num_items\": \"<integer>\",\n    \"order_id\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "aac91aae-15bf-4699-aa3a-5cad35b07737",
+              "name": "Event accepted for processing.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "capi",
+                    "event"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"event_name\": \"<string>\",\n  \"event_time\": \"<integer>\",\n  \"pixel_id\": \"<string>\",\n  \"event_id\": \"<string>\",\n  \"event_source_url\": \"<uri>\",\n  \"action_source\": \"<string>\",\n  \"user_data\": {\n    \"em\": \"<string>\",\n    \"ph\": \"<string>\",\n    \"client_ip_address\": \"<string>\",\n    \"client_user_agent\": \"<string>\",\n    \"external_id\": \"<string>\"\n  },\n  \"custom_data\": {\n    \"currency\": \"<string>\",\n    \"value\": \"<number>\",\n    \"content_ids\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"num_items\": \"<integer>\",\n    \"order_id\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "843b3897-f0ad-4bc0-8304-b249aec69b92",
+              "name": "Invalid event payload.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "capi",
+                    "event"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"event_name\": \"<string>\",\n  \"event_time\": \"<integer>\",\n  \"pixel_id\": \"<string>\",\n  \"event_id\": \"<string>\",\n  \"event_source_url\": \"<uri>\",\n  \"action_source\": \"<string>\",\n  \"user_data\": {\n    \"em\": \"<string>\",\n    \"ph\": \"<string>\",\n    \"client_ip_address\": \"<string>\",\n    \"client_user_agent\": \"<string>\",\n    \"external_id\": \"<string>\"\n  },\n  \"custom_data\": {\n    \"currency\": \"<string>\",\n    \"value\": \"<number>\",\n    \"content_ids\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"num_items\": \"<integer>\",\n    \"order_id\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e13f7e1c-f7b7-4695-9b6d-20f16734e06b",
+          "name": "Send A Batch Of Conversion Events",
+          "request": {
+            "name": "Send A Batch Of Conversion Events",
+            "description": {
+              "content": "Submit up to 1000 conversion events in a single request.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "capi",
+                "event",
+                "batch"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"events\": [\n    {\n      \"event_name\": \"<string>\",\n      \"event_time\": \"<integer>\",\n      \"pixel_id\": \"<string>\",\n      \"event_id\": \"<string>\",\n      \"event_source_url\": \"<uri>\",\n      \"action_source\": \"<string>\",\n      \"user_data\": {\n        \"em\": \"<string>\",\n        \"ph\": \"<string>\",\n        \"client_ip_address\": \"<string>\",\n        \"client_user_agent\": \"<string>\",\n        \"external_id\": \"<string>\"\n      },\n      \"custom_data\": {\n        \"currency\": \"<string>\",\n        \"value\": \"<number>\",\n        \"content_ids\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"num_items\": \"<integer>\",\n        \"order_id\": \"<string>\"\n      }\n    },\n    {\n      \"event_name\": \"<string>\",\n      \"event_time\": \"<integer>\",\n      \"pixel_id\": \"<string>\",\n      \"event_id\": \"<string>\",\n      \"event_source_url\": \"<uri>\",\n      \"action_source\": \"<string>\",\n      \"user_data\": {\n        \"em\": \"<string>\",\n        \"ph\": \"<string>\",\n        \"client_ip_address\": \"<string>\",\n        \"client_user_agent\": \"<string>\",\n        \"external_id\": \"<string>\"\n      },\n      \"custom_data\": {\n        \"currency\": \"<string>\",\n        \"value\": \"<number>\",\n        \"content_ids\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"num_items\": \"<integer>\",\n        \"order_id\": \"<string>\"\n      }\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "92693b7e-34b8-4f9b-ba5c-955f7f7ce041",
+              "name": "Batch accepted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "capi",
+                    "event",
+                    "batch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"events\": [\n    {\n      \"event_name\": \"ViewContent\",\n      \"event_time\": 3559,\n      \"pixel_id\": \"string\",\n      \"event_id\": \"string\",\n      \"event_source_url\": \"http://pZwrjOrNAPigARP.prDK70F,3ZLz7KYfUz2IsOhBDr2Gi0ydXOpi7C\",\n      \"action_source\": \"website\",\n      \"user_data\": {\n        \"em\": \"string\",\n        \"ph\": \"string\",\n        \"client_ip_address\": \"string\",\n        \"client_user_agent\": \"string\",\n        \"external_id\": \"string\"\n      },\n      \"custom_data\": {\n        \"currency\": \"string\",\n        \"value\": 1705.5259422351687,\n        \"content_ids\": [\n          \"string\",\n          \"string\"\n        ],\n        \"num_items\": 4372,\n        \"order_id\": \"string\"\n      }\n    },\n    {\n      \"event_name\": \"AddToCart\",\n      \"event_time\": 6498,\n      \"pixel_id\": \"string\",\n      \"event_id\": \"string\",\n      \"event_source_url\": \"https://LMbrywClEvmbZHjP.rvarfS7pFLSSY4RPzO8WPTM2D-Dw4vROo6pHxo-\",\n      \"action_source\": \"app\",\n      \"user_data\": {\n        \"em\": \"string\",\n        \"ph\": \"string\",\n        \"client_ip_address\": \"string\",\n        \"client_user_agent\": \"string\",\n        \"external_id\": \"string\"\n      },\n      \"custom_data\": {\n        \"currency\": \"string\",\n        \"value\": 6041.891723552703,\n        \"content_ids\": [\n          \"string\",\n          \"string\"\n        ],\n        \"num_items\": 8308,\n        \"order_id\": \"string\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://r.teads.tv",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "0b32bf17-5c9a-4a13-9cc6-c3659e70b043",
+    "name": "Teads Advertiser Conversion API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Server-to-server Conversion API for advertisers running on the Teads / Outbrain combined open-internet platform. Lets advertisers send first-party conversion events directly from their backend (or via Google Tag Manager server-side container) to Teads for campaign measurement, optimization, attribution, and audience signals — independent of browser cookies. Modeled on the public Teads Conversion API GTM server-side template and Teads / Outbrain advertiser tagging documentation.\n\n\nContact Support:\n Name: Teads Support",
+      "type": "text/plain"
+    }
+  }
+}

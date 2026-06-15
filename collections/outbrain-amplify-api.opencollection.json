@@ -1,0 +1,475 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Outbrain Amplify API",
+    "version": "0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "OB-TOKEN-V1",
+      "value": "{{OB-TOKEN-V1}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Authenticate And Retrieve Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/login",
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Authenticate using HTTP Basic auth (Base64 of username:password) and receive an OB-TOKEN-V1 token to be sent in the OB-TOKEN-V1 header on subsequent requests. Rate limited to 2 requests per hour per user.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Marketers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Marketers For The Authenticated User",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/marketers"
+          },
+          "docs": "Retrieve all marketers (customer accounts) accessible to the authenticated user."
+        },
+        {
+          "info": {
+            "name": "Get A Marketer By Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/marketers/:marketerId",
+            "params": [
+              {
+                "name": "marketerId",
+                "value": "",
+                "type": "path",
+                "description": "Marketer (customer account) identifier."
+              }
+            ]
+          },
+          "docs": "Retrieve a single marketer by its identifier."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Campaigns",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Campaigns For A Marketer",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/marketers/:marketerId/campaigns",
+            "params": [
+              {
+                "name": "marketerId",
+                "value": "",
+                "type": "path",
+                "description": "Marketer (customer account) identifier."
+              }
+            ]
+          },
+          "docs": "Retrieve all campaigns belonging to a specific marketer."
+        },
+        {
+          "info": {
+            "name": "Create A Campaign For A Marketer",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.outbrain.com/amplify/v0.1/marketers/:marketerId/campaigns",
+            "params": [
+              {
+                "name": "marketerId",
+                "value": "",
+                "type": "path",
+                "description": "Marketer (customer account) identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new campaign under the specified marketer."
+        },
+        {
+          "info": {
+            "name": "Get A Campaign By Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/campaigns/:campaignId",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "path",
+                "description": "Campaign identifier."
+              }
+            ]
+          },
+          "docs": "Retrieve a single campaign by its identifier."
+        },
+        {
+          "info": {
+            "name": "Update A Campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.outbrain.com/amplify/v0.1/campaigns/:campaignId",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "path",
+                "description": "Campaign identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an existing campaign's settings."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "PromotedLinks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Promoted Links For A Campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/campaigns/:campaignId/promotedLinks",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "path",
+                "description": "Campaign identifier."
+              }
+            ]
+          },
+          "docs": "Retrieve all promoted links (ad creatives) in a campaign."
+        },
+        {
+          "info": {
+            "name": "Create A Promoted Link",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.outbrain.com/amplify/v0.1/campaigns/:campaignId/promotedLinks",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "path",
+                "description": "Campaign identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new promoted link inside a campaign."
+        },
+        {
+          "info": {
+            "name": "Get A Promoted Link By Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/promotedLinks/:promotedLinkId",
+            "params": [
+              {
+                "name": "promotedLinkId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve a single promoted link by its identifier."
+        },
+        {
+          "info": {
+            "name": "Update A Promoted Link",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.outbrain.com/amplify/v0.1/promotedLinks/:promotedLinkId",
+            "params": [
+              {
+                "name": "promotedLinkId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an existing promoted link."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Budgets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Budgets For A Marketer",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/marketers/:marketerId/budgets",
+            "params": [
+              {
+                "name": "marketerId",
+                "value": "",
+                "type": "path",
+                "description": "Marketer (customer account) identifier."
+              }
+            ]
+          },
+          "docs": "Retrieve all budgets belonging to a marketer."
+        },
+        {
+          "info": {
+            "name": "Create A Budget",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.outbrain.com/amplify/v0.1/marketers/:marketerId/budgets",
+            "params": [
+              {
+                "name": "marketerId",
+                "value": "",
+                "type": "path",
+                "description": "Marketer (customer account) identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new shared budget for the marketer."
+        },
+        {
+          "info": {
+            "name": "Get A Budget By Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/budgets/:budgetId",
+            "params": [
+              {
+                "name": "budgetId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve a single budget by its identifier."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Targeting",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Audience Targeting For A Campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/campaigns/:campaignId/targeting/audience",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "path",
+                "description": "Campaign identifier."
+              }
+            ]
+          },
+          "docs": "Retrieve audience targeting (segments, geo, devices, OS, browsers) for a campaign."
+        },
+        {
+          "info": {
+            "name": "Update Audience Targeting For A Campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.outbrain.com/amplify/v0.1/campaigns/:campaignId/targeting/audience",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "path",
+                "description": "Campaign identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the audience targeting configuration for a campaign."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Reporting",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Performance Report By Campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/reports/marketers/:marketerId/campaigns",
+            "params": [
+              {
+                "name": "marketerId",
+                "value": "",
+                "type": "path",
+                "description": "Marketer (customer account) identifier."
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Start date of the report range (YYYY-MM-DD)."
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "End date of the report range (YYYY-MM-DD)."
+              },
+              {
+                "name": "breakdown",
+                "value": "",
+                "type": "query",
+                "description": "Breakdown dimension for the report."
+              }
+            ]
+          },
+          "docs": "Retrieve performance metrics (impressions, clicks, spend, conversions, CPA, CTR) aggregated by campaign for the given marketer and date range. Limited to 10 requests per minute per marketer.\n"
+        },
+        {
+          "info": {
+            "name": "Performance Report By Periodic Content",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/reports/marketers/:marketerId/periodicContent",
+            "params": [
+              {
+                "name": "marketerId",
+                "value": "",
+                "type": "path",
+                "description": "Marketer (customer account) identifier."
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Start date of the report range (YYYY-MM-DD)."
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "End date of the report range (YYYY-MM-DD)."
+              }
+            ]
+          },
+          "docs": "Retrieve performance by promoted link over a period."
+        },
+        {
+          "info": {
+            "name": "Real Time Performance Report",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/reports/marketers/:marketerId/realtime",
+            "params": [
+              {
+                "name": "marketerId",
+                "value": "",
+                "type": "path",
+                "description": "Marketer (customer account) identifier."
+              }
+            ]
+          },
+          "docs": "Retrieve real-time performance metrics for a marketer. Limited to 50 requests per minute per marketer.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
