@@ -2,11 +2,11 @@
   "repo": "outbrain",
   "feeds": [
     {
-      "source": "https://engineering.teads.com",
-      "feed_url": "https://engineering.teads.com",
+      "source": "https://medium.com/feed/teads-engineering",
+      "feed_url": "https://medium.com/feed/teads-engineering",
       "title": "",
       "saved": 0,
-      "method": "none"
+      "method": "feed"
     },
     {
       "source": "https://www.outbrain.com/blog/",
@@ -23,6 +23,13 @@
       "method": "none"
     },
     {
+      "source": "https://engineering.teads.com",
+      "feed_url": "https://engineering.teads.com",
+      "title": "",
+      "saved": 0,
+      "method": "none"
+    },
+    {
       "source": "https://blog.outbrain.com",
       "feed_url": "https://blog.outbrain.com",
       "title": "",
@@ -30,6 +37,6 @@
       "method": "none"
     }
   ],
-  "post_count": 2,
-  "fetched": "2026-06-14T20:42:17Z"
+  "post_count": 4,
+  "fetched": "2026-06-27T12:03:07Z"
 }

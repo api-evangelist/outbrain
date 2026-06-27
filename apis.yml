@@ -116,10 +116,10 @@ common:
     type: Documentation
   - url: https://www.outbrain.com/partner-api/
     name: Partner API Access Request
-    type: SignUp
+    type: Signup
   - url: https://developer.outbrain.com/home-page/amplify-api/apply/
     name: Amplify API Application
-    type: SignUp
+    type: Signup
   - url: https://developer.outbrain.com/outbrain-javascript-implementation-guide/
     name: JS Widget Implementation Guide
     type: Documentation
@@ -128,7 +128,7 @@ common:
     type: Documentation
   - url: https://sdk.outbrain.com
     name: Outbrain Mobile SDK
-    type: SDK
+    type: SDKs
   - url: https://www.outbrain.com/help/advertisers/amplify-api/
     name: How to use the Outbrain API
     type: Documentation
@@ -159,38 +159,38 @@ common:
     type: Support
   - url: https://groups.google.com/g/outbrain-amplifyapi
     name: Amplify API Google Group
-    type: Forum
+    type: Forums
   - url: https://github.com/outbrain
     type: GitHubOrganization
   - url: https://github.com/teads
     type: GitHubOrganization
   - url: https://github.com/teads/TeadsSDK-iOS
     name: Teads iOS SDK
-    type: SDK
+    type: SDKs
   - url: https://github.com/teads/TeadsSDK-android
     name: Teads Android SDK
-    type: SDK
+    type: SDKs
   - url: https://github.com/teads/TeadsSDK-ReactNative
     name: Teads React Native SDK
-    type: SDK
+    type: SDKs
   - url: https://github.com/teads/teads-gtm-template
     name: Teads GTM Template
-    type: Tool
+    type: Tools
   - url: https://github.com/teads/teads-advertiser-conversion-api-gtm-template
     name: Teads Conversion API GTM Server Template
-    type: Tool
+    type: Tools
   - url: https://github.com/teads/prebid-server-fork
     name: Teads Prebid Server fork
-    type: Tool
+    type: Tools
   - url: https://github.com/outbrain/go-secretcrypt
     name: go-secretcrypt
-    type: Tool
+    type: Tools
   - url: https://github.com/outbrain/gracefulshutdown
     name: gracefulshutdown
-    type: Tool
+    type: Tools
   - url: https://github.com/outbrain/elasticsearch_exporter
     name: Elasticsearch Prometheus Exporter
-    type: Tool
+    type: Tools
   - type: LinkedIn
     url: https://www.linkedin.com/company/teads
   - type: LinkedIn
