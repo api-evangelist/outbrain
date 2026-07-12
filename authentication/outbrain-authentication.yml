@@ -1,0 +1,34 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/outbrain-amplify-api-openapi.yml, openapi/outbrain-engage-api-openapi.yml, openapi/outbrain-teads-conversion-api-openapi.yml
+summary:
+  types:
+  - apiKey
+  - http
+  api_key_in:
+  - header
+  - query
+schemes:
+- name: OBTokenAuth
+  type: apiKey
+  in: header
+  parameter: OB-TOKEN-V1
+  description: Token returned from /login. Send on all authenticated requests.
+  sources:
+  - openapi/outbrain-amplify-api-openapi.yml
+- name: BasicAuth
+  type: http
+  scheme: basic
+  sources:
+  - openapi/outbrain-amplify-api-openapi.yml
+- name: PublisherKeyAuth
+  type: apiKey
+  in: query
+  parameter: publisherKey
+  sources:
+  - openapi/outbrain-engage-api-openapi.yml
+- name: BearerAuth
+  type: http
+  scheme: bearer
+  sources:
+  - openapi/outbrain-teads-conversion-api-openapi.yml

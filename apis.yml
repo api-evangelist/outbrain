@@ -92,6 +92,14 @@ kind: contract
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 access: 3rd-Party
 common:
+  - type: TrustCenter
+    url: security/outbrain-trust-center.yml
+  - type: VulnerabilityDisclosure
+    url: security/outbrain-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/outbrain-domain-security.yml
+  - type: Authentication
+    url: authentication/outbrain-authentication.yml
   - type: Portal
     url: https://www.outbrain.com
   - type: Portal
