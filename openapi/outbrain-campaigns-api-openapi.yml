@@ -1,0 +1,205 @@
+openapi: 3.1.0
+info:
+  title: Outbrain Amplify Authentication Campaigns API
+  description: 'The Outbrain Amplify API enables advertisers, agencies, and technology partners to integrate Amplify campaign management and reporting into their own tools and platforms. The API is organized around core entities: Marketer (a customer account), Campaign (a collection of promoted links), PromotedLink (a single piece of promoted content), Budget, AudienceTargeting, and PerformanceBy* analytics resources for retrieving performance metrics.
+
+    '
+  version: '0.1'
+  contact:
+    name: Outbrain Developer Center
+    url: https://developer.outbrain.com
+  license:
+    name: Outbrain Amplify API Terms and Conditions
+    url: https://www.outbrain.com/legal/
+servers:
+- url: https://api.outbrain.com/amplify/v0.1
+  description: Production Server
+security:
+- OBTokenAuth: []
+tags:
+- name: Campaigns
+  description: Campaign management
+paths:
+  /marketers/{marketerId}/campaigns:
+    get:
+      summary: List Campaigns For A Marketer
+      description: Retrieve all campaigns belonging to a specific marketer.
+      operationId: listCampaignsByMarketer
+      tags:
+      - Campaigns
+      parameters:
+      - $ref: '#/components/parameters/MarketerIdPath'
+      responses:
+        '200':
+          description: A list of campaigns.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CampaignList'
+    post:
+      summary: Create A Campaign For A Marketer
+      description: Create a new campaign under the specified marketer.
+      operationId: createCampaign
+      tags:
+      - Campaigns
+      parameters:
+      - $ref: '#/components/parameters/MarketerIdPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CampaignRequest'
+      responses:
+        '201':
+          description: Campaign created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Campaign'
+  /campaigns/{campaignId}:
+    get:
+      summary: Get A Campaign By Id
+      description: Retrieve a single campaign by its identifier.
+      operationId: getCampaign
+      tags:
+      - Campaigns
+      parameters:
+      - $ref: '#/components/parameters/CampaignIdPath'
+      responses:
+        '200':
+          description: A campaign resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Campaign'
+    put:
+      summary: Update A Campaign
+      description: Update an existing campaign's settings.
+      operationId: updateCampaign
+      tags:
+      - Campaigns
+      parameters:
+      - $ref: '#/components/parameters/CampaignIdPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CampaignRequest'
+      responses:
+        '200':
+          description: Campaign updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Campaign'
+components:
+  parameters:
+    CampaignIdPath:
+      name: campaignId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Campaign identifier.
+    MarketerIdPath:
+      name: marketerId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Marketer (customer account) identifier.
+  schemas:
+    Campaign:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        marketerId:
+          type: string
+        enabled:
+          type: boolean
+        budgetId:
+          type: string
+        cpc:
+          type: number
+        targeting:
+          $ref: '#/components/schemas/AudienceTargeting'
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        objective:
+          type: string
+          enum:
+          - traffic
+          - awareness
+          - conversions
+          - leadGeneration
+    CampaignList:
+      type: object
+      properties:
+        count:
+          type: integer
+        campaigns:
+          type: array
+          items:
+            $ref: '#/components/schemas/Campaign'
+    AudienceTargeting:
+      type: object
+      properties:
+        geoTargeting:
+          type: array
+          items:
+            type: string
+          description: ISO country codes.
+        platformTargeting:
+          type: array
+          items:
+            type: string
+            enum:
+            - DESKTOP
+            - TABLET
+            - SMARTPHONE
+        operatingSystems:
+          type: array
+          items:
+            type: string
+        browsers:
+          type: array
+          items:
+            type: string
+        interestSegments:
+          type: array
+          items:
+            type: string
+    CampaignRequest:
+      type: object
+      required:
+      - name
+      - cpc
+      properties:
+        name:
+          type: string
+        enabled:
+          type: boolean
+        budgetId:
+          type: string
+        cpc:
+          type: number
+        objective:
+          type: string
+  securitySchemes:
+    OBTokenAuth:
+      type: apiKey
+      in: header
+      name: OB-TOKEN-V1
+      description: Token returned from /login. Send on all authenticated requests.
+    BasicAuth:
+      type: http
+      scheme: basic

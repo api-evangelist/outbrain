@@ -1,0 +1,59 @@
+openapi: 3.1.0
+info:
+  title: Outbrain Amplify Authentication API
+  description: 'The Outbrain Amplify API enables advertisers, agencies, and technology partners to integrate Amplify campaign management and reporting into their own tools and platforms. The API is organized around core entities: Marketer (a customer account), Campaign (a collection of promoted links), PromotedLink (a single piece of promoted content), Budget, AudienceTargeting, and PerformanceBy* analytics resources for retrieving performance metrics.
+
+    '
+  version: '0.1'
+  contact:
+    name: Outbrain Developer Center
+    url: https://developer.outbrain.com
+  license:
+    name: Outbrain Amplify API Terms and Conditions
+    url: https://www.outbrain.com/legal/
+servers:
+- url: https://api.outbrain.com/amplify/v0.1
+  description: Production Server
+security:
+- OBTokenAuth: []
+tags:
+- name: Authentication
+  description: Token-based authentication
+paths:
+  /login:
+    get:
+      summary: Authenticate And Retrieve Token
+      description: 'Authenticate using HTTP Basic auth (Base64 of username:password) and receive an OB-TOKEN-V1 token to be sent in the OB-TOKEN-V1 header on subsequent requests. Rate limited to 2 requests per hour per user.
+
+        '
+      operationId: login
+      tags:
+      - Authentication
+      security:
+      - BasicAuth: []
+      responses:
+        '200':
+          description: Successful authentication.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '401':
+          description: Invalid credentials.
+components:
+  schemas:
+    LoginResponse:
+      type: object
+      properties:
+        OB-TOKEN-V1:
+          type: string
+          description: Bearer token to be sent on all subsequent requests.
+  securitySchemes:
+    OBTokenAuth:
+      type: apiKey
+      in: header
+      name: OB-TOKEN-V1
+      description: Token returned from /login. Send on all authenticated requests.
+    BasicAuth:
+      type: http
+      scheme: basic

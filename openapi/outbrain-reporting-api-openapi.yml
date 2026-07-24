@@ -1,0 +1,160 @@
+openapi: 3.1.0
+info:
+  title: Outbrain Amplify Authentication Reporting API
+  description: 'The Outbrain Amplify API enables advertisers, agencies, and technology partners to integrate Amplify campaign management and reporting into their own tools and platforms. The API is organized around core entities: Marketer (a customer account), Campaign (a collection of promoted links), PromotedLink (a single piece of promoted content), Budget, AudienceTargeting, and PerformanceBy* analytics resources for retrieving performance metrics.
+
+    '
+  version: '0.1'
+  contact:
+    name: Outbrain Developer Center
+    url: https://developer.outbrain.com
+  license:
+    name: Outbrain Amplify API Terms and Conditions
+    url: https://www.outbrain.com/legal/
+servers:
+- url: https://api.outbrain.com/amplify/v0.1
+  description: Production Server
+security:
+- OBTokenAuth: []
+tags:
+- name: Reporting
+  description: Performance reporting
+paths:
+  /reports/marketers/{marketerId}/campaigns:
+    get:
+      summary: Performance Report By Campaign
+      description: 'Retrieve performance metrics (impressions, clicks, spend, conversions, CPA, CTR) aggregated by campaign for the given marketer and date range. Limited to 10 requests per minute per marketer.
+
+        '
+      operationId: reportPerformanceByCampaign
+      tags:
+      - Reporting
+      parameters:
+      - $ref: '#/components/parameters/MarketerIdPath'
+      - $ref: '#/components/parameters/FromDateQuery'
+      - $ref: '#/components/parameters/ToDateQuery'
+      - $ref: '#/components/parameters/BreakdownQuery'
+      responses:
+        '200':
+          description: Performance report.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PerformanceReport'
+  /reports/marketers/{marketerId}/periodicContent:
+    get:
+      summary: Performance Report By Periodic Content
+      description: Retrieve performance by promoted link over a period.
+      operationId: reportPerformanceByPeriodicContent
+      tags:
+      - Reporting
+      parameters:
+      - $ref: '#/components/parameters/MarketerIdPath'
+      - $ref: '#/components/parameters/FromDateQuery'
+      - $ref: '#/components/parameters/ToDateQuery'
+      responses:
+        '200':
+          description: Performance report.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PerformanceReport'
+  /reports/marketers/{marketerId}/realtime:
+    get:
+      summary: Real Time Performance Report
+      description: 'Retrieve real-time performance metrics for a marketer. Limited to 50 requests per minute per marketer.
+
+        '
+      operationId: reportPerformanceRealtime
+      tags:
+      - Reporting
+      parameters:
+      - $ref: '#/components/parameters/MarketerIdPath'
+      responses:
+        '200':
+          description: Real-time performance report.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PerformanceReport'
+components:
+  parameters:
+    ToDateQuery:
+      name: to
+      in: query
+      required: true
+      schema:
+        type: string
+        format: date
+      description: End date of the report range (YYYY-MM-DD).
+    FromDateQuery:
+      name: from
+      in: query
+      required: true
+      schema:
+        type: string
+        format: date
+      description: Start date of the report range (YYYY-MM-DD).
+    MarketerIdPath:
+      name: marketerId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Marketer (customer account) identifier.
+    BreakdownQuery:
+      name: breakdown
+      in: query
+      required: false
+      schema:
+        type: string
+        enum:
+        - day
+        - week
+        - month
+        - campaign
+        - country
+        - platform
+      description: Breakdown dimension for the report.
+  schemas:
+    PerformanceReport:
+      type: object
+      properties:
+        marketerId:
+          type: string
+        from:
+          type: string
+          format: date
+        to:
+          type: string
+          format: date
+        results:
+          type: array
+          items:
+            type: object
+            properties:
+              key:
+                type: string
+              impressions:
+                type: integer
+              clicks:
+                type: integer
+              spend:
+                type: number
+              conversions:
+                type: integer
+              ctr:
+                type: number
+              cpc:
+                type: number
+              cpa:
+                type: number
+  securitySchemes:
+    OBTokenAuth:
+      type: apiKey
+      in: header
+      name: OB-TOKEN-V1
+      description: Token returned from /login. Send on all authenticated requests.
+    BasicAuth:
+      type: http
+      scheme: basic

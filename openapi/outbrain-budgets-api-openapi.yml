@@ -1,0 +1,151 @@
+openapi: 3.1.0
+info:
+  title: Outbrain Amplify Authentication Budgets API
+  description: 'The Outbrain Amplify API enables advertisers, agencies, and technology partners to integrate Amplify campaign management and reporting into their own tools and platforms. The API is organized around core entities: Marketer (a customer account), Campaign (a collection of promoted links), PromotedLink (a single piece of promoted content), Budget, AudienceTargeting, and PerformanceBy* analytics resources for retrieving performance metrics.
+
+    '
+  version: '0.1'
+  contact:
+    name: Outbrain Developer Center
+    url: https://developer.outbrain.com
+  license:
+    name: Outbrain Amplify API Terms and Conditions
+    url: https://www.outbrain.com/legal/
+servers:
+- url: https://api.outbrain.com/amplify/v0.1
+  description: Production Server
+security:
+- OBTokenAuth: []
+tags:
+- name: Budgets
+  description: Budget management
+paths:
+  /marketers/{marketerId}/budgets:
+    get:
+      summary: List Budgets For A Marketer
+      description: Retrieve all budgets belonging to a marketer.
+      operationId: listBudgets
+      tags:
+      - Budgets
+      parameters:
+      - $ref: '#/components/parameters/MarketerIdPath'
+      responses:
+        '200':
+          description: A list of budgets.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BudgetList'
+    post:
+      summary: Create A Budget
+      description: Create a new shared budget for the marketer.
+      operationId: createBudget
+      tags:
+      - Budgets
+      parameters:
+      - $ref: '#/components/parameters/MarketerIdPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BudgetRequest'
+      responses:
+        '201':
+          description: Budget created.
+  /budgets/{budgetId}:
+    get:
+      summary: Get A Budget By Id
+      description: Retrieve a single budget by its identifier.
+      operationId: getBudget
+      tags:
+      - Budgets
+      parameters:
+      - $ref: '#/components/parameters/BudgetIdPath'
+      responses:
+        '200':
+          description: A budget resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Budget'
+components:
+  schemas:
+    BudgetList:
+      type: object
+      properties:
+        count:
+          type: integer
+        budgets:
+          type: array
+          items:
+            $ref: '#/components/schemas/Budget'
+    Budget:
+      type: object
+      properties:
+        id:
+          type: string
+        marketerId:
+          type: string
+        name:
+          type: string
+        amount:
+          type: number
+        currency:
+          type: string
+        type:
+          type: string
+          enum:
+          - daily
+          - monthly
+          - total
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+    BudgetRequest:
+      type: object
+      required:
+      - name
+      - amount
+      - type
+      properties:
+        name:
+          type: string
+        amount:
+          type: number
+        currency:
+          type: string
+        type:
+          type: string
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+  parameters:
+    MarketerIdPath:
+      name: marketerId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Marketer (customer account) identifier.
+    BudgetIdPath:
+      name: budgetId
+      in: path
+      required: true
+      schema:
+        type: string
+  securitySchemes:
+    OBTokenAuth:
+      type: apiKey
+      in: header
+      name: OB-TOKEN-V1
+      description: Token returned from /login. Send on all authenticated requests.
+    BasicAuth:
+      type: http
+      scheme: basic

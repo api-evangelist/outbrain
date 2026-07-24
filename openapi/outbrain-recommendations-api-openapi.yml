@@ -1,0 +1,138 @@
+openapi: 3.1.0
+info:
+  title: Outbrain Amplify Authentication Recommendations API
+  description: 'The Outbrain Amplify API enables advertisers, agencies, and technology partners to integrate Amplify campaign management and reporting into their own tools and platforms. The API is organized around core entities: Marketer (a customer account), Campaign (a collection of promoted links), PromotedLink (a single piece of promoted content), Budget, AudienceTargeting, and PerformanceBy* analytics resources for retrieving performance metrics.
+
+    '
+  version: '0.1'
+  contact:
+    name: Outbrain Developer Center
+    url: https://developer.outbrain.com
+  license:
+    name: Outbrain Amplify API Terms and Conditions
+    url: https://www.outbrain.com/legal/
+servers:
+- url: https://api.outbrain.com/amplify/v0.1
+  description: Production Server
+security:
+- OBTokenAuth: []
+tags:
+- name: Recommendations
+  description: Retrieve content recommendations
+paths:
+  /utils/get:
+    get:
+      summary: Get Recommendations For A Widget
+      description: 'Fetch a set of recommended content items for a given publisher widget. Recommendations include both organic content and sponsored (paid) promoted links. Driven by the publisher key, widget ID, and the page URL.
+
+        '
+      operationId: getRecommendations
+      tags:
+      - Recommendations
+      parameters:
+      - name: widgetJSId
+        in: query
+        required: true
+        schema:
+          type: string
+        description: The publisher widget ID (e.g. AR_1, AR_2).
+      - name: permalink
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uri
+        description: Canonical URL of the page rendering the widget.
+      - name: publisherKey
+        in: query
+        required: true
+        schema:
+          type: string
+        description: Outbrain publisher key.
+      - name: idx
+        in: query
+        required: false
+        schema:
+          type: integer
+        description: Widget index on the page.
+      - name: pageNum
+        in: query
+        required: false
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Recommendations payload.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecommendationsResponse'
+components:
+  schemas:
+    RecommendationsResponse:
+      type: object
+      properties:
+        request:
+          type: object
+          properties:
+            success:
+              type: boolean
+            id:
+              type: string
+        settings:
+          type: object
+        response:
+          type: object
+          properties:
+            recommendations:
+              type: array
+              items:
+                $ref: '#/components/schemas/Recommendation'
+    Recommendation:
+      type: object
+      properties:
+        id:
+          type: string
+        content:
+          type: string
+          description: Headline text of the recommendation.
+        url:
+          type: string
+          format: uri
+        thumbnail:
+          type: object
+          properties:
+            url:
+              type: string
+              format: uri
+            width:
+              type: integer
+            height:
+              type: integer
+        origin:
+          type: string
+          enum:
+          - ORGANIC
+          - PAID
+        source_name:
+          type: string
+        publish_date:
+          type: string
+          format: date-time
+        disclosure:
+          type: object
+          properties:
+            informationUrl:
+              type: string
+              format: uri
+            prefix:
+              type: string
+  securitySchemes:
+    OBTokenAuth:
+      type: apiKey
+      in: header
+      name: OB-TOKEN-V1
+      description: Token returned from /login. Send on all authenticated requests.
+    BasicAuth:
+      type: http
+      scheme: basic
