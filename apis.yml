@@ -1,80 +1,356 @@
 aid: outbrain
 url: https://raw.githubusercontent.com/api-evangelist/outbrain/refs/heads/main/apis.yml
 apis:
-  - aid: outbrain:outbrain-amplify-api
-    name: Outbrain Amplify API
-    tags:
-      - Advertising
-      - Native Advertising
-      - Open Web
-      - Campaigns
-    humanURL: https://developer.outbrain.com/home-page/amplify-api/
-    properties:
-      - url: https://developer.outbrain.com/home-page/amplify-api/
-        type: Documentation
-      - url: https://developer.outbrain.com/home-page/amplify-api/documentation/
-        type: Documentation
-      - url: https://amplifyv01.docs.apiary.io/
-        type: Documentation
-      - url: openapi/outbrain-amplify-api-openapi.yml
-        type: OpenAPI
-      - url: json-schema/outbrain-campaign-schema.json
-        type: JSONSchema
-      - url: json-schema/outbrain-promoted-link-schema.json
-        type: JSONSchema
-      - url: json-structure/outbrain-campaign-structure.json
-        type: JSONStructure
-      - url: json-ld/outbrain-context.jsonld
-        type: JSONLD
-    description: >
-      The Outbrain Amplify API enables advertisers, agencies, and technology partners to integrate Amplify campaign
-      management and reporting into their own platforms. Core resources are Marketer, Campaign, PromotedLink, Budget,
-      AudienceTargeting, and a family of PerformanceBy* reporting endpoints. Authentication is HTTP Basic at /login (2
-      req/hour) returning an OB-TOKEN-V1 token (30 req/sec, 10 req/min for reporting, 50 req/min for realtime).
-  - aid: outbrain:outbrain-engage-api
-    name: Outbrain Engage API
-    tags:
-      - Advertising
-      - Content Discovery
-      - Recommendations
-      - Open Web
-      - Publisher
-    humanURL: https://developer.outbrain.com/apis/
-    properties:
-      - url: https://developer.outbrain.com/apis/
-        type: Documentation
-      - url: https://developer.outbrain.com/apis/engage-web-technologies/
-        type: Documentation
-      - url: https://developer.outbrain.com/outbrain-javascript-implementation-guide/
-        type: Documentation
-      - url: openapi/outbrain-engage-api-openapi.yml
-        type: OpenAPI
-      - url: json-schema/outbrain-recommendation-schema.json
-        type: JSONSchema
-    description: >
-      Publisher-facing content recommendation API. Returns mixed organic and paid (sponsored) recommendations for
-      rendering in Outbrain widgets via the JS Widget, the iOS/Android Mobile SDK, Smartfeed, and mediation integrations
-      across the open web.
-  - aid: outbrain:outbrain-teads-conversion-api
-    name: Teads / Outbrain Conversion API
-    tags:
-      - Advertising
-      - Conversion API
-      - Server Side
-      - Measurement
-      - First Party Data
-    humanURL: https://www.teads.com
-    properties:
-      - url: https://www.teads.com
-        type: Documentation
-      - url: https://github.com/teads/teads-advertiser-conversion-api-gtm-template
-        type: SourceCode
-      - url: openapi/outbrain-teads-conversion-api-openapi.yml
-        type: OpenAPI
-    description: >
-      Server-to-server Conversion API for advertisers running on the combined Teads / Outbrain open-internet platform.
-      Lets advertisers send first-party conversion events (Purchase, Lead, AddToCart, ViewContent) directly from
-      backends or server-side GTM, independent of browser cookies. Modeled on the public Teads server-side GTM template.
+- aid: outbrain:outbrain-authentication-api
+  name: Outbrain Authentication API
+  description: Token-based authentication
+  humanURL: https://developer.outbrain.com/home-page/amplify-api/
+  tags:
+  - Authentication
+  properties:
+  - type: OpenAPI
+    url: openapi/outbrain-authentication-api-openapi.yml
+  - type: Documentation
+    url: https://developer.outbrain.com/home-page/amplify-api/
+  - type: Documentation
+    url: https://developer.outbrain.com/home-page/amplify-api/documentation/
+  - type: Documentation
+    url: https://amplifyv01.docs.apiary.io/
+  - type: JSONSchema
+    url: json-schema/outbrain-campaign-schema.json
+  - type: JSONSchema
+    url: json-schema/outbrain-promoted-link-schema.json
+  - type: JSONStructure
+    url: json-structure/outbrain-campaign-structure.json
+  - type: JSONLD
+    url: json-ld/outbrain-context.jsonld
+  - type: Documentation
+    url: https://developer.outbrain.com/apis/
+  - type: Documentation
+    url: https://developer.outbrain.com/apis/engage-web-technologies/
+  - type: Documentation
+    url: https://developer.outbrain.com/outbrain-javascript-implementation-guide/
+  - type: JSONSchema
+    url: json-schema/outbrain-recommendation-schema.json
+  - type: Documentation
+    url: https://www.teads.com
+  - type: SourceCode
+    url: https://github.com/teads/teads-advertiser-conversion-api-gtm-template
+- aid: outbrain:outbrain-budgets-api
+  name: Outbrain Budgets API
+  description: Budget management
+  humanURL: https://developer.outbrain.com/home-page/amplify-api/
+  tags:
+  - Budgets
+  properties:
+  - type: OpenAPI
+    url: openapi/outbrain-budgets-api-openapi.yml
+  - type: Documentation
+    url: https://developer.outbrain.com/home-page/amplify-api/
+  - type: Documentation
+    url: https://developer.outbrain.com/home-page/amplify-api/documentation/
+  - type: Documentation
+    url: https://amplifyv01.docs.apiary.io/
+  - type: JSONSchema
+    url: json-schema/outbrain-campaign-schema.json
+  - type: JSONSchema
+    url: json-schema/outbrain-promoted-link-schema.json
+  - type: JSONStructure
+    url: json-structure/outbrain-campaign-structure.json
+  - type: JSONLD
+    url: json-ld/outbrain-context.jsonld
+  - type: Documentation
+    url: https://developer.outbrain.com/apis/
+  - type: Documentation
+    url: https://developer.outbrain.com/apis/engage-web-technologies/
+  - type: Documentation
+    url: https://developer.outbrain.com/outbrain-javascript-implementation-guide/
+  - type: JSONSchema
+    url: json-schema/outbrain-recommendation-schema.json
+  - type: Documentation
+    url: https://www.teads.com
+  - type: SourceCode
+    url: https://github.com/teads/teads-advertiser-conversion-api-gtm-template
+- aid: outbrain:outbrain-campaigns-api
+  name: Outbrain Campaigns API
+  description: Campaign management
+  humanURL: https://developer.outbrain.com/home-page/amplify-api/
+  tags:
+  - Campaigns
+  properties:
+  - type: OpenAPI
+    url: openapi/outbrain-campaigns-api-openapi.yml
+  - type: Documentation
+    url: https://developer.outbrain.com/home-page/amplify-api/
+  - type: Documentation
+    url: https://developer.outbrain.com/home-page/amplify-api/documentation/
+  - type: Documentation
+    url: https://amplifyv01.docs.apiary.io/
+  - type: JSONSchema
+    url: json-schema/outbrain-campaign-schema.json
+  - type: JSONSchema
+    url: json-schema/outbrain-promoted-link-schema.json
+  - type: JSONStructure
+    url: json-structure/outbrain-campaign-structure.json
+  - type: JSONLD
+    url: json-ld/outbrain-context.jsonld
+  - type: Documentation
+    url: https://developer.outbrain.com/apis/
+  - type: Documentation
+    url: https://developer.outbrain.com/apis/engage-web-technologies/
+  - type: Documentation
+    url: https://developer.outbrain.com/outbrain-javascript-implementation-guide/
+  - type: JSONSchema
+    url: json-schema/outbrain-recommendation-schema.json
+  - type: Documentation
+    url: https://www.teads.com
+  - type: SourceCode
+    url: https://github.com/teads/teads-advertiser-conversion-api-gtm-template
+- aid: outbrain:outbrain-conversions-api
+  name: Outbrain Conversions API
+  description: Server-side conversion events
+  humanURL: https://developer.outbrain.com/home-page/amplify-api/
+  tags:
+  - Conversions
+  properties:
+  - type: OpenAPI
+    url: openapi/outbrain-conversions-api-openapi.yml
+  - type: Documentation
+    url: https://developer.outbrain.com/home-page/amplify-api/
+  - type: Documentation
+    url: https://developer.outbrain.com/home-page/amplify-api/documentation/
+  - type: Documentation
+    url: https://amplifyv01.docs.apiary.io/
+  - type: JSONSchema
+    url: json-schema/outbrain-campaign-schema.json
+  - type: JSONSchema
+    url: json-schema/outbrain-promoted-link-schema.json
+  - type: JSONStructure
+    url: json-structure/outbrain-campaign-structure.json
+  - type: JSONLD
+    url: json-ld/outbrain-context.jsonld
+  - type: Documentation
+    url: https://developer.outbrain.com/apis/
+  - type: Documentation
+    url: https://developer.outbrain.com/apis/engage-web-technologies/
+  - type: Documentation
+    url: https://developer.outbrain.com/outbrain-javascript-implementation-guide/
+  - type: JSONSchema
+    url: json-schema/outbrain-recommendation-schema.json
+  - type: Documentation
+    url: https://www.teads.com
+  - type: SourceCode
+    url: https://github.com/teads/teads-advertiser-conversion-api-gtm-template
+- aid: outbrain:outbrain-events-api
+  name: Outbrain Events API
+  description: Impression and click events
+  humanURL: https://developer.outbrain.com/home-page/amplify-api/
+  tags:
+  - Events
+  properties:
+  - type: OpenAPI
+    url: openapi/outbrain-events-api-openapi.yml
+  - type: Documentation
+    url: https://developer.outbrain.com/home-page/amplify-api/
+  - type: Documentation
+    url: https://developer.outbrain.com/home-page/amplify-api/documentation/
+  - type: Documentation
+    url: https://amplifyv01.docs.apiary.io/
+  - type: JSONSchema
+    url: json-schema/outbrain-campaign-schema.json
+  - type: JSONSchema
+    url: json-schema/outbrain-promoted-link-schema.json
+  - type: JSONStructure
+    url: json-structure/outbrain-campaign-structure.json
+  - type: JSONLD
+    url: json-ld/outbrain-context.jsonld
+  - type: Documentation
+    url: https://developer.outbrain.com/apis/
+  - type: Documentation
+    url: https://developer.outbrain.com/apis/engage-web-technologies/
+  - type: Documentation
+    url: https://developer.outbrain.com/outbrain-javascript-implementation-guide/
+  - type: JSONSchema
+    url: json-schema/outbrain-recommendation-schema.json
+  - type: Documentation
+    url: https://www.teads.com
+  - type: SourceCode
+    url: https://github.com/teads/teads-advertiser-conversion-api-gtm-template
+- aid: outbrain:outbrain-marketers-api
+  name: Outbrain Marketers API
+  description: Marketer (customer account) resources
+  humanURL: https://developer.outbrain.com/home-page/amplify-api/
+  tags:
+  - Marketers
+  properties:
+  - type: OpenAPI
+    url: openapi/outbrain-marketers-api-openapi.yml
+  - type: Documentation
+    url: https://developer.outbrain.com/home-page/amplify-api/
+  - type: Documentation
+    url: https://developer.outbrain.com/home-page/amplify-api/documentation/
+  - type: Documentation
+    url: https://amplifyv01.docs.apiary.io/
+  - type: JSONSchema
+    url: json-schema/outbrain-campaign-schema.json
+  - type: JSONSchema
+    url: json-schema/outbrain-promoted-link-schema.json
+  - type: JSONStructure
+    url: json-structure/outbrain-campaign-structure.json
+  - type: JSONLD
+    url: json-ld/outbrain-context.jsonld
+  - type: Documentation
+    url: https://developer.outbrain.com/apis/
+  - type: Documentation
+    url: https://developer.outbrain.com/apis/engage-web-technologies/
+  - type: Documentation
+    url: https://developer.outbrain.com/outbrain-javascript-implementation-guide/
+  - type: JSONSchema
+    url: json-schema/outbrain-recommendation-schema.json
+  - type: Documentation
+    url: https://www.teads.com
+  - type: SourceCode
+    url: https://github.com/teads/teads-advertiser-conversion-api-gtm-template
+- aid: outbrain:outbrain-promotedlinks-api
+  name: Outbrain PromotedLinks API
+  description: Promoted link (ad creative) management
+  humanURL: https://developer.outbrain.com/home-page/amplify-api/
+  tags:
+  - PromotedLinks
+  properties:
+  - type: OpenAPI
+    url: openapi/outbrain-promotedlinks-api-openapi.yml
+  - type: Documentation
+    url: https://developer.outbrain.com/home-page/amplify-api/
+  - type: Documentation
+    url: https://developer.outbrain.com/home-page/amplify-api/documentation/
+  - type: Documentation
+    url: https://amplifyv01.docs.apiary.io/
+  - type: JSONSchema
+    url: json-schema/outbrain-campaign-schema.json
+  - type: JSONSchema
+    url: json-schema/outbrain-promoted-link-schema.json
+  - type: JSONStructure
+    url: json-structure/outbrain-campaign-structure.json
+  - type: JSONLD
+    url: json-ld/outbrain-context.jsonld
+  - type: Documentation
+    url: https://developer.outbrain.com/apis/
+  - type: Documentation
+    url: https://developer.outbrain.com/apis/engage-web-technologies/
+  - type: Documentation
+    url: https://developer.outbrain.com/outbrain-javascript-implementation-guide/
+  - type: JSONSchema
+    url: json-schema/outbrain-recommendation-schema.json
+  - type: Documentation
+    url: https://www.teads.com
+  - type: SourceCode
+    url: https://github.com/teads/teads-advertiser-conversion-api-gtm-template
+- aid: outbrain:outbrain-recommendations-api
+  name: Outbrain Recommendations API
+  description: Retrieve content recommendations
+  humanURL: https://developer.outbrain.com/home-page/amplify-api/
+  tags:
+  - Recommendations
+  properties:
+  - type: OpenAPI
+    url: openapi/outbrain-recommendations-api-openapi.yml
+  - type: Documentation
+    url: https://developer.outbrain.com/home-page/amplify-api/
+  - type: Documentation
+    url: https://developer.outbrain.com/home-page/amplify-api/documentation/
+  - type: Documentation
+    url: https://amplifyv01.docs.apiary.io/
+  - type: JSONSchema
+    url: json-schema/outbrain-campaign-schema.json
+  - type: JSONSchema
+    url: json-schema/outbrain-promoted-link-schema.json
+  - type: JSONStructure
+    url: json-structure/outbrain-campaign-structure.json
+  - type: JSONLD
+    url: json-ld/outbrain-context.jsonld
+  - type: Documentation
+    url: https://developer.outbrain.com/apis/
+  - type: Documentation
+    url: https://developer.outbrain.com/apis/engage-web-technologies/
+  - type: Documentation
+    url: https://developer.outbrain.com/outbrain-javascript-implementation-guide/
+  - type: JSONSchema
+    url: json-schema/outbrain-recommendation-schema.json
+  - type: Documentation
+    url: https://www.teads.com
+  - type: SourceCode
+    url: https://github.com/teads/teads-advertiser-conversion-api-gtm-template
+- aid: outbrain:outbrain-reporting-api
+  name: Outbrain Reporting API
+  description: Performance reporting
+  humanURL: https://developer.outbrain.com/home-page/amplify-api/
+  tags:
+  - Reporting
+  properties:
+  - type: OpenAPI
+    url: openapi/outbrain-reporting-api-openapi.yml
+  - type: Documentation
+    url: https://developer.outbrain.com/home-page/amplify-api/
+  - type: Documentation
+    url: https://developer.outbrain.com/home-page/amplify-api/documentation/
+  - type: Documentation
+    url: https://amplifyv01.docs.apiary.io/
+  - type: JSONSchema
+    url: json-schema/outbrain-campaign-schema.json
+  - type: JSONSchema
+    url: json-schema/outbrain-promoted-link-schema.json
+  - type: JSONStructure
+    url: json-structure/outbrain-campaign-structure.json
+  - type: JSONLD
+    url: json-ld/outbrain-context.jsonld
+  - type: Documentation
+    url: https://developer.outbrain.com/apis/
+  - type: Documentation
+    url: https://developer.outbrain.com/apis/engage-web-technologies/
+  - type: Documentation
+    url: https://developer.outbrain.com/outbrain-javascript-implementation-guide/
+  - type: JSONSchema
+    url: json-schema/outbrain-recommendation-schema.json
+  - type: Documentation
+    url: https://www.teads.com
+  - type: SourceCode
+    url: https://github.com/teads/teads-advertiser-conversion-api-gtm-template
+- aid: outbrain:outbrain-targeting-api
+  name: Outbrain Targeting API
+  description: Audience and contextual targeting
+  humanURL: https://developer.outbrain.com/home-page/amplify-api/
+  tags:
+  - Targeting
+  properties:
+  - type: OpenAPI
+    url: openapi/outbrain-targeting-api-openapi.yml
+  - type: Documentation
+    url: https://developer.outbrain.com/home-page/amplify-api/
+  - type: Documentation
+    url: https://developer.outbrain.com/home-page/amplify-api/documentation/
+  - type: Documentation
+    url: https://amplifyv01.docs.apiary.io/
+  - type: JSONSchema
+    url: json-schema/outbrain-campaign-schema.json
+  - type: JSONSchema
+    url: json-schema/outbrain-promoted-link-schema.json
+  - type: JSONStructure
+    url: json-structure/outbrain-campaign-structure.json
+  - type: JSONLD
+    url: json-ld/outbrain-context.jsonld
+  - type: Documentation
+    url: https://developer.outbrain.com/apis/
+  - type: Documentation
+    url: https://developer.outbrain.com/apis/engage-web-technologies/
+  - type: Documentation
+    url: https://developer.outbrain.com/outbrain-javascript-implementation-guide/
+  - type: JSONSchema
+    url: json-schema/outbrain-recommendation-schema.json
+  - type: Documentation
+    url: https://www.teads.com
+  - type: SourceCode
+    url: https://github.com/teads/teads-advertiser-conversion-api-gtm-template
 name: Outbrain
 tags:
   - Advertising
@@ -89,9 +365,24 @@ tags:
   - AdTech
   - Teads
 kind: contract
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: paid
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Paid · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/outbrain.png
 access: 3rd-Party
 common:
+  - type: PostmanWorkspace
+    url: https://www.postman.com/kinlaneapi/outbrain/overview
   - type: AgenticAccess
     url: agentic-access/outbrain-agentic-access.yml
   - type: TrustCenter
