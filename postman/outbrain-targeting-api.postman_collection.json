@@ -1,0 +1,275 @@
+{
+  "info": {
+    "_postman_id": "4cf5fd56-0f8d-4237-9463-7d75335e4da8",
+    "name": "Outbrain Amplify Authentication Targeting API",
+    "description": "The Outbrain Amplify API enables advertisers, agencies, and technology partners to integrate Amplify campaign management and reporting into their own tools and platforms. The API is organized around core entities: Marketer (a customer account), Campaign (a collection of promoted links), PromotedLink (a single piece of promoted content), Budget, AudienceTargeting, and PerformanceBy* analytics resources for retrieving performance metrics.\n\n\nContact Support:\n Name: Outbrain Developer Center",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T02:30:23.000Z",
+    "updatedAt": "2026-07-28T02:30:23.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-4cf5fd56-0f8d-4237-9463-7d75335e4da8"
+  },
+  "item": [
+    {
+      "name": "campaigns",
+      "item": [
+        {
+          "name": "{campaignId}",
+          "item": [
+            {
+              "name": "targeting",
+              "item": [
+                {
+                  "name": "audience",
+                  "item": [
+                    {
+                      "name": "Get Audience Targeting For A Campaign",
+                      "id": "e7373174-083c-4496-924b-e0d625f1f7d4",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/campaigns/:campaignId/targeting/audience",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "campaigns",
+                            ":campaignId",
+                            "targeting",
+                            "audience"
+                          ],
+                          "variable": [
+                            {
+                              "id": "a126d330-8f58-49f3-b0f4-7e44c9676195",
+                              "key": "campaignId",
+                              "value": "<string>",
+                              "description": "(Required) Campaign identifier."
+                            }
+                          ]
+                        },
+                        "description": "Retrieve audience targeting (segments, geo, devices, OS, browsers) for a campaign."
+                      },
+                      "response": [
+                        {
+                          "id": "8f7e98db-c5be-4097-9b3c-5513ddf03f57",
+                          "name": "Audience targeting object.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "OB-TOKEN-V1",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/campaigns/:campaignId/targeting/audience",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "campaigns",
+                                ":campaignId",
+                                "targeting",
+                                "audience"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "campaignId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"geoTargeting\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"platformTargeting\": [\n    \"SMARTPHONE\",\n    \"DESKTOP\"\n  ],\n  \"operatingSystems\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"browsers\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"interestSegments\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                          "createdAt": "2026-07-28T02:30:24.000Z",
+                          "updatedAt": "2026-07-28T02:30:24.000Z",
+                          "uid": "35240-8f7e98db-c5be-4097-9b3c-5513ddf03f57"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T02:30:24.000Z",
+                      "updatedAt": "2026-07-28T02:30:24.000Z",
+                      "uid": "35240-e7373174-083c-4496-924b-e0d625f1f7d4"
+                    },
+                    {
+                      "name": "Update Audience Targeting For A Campaign",
+                      "id": "3ecd9ecd-99ab-43f8-a40f-facb72875d3b",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"geoTargeting\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"platformTargeting\": [\n    \"SMARTPHONE\",\n    \"DESKTOP\"\n  ],\n  \"operatingSystems\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"browsers\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"interestSegments\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/campaigns/:campaignId/targeting/audience",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "campaigns",
+                            ":campaignId",
+                            "targeting",
+                            "audience"
+                          ],
+                          "variable": [
+                            {
+                              "id": "60b6a6a5-4877-4ba2-bd73-a6cdc5febf88",
+                              "key": "campaignId",
+                              "value": "<string>",
+                              "description": "(Required) Campaign identifier."
+                            }
+                          ]
+                        },
+                        "description": "Update the audience targeting configuration for a campaign."
+                      },
+                      "response": [
+                        {
+                          "id": "7b296356-c36b-409d-b217-4660a394b753",
+                          "name": "Audience targeting updated.",
+                          "originalRequest": {
+                            "method": "PUT",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "OB-TOKEN-V1",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"geoTargeting\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"platformTargeting\": [\n    \"SMARTPHONE\",\n    \"DESKTOP\"\n  ],\n  \"operatingSystems\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"browsers\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"interestSegments\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/campaigns/:campaignId/targeting/audience",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "campaigns",
+                                ":campaignId",
+                                "targeting",
+                                "audience"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "campaignId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T02:30:24.000Z",
+                          "updatedAt": "2026-07-28T02:30:24.000Z",
+                          "uid": "35240-7b296356-c36b-409d-b217-4660a394b753"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T02:30:24.000Z",
+                      "updatedAt": "2026-07-28T02:30:24.000Z",
+                      "uid": "35240-3ecd9ecd-99ab-43f8-a40f-facb72875d3b"
+                    }
+                  ],
+                  "id": "5c957fa1-fb70-42c8-a652-06598312e59a",
+                  "createdAt": "2026-07-28T02:30:24.000Z",
+                  "updatedAt": "2026-07-28T02:30:24.000Z",
+                  "uid": "35240-5c957fa1-fb70-42c8-a652-06598312e59a"
+                }
+              ],
+              "id": "66022e9c-9a2f-4163-a7f8-ebd12b537da9",
+              "createdAt": "2026-07-28T02:30:24.000Z",
+              "updatedAt": "2026-07-28T02:30:24.000Z",
+              "uid": "35240-66022e9c-9a2f-4163-a7f8-ebd12b537da9"
+            }
+          ],
+          "id": "0e52d2f9-57b2-45e2-8589-33349bdfdc85",
+          "createdAt": "2026-07-28T02:30:24.000Z",
+          "updatedAt": "2026-07-28T02:30:24.000Z",
+          "uid": "35240-0e52d2f9-57b2-45e2-8589-33349bdfdc85"
+        }
+      ],
+      "id": "29c3ed4e-8632-4d24-8dc1-6ea7a30e1471",
+      "createdAt": "2026-07-28T02:30:24.000Z",
+      "updatedAt": "2026-07-28T02:30:24.000Z",
+      "uid": "35240-29c3ed4e-8632-4d24-8dc1-6ea7a30e1471"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "OB-TOKEN-V1",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.outbrain.com/amplify/v0.1"
+    }
+  ]
+}

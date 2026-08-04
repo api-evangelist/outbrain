@@ -1,0 +1,170 @@
+{
+  "info": {
+    "_postman_id": "0db0164c-67c8-4b24-ac77-3b4d494c99aa",
+    "name": "Outbrain Amplify Authentication API",
+    "description": "The Outbrain Amplify API enables advertisers, agencies, and technology partners to integrate Amplify campaign management and reporting into their own tools and platforms. The API is organized around core entities: Marketer (a customer account), Campaign (a collection of promoted links), PromotedLink (a single piece of promoted content), Budget, AudienceTargeting, and PerformanceBy* analytics resources for retrieving performance metrics.\n\n\nContact Support:\n Name: Outbrain Developer Center",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T02:29:41.000Z",
+    "updatedAt": "2026-07-28T02:29:41.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-0db0164c-67c8-4b24-ac77-3b4d494c99aa"
+  },
+  "item": [
+    {
+      "name": "login",
+      "item": [
+        {
+          "name": "Authenticate And Retrieve Token",
+          "id": "f4ab4fda-ebc9-434b-87ad-6a738568dcec",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "login"
+              ]
+            },
+            "description": "Authenticate using HTTP Basic auth (Base64 of username:password) and receive an OB-TOKEN-V1 token to be sent in the OB-TOKEN-V1 header on subsequent requests. Rate limited to 2 requests per hour per user.\n"
+          },
+          "response": [
+            {
+              "id": "a3b63423-eec5-4b4a-9f60-b53967b63280",
+              "name": "Successful authentication.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/login",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "login"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"OB-TOKEN-V1\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T02:29:41.000Z",
+              "updatedAt": "2026-07-28T02:29:41.000Z",
+              "uid": "35240-a3b63423-eec5-4b4a-9f60-b53967b63280"
+            },
+            {
+              "id": "a505f6ab-2e79-4401-912c-9f9f37cb665e",
+              "name": "Invalid credentials.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/login",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "login"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-07-28T02:29:41.000Z",
+              "updatedAt": "2026-07-28T02:29:41.000Z",
+              "uid": "35240-a505f6ab-2e79-4401-912c-9f9f37cb665e"
+            }
+          ],
+          "createdAt": "2026-07-28T02:29:41.000Z",
+          "updatedAt": "2026-07-28T02:29:41.000Z",
+          "uid": "35240-f4ab4fda-ebc9-434b-87ad-6a738568dcec"
+        }
+      ],
+      "id": "b6a091c1-7ece-4905-ad28-b973b955322d",
+      "createdAt": "2026-07-28T02:29:41.000Z",
+      "updatedAt": "2026-07-28T02:29:41.000Z",
+      "uid": "35240-b6a091c1-7ece-4905-ad28-b973b955322d"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "OB-TOKEN-V1",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.outbrain.com/amplify/v0.1"
+    }
+  ]
+}

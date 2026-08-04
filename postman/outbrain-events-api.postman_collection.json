@@ -1,0 +1,247 @@
+{
+  "info": {
+    "_postman_id": "9f6ca09b-1235-444b-a9ed-2d59e29cae45",
+    "name": "Outbrain Amplify Authentication Events API",
+    "description": "The Outbrain Amplify API enables advertisers, agencies, and technology partners to integrate Amplify campaign management and reporting into their own tools and platforms. The API is organized around core entities: Marketer (a customer account), Campaign (a collection of promoted links), PromotedLink (a single piece of promoted content), Budget, AudienceTargeting, and PerformanceBy* analytics resources for retrieving performance metrics.\n\n\nContact Support:\n Name: Outbrain Developer Center",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T02:29:58.000Z",
+    "updatedAt": "2026-07-28T02:29:58.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-9f6ca09b-1235-444b-a9ed-2d59e29cae45"
+  },
+  "item": [
+    {
+      "name": "report",
+      "item": [
+        {
+          "name": "impression",
+          "item": [
+            {
+              "name": "Report A Widget Impression",
+              "id": "9fcead6c-156a-47ce-9421-f572fd18f281",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"widgetJSId\": \"<string>\",\n  \"publisherKey\": \"<string>\",\n  \"recommendationIds\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"permalink\": \"<uri>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/report/impression",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "report",
+                    "impression"
+                  ]
+                },
+                "description": "Report that an Outbrain widget rendered impressions for one or more recommendations."
+              },
+              "response": [
+                {
+                  "id": "69f65a61-2b6e-49e5-938b-e1e448501d2d",
+                  "name": "Event recorded.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "OB-TOKEN-V1",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"widgetJSId\": \"<string>\",\n  \"publisherKey\": \"<string>\",\n  \"recommendationIds\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"permalink\": \"<uri>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/report/impression",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "report",
+                        "impression"
+                      ]
+                    }
+                  },
+                  "status": "No Content",
+                  "code": 204,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T02:29:59.000Z",
+                  "updatedAt": "2026-07-28T02:29:59.000Z",
+                  "uid": "35240-69f65a61-2b6e-49e5-938b-e1e448501d2d"
+                }
+              ],
+              "createdAt": "2026-07-28T02:29:59.000Z",
+              "updatedAt": "2026-07-28T02:29:59.000Z",
+              "uid": "35240-9fcead6c-156a-47ce-9421-f572fd18f281"
+            }
+          ],
+          "id": "5165a890-618e-4401-818c-14505b5a9d5d",
+          "createdAt": "2026-07-28T02:29:59.000Z",
+          "updatedAt": "2026-07-28T02:29:59.000Z",
+          "uid": "35240-5165a890-618e-4401-818c-14505b5a9d5d"
+        },
+        {
+          "name": "click",
+          "item": [
+            {
+              "name": "Report A Recommendation Click",
+              "id": "b4f79caf-7706-41a7-a1c4-c6a178da16cd",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"widgetJSId\": \"<string>\",\n  \"publisherKey\": \"<string>\",\n  \"recommendationId\": \"<string>\",\n  \"permalink\": \"<uri>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/report/click",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "report",
+                    "click"
+                  ]
+                },
+                "description": "Report a user click on a recommendation served by an Outbrain widget."
+              },
+              "response": [
+                {
+                  "id": "16cc4790-235b-4074-a77c-85cfd342df46",
+                  "name": "Event recorded.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "OB-TOKEN-V1",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"widgetJSId\": \"<string>\",\n  \"publisherKey\": \"<string>\",\n  \"recommendationId\": \"<string>\",\n  \"permalink\": \"<uri>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/report/click",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "report",
+                        "click"
+                      ]
+                    }
+                  },
+                  "status": "No Content",
+                  "code": 204,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T02:29:59.000Z",
+                  "updatedAt": "2026-07-28T02:29:59.000Z",
+                  "uid": "35240-16cc4790-235b-4074-a77c-85cfd342df46"
+                }
+              ],
+              "createdAt": "2026-07-28T02:29:59.000Z",
+              "updatedAt": "2026-07-28T02:29:59.000Z",
+              "uid": "35240-b4f79caf-7706-41a7-a1c4-c6a178da16cd"
+            }
+          ],
+          "id": "7a63a5e9-b0d4-4792-9914-80d1492711d2",
+          "createdAt": "2026-07-28T02:29:59.000Z",
+          "updatedAt": "2026-07-28T02:29:59.000Z",
+          "uid": "35240-7a63a5e9-b0d4-4792-9914-80d1492711d2"
+        }
+      ],
+      "id": "73a2e082-94c1-418f-bba1-d83f8845bd28",
+      "createdAt": "2026-07-28T02:29:59.000Z",
+      "updatedAt": "2026-07-28T02:29:59.000Z",
+      "uid": "35240-73a2e082-94c1-418f-bba1-d83f8845bd28"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "OB-TOKEN-V1",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.outbrain.com/amplify/v0.1"
+    }
+  ]
+}

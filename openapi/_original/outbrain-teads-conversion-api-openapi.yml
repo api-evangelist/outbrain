@@ -1,0 +1,138 @@
+openapi: 3.1.0
+info:
+  title: Teads Advertiser Conversion API
+  description: >
+    Server-to-server Conversion API for advertisers running on the Teads /
+    Outbrain combined open-internet platform. Lets advertisers send first-party
+    conversion events directly from their backend (or via Google Tag Manager
+    server-side container) to Teads for campaign measurement, optimization,
+    attribution, and audience signals — independent of browser cookies. Modeled
+    on the public Teads Conversion API GTM server-side template and Teads /
+    Outbrain advertiser tagging documentation.
+  version: '1.0'
+  contact:
+    name: Teads Support
+    url: https://www.teads.com
+  license:
+    name: Teads Terms of Service
+    url: https://www.teads.com/
+
+servers:
+  - url: https://r.teads.tv
+    description: Teads Conversion API endpoint
+
+security:
+  - BearerAuth: []
+
+tags:
+  - name: Conversions
+    description: Server-side conversion events
+
+paths:
+  /capi/event:
+    post:
+      summary: Send A Server Side Conversion Event
+      description: >
+        Submit a conversion event (e.g. purchase, lead, sign-up, add-to-cart)
+        from the advertiser's backend to Teads. Used for measurement, conversion
+        attribution, and feeding Teads' predictive AI optimization engine
+        without requiring browser-side pixels.
+      operationId: sendConversionEvent
+      tags:
+        - Conversions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConversionEvent'
+      responses:
+        '202':
+          description: Event accepted for processing.
+        '400':
+          description: Invalid event payload.
+
+  /capi/event/batch:
+    post:
+      summary: Send A Batch Of Conversion Events
+      description: Submit up to 1000 conversion events in a single request.
+      operationId: sendConversionEventBatch
+      tags:
+        - Conversions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [events]
+              properties:
+                events:
+                  type: array
+                  maxItems: 1000
+                  items:
+                    $ref: '#/components/schemas/ConversionEvent'
+      responses:
+        '202':
+          description: Batch accepted.
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+
+  schemas:
+    ConversionEvent:
+      type: object
+      required: [event_name, event_time, pixel_id]
+      properties:
+        pixel_id:
+          type: string
+          description: Teads conversion pixel identifier.
+        event_name:
+          type: string
+          enum: [PageView, ViewContent, AddToCart, InitiateCheckout, Purchase, Lead, CompleteRegistration, Custom]
+        event_time:
+          type: integer
+          description: Unix timestamp (seconds) when the event occurred.
+        event_id:
+          type: string
+          description: Client-generated dedupe key.
+        event_source_url:
+          type: string
+          format: uri
+        action_source:
+          type: string
+          enum: [website, app, system_generated, other]
+        user_data:
+          type: object
+          description: Hashed user identifiers (email, phone, IDFA, GAID) for matching.
+          properties:
+            em:
+              type: string
+              description: SHA-256 hashed email.
+            ph:
+              type: string
+              description: SHA-256 hashed phone number.
+            client_ip_address:
+              type: string
+            client_user_agent:
+              type: string
+            external_id:
+              type: string
+        custom_data:
+          type: object
+          properties:
+            currency:
+              type: string
+            value:
+              type: number
+            content_ids:
+              type: array
+              items:
+                type: string
+            num_items:
+              type: integer
+            order_id:
+              type: string

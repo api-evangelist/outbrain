@@ -1,0 +1,368 @@
+{
+  "info": {
+    "_postman_id": "42d6c565-906b-4183-91f2-38e3084b4ae9",
+    "name": "Outbrain Amplify Authentication Budgets API",
+    "description": "The Outbrain Amplify API enables advertisers, agencies, and technology partners to integrate Amplify campaign management and reporting into their own tools and platforms. The API is organized around core entities: Marketer (a customer account), Campaign (a collection of promoted links), PromotedLink (a single piece of promoted content), Budget, AudienceTargeting, and PerformanceBy* analytics resources for retrieving performance metrics.\n\n\nContact Support:\n Name: Outbrain Developer Center",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T02:29:42.000Z",
+    "updatedAt": "2026-07-28T02:29:42.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-42d6c565-906b-4183-91f2-38e3084b4ae9"
+  },
+  "item": [
+    {
+      "name": "marketers",
+      "item": [
+        {
+          "name": "{marketerId}",
+          "item": [
+            {
+              "name": "budgets",
+              "item": [
+                {
+                  "name": "List Budgets For A Marketer",
+                  "id": "66d503f4-5248-4d4a-b3ff-9c6dbe1dac4b",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/marketers/:marketerId/budgets",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "marketers",
+                        ":marketerId",
+                        "budgets"
+                      ],
+                      "variable": [
+                        {
+                          "id": "873532e0-3baa-49bf-b389-ae0e6f61df98",
+                          "key": "marketerId",
+                          "value": "<string>",
+                          "description": "(Required) Marketer (customer account) identifier."
+                        }
+                      ]
+                    },
+                    "description": "Retrieve all budgets belonging to a marketer."
+                  },
+                  "response": [
+                    {
+                      "id": "d586f7a9-af22-4cce-9b1b-39ca3d71b990",
+                      "name": "A list of budgets.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "OB-TOKEN-V1",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/marketers/:marketerId/budgets",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "marketers",
+                            ":marketerId",
+                            "budgets"
+                          ],
+                          "variable": [
+                            {
+                              "key": "marketerId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"count\": \"<integer>\",\n  \"budgets\": [\n    {\n      \"id\": \"<string>\",\n      \"marketerId\": \"<string>\",\n      \"name\": \"<string>\",\n      \"amount\": \"<number>\",\n      \"currency\": \"<string>\",\n      \"type\": \"daily\",\n      \"startDate\": \"<date>\",\n      \"endDate\": \"<date>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"marketerId\": \"<string>\",\n      \"name\": \"<string>\",\n      \"amount\": \"<number>\",\n      \"currency\": \"<string>\",\n      \"type\": \"total\",\n      \"startDate\": \"<date>\",\n      \"endDate\": \"<date>\"\n    }\n  ]\n}",
+                      "createdAt": "2026-07-28T02:29:42.000Z",
+                      "updatedAt": "2026-07-28T02:29:42.000Z",
+                      "uid": "35240-d586f7a9-af22-4cce-9b1b-39ca3d71b990"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T02:29:42.000Z",
+                  "updatedAt": "2026-07-28T02:29:42.000Z",
+                  "uid": "35240-66d503f4-5248-4d4a-b3ff-9c6dbe1dac4b"
+                },
+                {
+                  "name": "Create A Budget",
+                  "id": "53118c3a-2ab6-4df2-951f-f5cc5a8fb212",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"<string>\",\n  \"amount\": \"<number>\",\n  \"type\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"startDate\": \"<date>\",\n  \"endDate\": \"<date>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/marketers/:marketerId/budgets",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "marketers",
+                        ":marketerId",
+                        "budgets"
+                      ],
+                      "variable": [
+                        {
+                          "id": "cafcea48-78f3-4a26-9540-65c76b53b978",
+                          "key": "marketerId",
+                          "value": "<string>",
+                          "description": "(Required) Marketer (customer account) identifier."
+                        }
+                      ]
+                    },
+                    "description": "Create a new shared budget for the marketer."
+                  },
+                  "response": [
+                    {
+                      "id": "9ae9ddef-943a-4d86-94f0-213ee7d84bec",
+                      "name": "Budget created.",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "OB-TOKEN-V1",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"<string>\",\n  \"amount\": \"<number>\",\n  \"type\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"startDate\": \"<date>\",\n  \"endDate\": \"<date>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/marketers/:marketerId/budgets",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "marketers",
+                            ":marketerId",
+                            "budgets"
+                          ],
+                          "variable": [
+                            {
+                              "key": "marketerId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Created",
+                      "code": 201,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T02:29:42.000Z",
+                      "updatedAt": "2026-07-28T02:29:42.000Z",
+                      "uid": "35240-9ae9ddef-943a-4d86-94f0-213ee7d84bec"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T02:29:42.000Z",
+                  "updatedAt": "2026-07-28T02:29:42.000Z",
+                  "uid": "35240-53118c3a-2ab6-4df2-951f-f5cc5a8fb212"
+                }
+              ],
+              "id": "1ef20e63-d179-4a80-8eba-4a33ae2a7c14",
+              "createdAt": "2026-07-28T02:29:42.000Z",
+              "updatedAt": "2026-07-28T02:29:42.000Z",
+              "uid": "35240-1ef20e63-d179-4a80-8eba-4a33ae2a7c14"
+            }
+          ],
+          "id": "fb0cb03c-1746-46e2-b063-d7289ad9ef74",
+          "createdAt": "2026-07-28T02:29:42.000Z",
+          "updatedAt": "2026-07-28T02:29:42.000Z",
+          "uid": "35240-fb0cb03c-1746-46e2-b063-d7289ad9ef74"
+        }
+      ],
+      "id": "54658f24-d99b-4f60-bf1f-41ddac97ccc6",
+      "createdAt": "2026-07-28T02:29:42.000Z",
+      "updatedAt": "2026-07-28T02:29:42.000Z",
+      "uid": "35240-54658f24-d99b-4f60-bf1f-41ddac97ccc6"
+    },
+    {
+      "name": "budgets",
+      "item": [
+        {
+          "name": "{budgetId}",
+          "item": [
+            {
+              "name": "Get A Budget By Id",
+              "id": "7e6cc975-f52c-4124-a610-9ecaaa5834ae",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/budgets/:budgetId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "budgets",
+                    ":budgetId"
+                  ],
+                  "variable": [
+                    {
+                      "id": "609e3b90-aefa-4f9f-80ba-c96ea3ca3e46",
+                      "key": "budgetId",
+                      "value": "<string>",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "description": "Retrieve a single budget by its identifier."
+              },
+              "response": [
+                {
+                  "id": "08f343ee-0c11-4204-baff-b1d8d576f394",
+                  "name": "A budget resource.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "OB-TOKEN-V1",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/budgets/:budgetId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "budgets",
+                        ":budgetId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "budgetId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"id\": \"<string>\",\n  \"marketerId\": \"<string>\",\n  \"name\": \"<string>\",\n  \"amount\": \"<number>\",\n  \"currency\": \"<string>\",\n  \"type\": \"daily\",\n  \"startDate\": \"<date>\",\n  \"endDate\": \"<date>\"\n}",
+                  "createdAt": "2026-07-28T02:29:42.000Z",
+                  "updatedAt": "2026-07-28T02:29:42.000Z",
+                  "uid": "35240-08f343ee-0c11-4204-baff-b1d8d576f394"
+                }
+              ],
+              "createdAt": "2026-07-28T02:29:42.000Z",
+              "updatedAt": "2026-07-28T02:29:42.000Z",
+              "uid": "35240-7e6cc975-f52c-4124-a610-9ecaaa5834ae"
+            }
+          ],
+          "id": "ef7199ae-3b75-4729-9d88-a924e4a772e9",
+          "createdAt": "2026-07-28T02:29:42.000Z",
+          "updatedAt": "2026-07-28T02:29:42.000Z",
+          "uid": "35240-ef7199ae-3b75-4729-9d88-a924e4a772e9"
+        }
+      ],
+      "id": "4adc1761-dfc6-43d2-bab5-4ae42b07503d",
+      "createdAt": "2026-07-28T02:29:42.000Z",
+      "updatedAt": "2026-07-28T02:29:42.000Z",
+      "uid": "35240-4adc1761-dfc6-43d2-bab5-4ae42b07503d"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "OB-TOKEN-V1",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.outbrain.com/amplify/v0.1"
+    }
+  ]
+}

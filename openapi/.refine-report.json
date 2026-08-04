@@ -1,0 +1,32 @@
+{
+  "provider": "outbrain",
+  "sources": [
+    "outbrain-authentication-api-openapi.yml",
+    "outbrain-budgets-api-openapi.yml",
+    "outbrain-campaigns-api-openapi.yml",
+    "outbrain-conversions-api-openapi.yml",
+    "outbrain-events-api-openapi.yml",
+    "outbrain-marketers-api-openapi.yml",
+    "outbrain-promotedlinks-api-openapi.yml",
+    "outbrain-recommendations-api-openapi.yml",
+    "outbrain-reporting-api-openapi.yml",
+    "outbrain-targeting-api-openapi.yml"
+  ],
+  "outputs": [
+    "outbrain-authentication-api-openapi.yml",
+    "outbrain-budgets-api-openapi.yml",
+    "outbrain-campaigns-api-openapi.yml",
+    "outbrain-conversions-api-openapi.yml",
+    "outbrain-events-api-openapi.yml",
+    "outbrain-marketers-api-openapi.yml",
+    "outbrain-promotedlinks-api-openapi.yml",
+    "outbrain-recommendations-api-openapi.yml",
+    "outbrain-reporting-api-openapi.yml",
+    "outbrain-targeting-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

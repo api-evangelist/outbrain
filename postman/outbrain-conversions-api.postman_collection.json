@@ -1,0 +1,297 @@
+{
+  "info": {
+    "_postman_id": "2e5258f4-78ef-45b3-86cb-ab9121a595e7",
+    "name": "Outbrain Amplify Authentication Conversions API",
+    "description": "The Outbrain Amplify API enables advertisers, agencies, and technology partners to integrate Amplify campaign management and reporting into their own tools and platforms. The API is organized around core entities: Marketer (a customer account), Campaign (a collection of promoted links), PromotedLink (a single piece of promoted content), Budget, AudienceTargeting, and PerformanceBy* analytics resources for retrieving performance metrics.\n\n\nContact Support:\n Name: Outbrain Developer Center",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T02:29:57.000Z",
+    "updatedAt": "2026-07-28T02:29:57.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-2e5258f4-78ef-45b3-86cb-ab9121a595e7"
+  },
+  "item": [
+    {
+      "name": "capi",
+      "item": [
+        {
+          "name": "event",
+          "item": [
+            {
+              "name": "batch",
+              "item": [
+                {
+                  "name": "Send A Batch Of Conversion Events",
+                  "id": "85583008-b021-429f-b487-2cd46075af2c",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"events\": [\n    {\n      \"event_name\": \"AddToCart\",\n      \"event_time\": \"<integer>\",\n      \"pixel_id\": \"<string>\",\n      \"event_id\": \"<string>\",\n      \"event_source_url\": \"<uri>\",\n      \"action_source\": \"other\",\n      \"user_data\": {\n        \"em\": \"<string>\",\n        \"ph\": \"<string>\",\n        \"client_ip_address\": \"<string>\",\n        \"client_user_agent\": \"<string>\",\n        \"external_id\": \"<string>\"\n      },\n      \"custom_data\": {\n        \"currency\": \"<string>\",\n        \"value\": \"<number>\",\n        \"content_ids\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"num_items\": \"<integer>\",\n        \"order_id\": \"<string>\"\n      }\n    },\n    {\n      \"event_name\": \"PageView\",\n      \"event_time\": \"<integer>\",\n      \"pixel_id\": \"<string>\",\n      \"event_id\": \"<string>\",\n      \"event_source_url\": \"<uri>\",\n      \"action_source\": \"app\",\n      \"user_data\": {\n        \"em\": \"<string>\",\n        \"ph\": \"<string>\",\n        \"client_ip_address\": \"<string>\",\n        \"client_user_agent\": \"<string>\",\n        \"external_id\": \"<string>\"\n      },\n      \"custom_data\": {\n        \"currency\": \"<string>\",\n        \"value\": \"<number>\",\n        \"content_ids\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"num_items\": \"<integer>\",\n        \"order_id\": \"<string>\"\n      }\n    }\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/capi/event/batch",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "capi",
+                        "event",
+                        "batch"
+                      ]
+                    },
+                    "description": "Submit up to 1000 conversion events in a single request."
+                  },
+                  "response": [
+                    {
+                      "id": "cfa0f4f8-5f38-45fb-810b-644200981c1c",
+                      "name": "Batch accepted.",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "OB-TOKEN-V1",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"events\": [\n    {\n      \"event_name\": \"AddToCart\",\n      \"event_time\": \"<integer>\",\n      \"pixel_id\": \"<string>\",\n      \"event_id\": \"<string>\",\n      \"event_source_url\": \"<uri>\",\n      \"action_source\": \"other\",\n      \"user_data\": {\n        \"em\": \"<string>\",\n        \"ph\": \"<string>\",\n        \"client_ip_address\": \"<string>\",\n        \"client_user_agent\": \"<string>\",\n        \"external_id\": \"<string>\"\n      },\n      \"custom_data\": {\n        \"currency\": \"<string>\",\n        \"value\": \"<number>\",\n        \"content_ids\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"num_items\": \"<integer>\",\n        \"order_id\": \"<string>\"\n      }\n    },\n    {\n      \"event_name\": \"PageView\",\n      \"event_time\": \"<integer>\",\n      \"pixel_id\": \"<string>\",\n      \"event_id\": \"<string>\",\n      \"event_source_url\": \"<uri>\",\n      \"action_source\": \"app\",\n      \"user_data\": {\n        \"em\": \"<string>\",\n        \"ph\": \"<string>\",\n        \"client_ip_address\": \"<string>\",\n        \"client_user_agent\": \"<string>\",\n        \"external_id\": \"<string>\"\n      },\n      \"custom_data\": {\n        \"currency\": \"<string>\",\n        \"value\": \"<number>\",\n        \"content_ids\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"num_items\": \"<integer>\",\n        \"order_id\": \"<string>\"\n      }\n    }\n  ]\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/capi/event/batch",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "capi",
+                            "event",
+                            "batch"
+                          ]
+                        }
+                      },
+                      "status": "Accepted",
+                      "code": 202,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T02:29:58.000Z",
+                      "updatedAt": "2026-07-28T02:29:58.000Z",
+                      "uid": "35240-cfa0f4f8-5f38-45fb-810b-644200981c1c"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T02:29:58.000Z",
+                  "updatedAt": "2026-07-28T02:29:58.000Z",
+                  "uid": "35240-85583008-b021-429f-b487-2cd46075af2c"
+                }
+              ],
+              "id": "58009750-15e7-40d3-bdc6-ed04044638b8",
+              "createdAt": "2026-07-28T02:29:58.000Z",
+              "updatedAt": "2026-07-28T02:29:58.000Z",
+              "uid": "35240-58009750-15e7-40d3-bdc6-ed04044638b8"
+            },
+            {
+              "name": "Send A Server Side Conversion Event",
+              "id": "2b59133e-b87d-4646-a413-9334aed6411e",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"event_name\": \"AddToCart\",\n  \"event_time\": \"<integer>\",\n  \"pixel_id\": \"<string>\",\n  \"event_id\": \"<string>\",\n  \"event_source_url\": \"<uri>\",\n  \"action_source\": \"other\",\n  \"user_data\": {\n    \"em\": \"<string>\",\n    \"ph\": \"<string>\",\n    \"client_ip_address\": \"<string>\",\n    \"client_user_agent\": \"<string>\",\n    \"external_id\": \"<string>\"\n  },\n  \"custom_data\": {\n    \"currency\": \"<string>\",\n    \"value\": \"<number>\",\n    \"content_ids\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"num_items\": \"<integer>\",\n    \"order_id\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/capi/event",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "capi",
+                    "event"
+                  ]
+                },
+                "description": "Submit a conversion event (e.g. purchase, lead, sign-up, add-to-cart) from the advertiser's backend to Teads. Used for measurement, conversion attribution, and feeding Teads' predictive AI optimization engine without requiring browser-side pixels.\n"
+              },
+              "response": [
+                {
+                  "id": "ff43d224-f4e0-41af-a7b1-2e108500d00a",
+                  "name": "Event accepted for processing.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "OB-TOKEN-V1",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"event_name\": \"AddToCart\",\n  \"event_time\": \"<integer>\",\n  \"pixel_id\": \"<string>\",\n  \"event_id\": \"<string>\",\n  \"event_source_url\": \"<uri>\",\n  \"action_source\": \"other\",\n  \"user_data\": {\n    \"em\": \"<string>\",\n    \"ph\": \"<string>\",\n    \"client_ip_address\": \"<string>\",\n    \"client_user_agent\": \"<string>\",\n    \"external_id\": \"<string>\"\n  },\n  \"custom_data\": {\n    \"currency\": \"<string>\",\n    \"value\": \"<number>\",\n    \"content_ids\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"num_items\": \"<integer>\",\n    \"order_id\": \"<string>\"\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/capi/event",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "capi",
+                        "event"
+                      ]
+                    }
+                  },
+                  "status": "Accepted",
+                  "code": 202,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T02:29:58.000Z",
+                  "updatedAt": "2026-07-28T02:29:58.000Z",
+                  "uid": "35240-ff43d224-f4e0-41af-a7b1-2e108500d00a"
+                },
+                {
+                  "id": "38c9f4e5-1145-4cad-b335-4cf86cc71c7c",
+                  "name": "Invalid event payload.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "OB-TOKEN-V1",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"event_name\": \"AddToCart\",\n  \"event_time\": \"<integer>\",\n  \"pixel_id\": \"<string>\",\n  \"event_id\": \"<string>\",\n  \"event_source_url\": \"<uri>\",\n  \"action_source\": \"other\",\n  \"user_data\": {\n    \"em\": \"<string>\",\n    \"ph\": \"<string>\",\n    \"client_ip_address\": \"<string>\",\n    \"client_user_agent\": \"<string>\",\n    \"external_id\": \"<string>\"\n  },\n  \"custom_data\": {\n    \"currency\": \"<string>\",\n    \"value\": \"<number>\",\n    \"content_ids\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"num_items\": \"<integer>\",\n    \"order_id\": \"<string>\"\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/capi/event",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "capi",
+                        "event"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T02:29:58.000Z",
+                  "updatedAt": "2026-07-28T02:29:58.000Z",
+                  "uid": "35240-38c9f4e5-1145-4cad-b335-4cf86cc71c7c"
+                }
+              ],
+              "createdAt": "2026-07-28T02:29:58.000Z",
+              "updatedAt": "2026-07-28T02:29:58.000Z",
+              "uid": "35240-2b59133e-b87d-4646-a413-9334aed6411e"
+            }
+          ],
+          "id": "4090d3e6-7590-433f-b29a-588753269d9c",
+          "createdAt": "2026-07-28T02:29:58.000Z",
+          "updatedAt": "2026-07-28T02:29:58.000Z",
+          "uid": "35240-4090d3e6-7590-433f-b29a-588753269d9c"
+        }
+      ],
+      "id": "a7855d5d-f3ff-4594-89f5-30bfca314fd4",
+      "createdAt": "2026-07-28T02:29:58.000Z",
+      "updatedAt": "2026-07-28T02:29:58.000Z",
+      "uid": "35240-a7855d5d-f3ff-4594-89f5-30bfca314fd4"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "OB-TOKEN-V1",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.outbrain.com/amplify/v0.1"
+    }
+  ]
+}

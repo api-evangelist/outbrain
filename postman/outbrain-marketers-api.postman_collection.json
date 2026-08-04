@@ -1,0 +1,219 @@
+{
+  "info": {
+    "_postman_id": "29d33d08-b106-4078-b94b-e17af62edd9b",
+    "name": "Outbrain Amplify Authentication Marketers API",
+    "description": "The Outbrain Amplify API enables advertisers, agencies, and technology partners to integrate Amplify campaign management and reporting into their own tools and platforms. The API is organized around core entities: Marketer (a customer account), Campaign (a collection of promoted links), PromotedLink (a single piece of promoted content), Budget, AudienceTargeting, and PerformanceBy* analytics resources for retrieving performance metrics.\n\n\nContact Support:\n Name: Outbrain Developer Center",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T02:29:59.000Z",
+    "updatedAt": "2026-07-28T02:29:59.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-29d33d08-b106-4078-b94b-e17af62edd9b"
+  },
+  "item": [
+    {
+      "name": "marketers",
+      "item": [
+        {
+          "name": "{marketerId}",
+          "item": [
+            {
+              "name": "Get A Marketer By Id",
+              "id": "c5debb3c-52bd-4528-b02c-28353ad58850",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/marketers/:marketerId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "marketers",
+                    ":marketerId"
+                  ],
+                  "variable": [
+                    {
+                      "id": "a4d9f02c-581a-4e15-8f6d-77dcd7ac06ba",
+                      "key": "marketerId",
+                      "value": "<string>",
+                      "description": "(Required) Marketer (customer account) identifier."
+                    }
+                  ]
+                },
+                "description": "Retrieve a single marketer by its identifier."
+              },
+              "response": [
+                {
+                  "id": "7f784292-e723-495f-b1d2-4a2834f353dc",
+                  "name": "A marketer resource.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "OB-TOKEN-V1",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/marketers/:marketerId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "marketers",
+                        ":marketerId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "marketerId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"creationTime\": \"<dateTime>\"\n}",
+                  "createdAt": "2026-07-28T02:29:59.000Z",
+                  "updatedAt": "2026-07-28T02:29:59.000Z",
+                  "uid": "35240-7f784292-e723-495f-b1d2-4a2834f353dc"
+                }
+              ],
+              "createdAt": "2026-07-28T02:29:59.000Z",
+              "updatedAt": "2026-07-28T02:29:59.000Z",
+              "uid": "35240-c5debb3c-52bd-4528-b02c-28353ad58850"
+            }
+          ],
+          "id": "3ab021d6-751a-47b5-ab8d-87afa1d38423",
+          "createdAt": "2026-07-28T02:29:59.000Z",
+          "updatedAt": "2026-07-28T02:29:59.000Z",
+          "uid": "35240-3ab021d6-751a-47b5-ab8d-87afa1d38423"
+        },
+        {
+          "name": "List Marketers For The Authenticated User",
+          "id": "2e5e3976-d56d-41ff-b7f3-1a0c7cd60761",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/marketers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "marketers"
+              ]
+            },
+            "description": "Retrieve all marketers (customer accounts) accessible to the authenticated user."
+          },
+          "response": [
+            {
+              "id": "aa1dfb22-5286-444f-94d1-6a7b79f22f67",
+              "name": "A list of marketers.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "OB-TOKEN-V1",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/marketers",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "marketers"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"count\": \"<integer>\",\n  \"marketers\": [\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"currency\": \"<string>\",\n      \"enabled\": \"<boolean>\",\n      \"creationTime\": \"<dateTime>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"currency\": \"<string>\",\n      \"enabled\": \"<boolean>\",\n      \"creationTime\": \"<dateTime>\"\n    }\n  ]\n}",
+              "createdAt": "2026-07-28T02:29:59.000Z",
+              "updatedAt": "2026-07-28T02:29:59.000Z",
+              "uid": "35240-aa1dfb22-5286-444f-94d1-6a7b79f22f67"
+            }
+          ],
+          "createdAt": "2026-07-28T02:29:59.000Z",
+          "updatedAt": "2026-07-28T02:29:59.000Z",
+          "uid": "35240-2e5e3976-d56d-41ff-b7f3-1a0c7cd60761"
+        }
+      ],
+      "id": "956917c3-8e4c-4a9a-97fa-cf03d2a11d24",
+      "createdAt": "2026-07-28T02:29:59.000Z",
+      "updatedAt": "2026-07-28T02:29:59.000Z",
+      "uid": "35240-956917c3-8e4c-4a9a-97fa-cf03d2a11d24"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "OB-TOKEN-V1",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.outbrain.com/amplify/v0.1"
+    }
+  ]
+}
