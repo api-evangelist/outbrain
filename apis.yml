@@ -5,6 +5,7 @@ apis:
   name: Outbrain Authentication API
   description: Token-based authentication
   humanURL: https://developer.outbrain.com/home-page/amplify-api/
+  baseURL: https://api.outbrain.com/amplify/v0.1
   tags:
   - Authentication
   properties:
@@ -40,6 +41,7 @@ apis:
   name: Outbrain Budgets API
   description: Budget management
   humanURL: https://developer.outbrain.com/home-page/amplify-api/
+  baseURL: https://api.outbrain.com/amplify/v0.1
   tags:
   - Budgets
   properties:
@@ -75,6 +77,7 @@ apis:
   name: Outbrain Campaigns API
   description: Campaign management
   humanURL: https://developer.outbrain.com/home-page/amplify-api/
+  baseURL: https://api.outbrain.com/amplify/v0.1
   tags:
   - Campaigns
   properties:
@@ -109,7 +112,8 @@ apis:
 - aid: outbrain:outbrain-conversions-api
   name: Outbrain Conversions API
   description: Server-side conversion events
-  humanURL: https://developer.outbrain.com/home-page/amplify-api/
+  humanURL: https://developers.teads.com/docs/category/start-here
+  baseURL: https://r.teads.tv
   tags:
   - Conversions
   properties:
@@ -144,7 +148,8 @@ apis:
 - aid: outbrain:outbrain-events-api
   name: Outbrain Events API
   description: Impression and click events
-  humanURL: https://developer.outbrain.com/home-page/amplify-api/
+  humanURL: https://developer.outbrain.com/apis/
+  baseURL: https://odb.outbrain.com
   tags:
   - Events
   properties:
@@ -180,6 +185,7 @@ apis:
   name: Outbrain Marketers API
   description: Marketer (customer account) resources
   humanURL: https://developer.outbrain.com/home-page/amplify-api/
+  baseURL: https://api.outbrain.com/amplify/v0.1
   tags:
   - Marketers
   properties:
@@ -215,6 +221,7 @@ apis:
   name: Outbrain PromotedLinks API
   description: Promoted link (ad creative) management
   humanURL: https://developer.outbrain.com/home-page/amplify-api/
+  baseURL: https://api.outbrain.com/amplify/v0.1
   tags:
   - PromotedLinks
   properties:
@@ -249,7 +256,8 @@ apis:
 - aid: outbrain:outbrain-recommendations-api
   name: Outbrain Recommendations API
   description: Retrieve content recommendations
-  humanURL: https://developer.outbrain.com/home-page/amplify-api/
+  humanURL: https://developer.outbrain.com/apis/
+  baseURL: https://odb.outbrain.com
   tags:
   - Recommendations
   properties:
@@ -285,6 +293,7 @@ apis:
   name: Outbrain Reporting API
   description: Performance reporting
   humanURL: https://developer.outbrain.com/home-page/amplify-api/
+  baseURL: https://api.outbrain.com/amplify/v0.1
   tags:
   - Reporting
   properties:
@@ -320,6 +329,7 @@ apis:
   name: Outbrain Targeting API
   description: Audience and contextual targeting
   humanURL: https://developer.outbrain.com/home-page/amplify-api/
+  baseURL: https://api.outbrain.com/amplify/v0.1
   tags:
   - Targeting
   properties:
@@ -351,6 +361,80 @@ apis:
     url: https://www.teads.com
   - type: SourceCode
     url: https://github.com/teads/teads-advertiser-conversion-api-gtm-template
+- aid: outbrain:outbrain-amplify-api
+  name: Outbrain Amplify API
+  description: >
+    The complete Outbrain Amplify API surface — 77 operations across marketers, budgets, campaigns,
+    promoted links and promoted-link sequences, audience segments, conversion events, user and
+    invitation management, geo / interest / IAB-category targeting, section and currency metadata,
+    and 23 performance-reporting projections. Transcribed faithfully from Outbrain's own Apiary
+    blueprint, which Outbrain last updated 2026-08-13.
+  humanURL: https://amplifyv01.docs.apiary.io/
+  baseURL: https://api.outbrain.com/amplify/v0.1
+  tags:
+  - Advertising
+  - Campaign Management
+  - Reporting
+  - Native Advertising
+  properties:
+  - type: OpenAPI
+    url: openapi/outbrain-amplify-api-full-openapi.yml
+  - type: Overlay
+    url: overlays/outbrain-amplify-api-full-overlay.yaml
+  - type: APIReference
+    url: https://amplifyv01.docs.apiary.io/
+  - type: Documentation
+    url: https://developer.outbrain.com/home-page/amplify-api/documentation/
+  - type: SignUp
+    url: https://www.outbrain.com/partner-api/
+- aid: outbrain:outbrain-teads-report-api
+  name: Teads Report API
+  description: >
+    Asynchronous analytics reporting for the Teads platform. A POST triggers a report that is
+    computed in the background; a GET polls its status and returns a download URL for the finished
+    CSV, JSON or XLSX. Covers publisher, programmatic, campaign, temporal and audience dimensions
+    with integration, tracking, interaction, programmatic and finance metric families. OAuth bearer
+    authentication, two concurrent reports, fifty reports per rolling 24 hours.
+  humanURL: https://teadsapi.docs.apiary.io/
+  baseURL: https://api.teads.tv/v1/analytics
+  tags:
+  - Reporting
+  - Analytics
+  - Advertising
+  properties:
+  - type: OpenAPI
+    url: openapi/outbrain-teads-report-api-openapi.yml
+  - type: Overlay
+    url: overlays/outbrain-teads-report-api-overlay.yaml
+  - type: APIReference
+    url: https://teadsapi.docs.apiary.io/
+  - type: ErrorCodes
+    url: errors/outbrain-error-codes.yml
+  - type: Support
+    url: mailto:api@teads.tv
+- aid: outbrain:outbrain-teads-in-chat-api
+  name: Teads In-Chat API
+  description: >
+    Contextual sponsored-recommendation API for chatbot and LLM publishers, backing the Teads
+    Conversational AI Ads SDK (public beta since 2025-11-12). Takes a partner key plus one of
+    contentUrl / bundleUrl / portalUrl, a widgetJSId placement identifier and optional keywords,
+    IAB categories or free-text chat context, and returns recommendation sets grouped by engine
+    with tracking pixels and optional display creative.
+  humanURL: https://developers.teads.com/docs/Chatbot-AI-SDK/Getting-Started/integration-guide
+  baseURL: https://mv.outbrain.com/Multivac/api/in-chat-recs
+  tags:
+  - Advertising
+  - AI
+  - Recommendations
+  properties:
+  - type: Documentation
+    url: https://developers.teads.com/docs/Chatbot-AI-SDK/Getting-Started/integration-guide
+  - type: GettingStarted
+    url: https://developers.teads.com/docs/Chatbot-AI-SDK/Getting-Started/
+  - type: ChangeLog
+    url: https://developers.teads.com/docs/Chatbot-AI-SDK/News/release-notes
+  - type: Components
+    url: components/outbrain-components.yml
 name: Outbrain
 tags:
   - Advertising
@@ -541,8 +625,92 @@ common:
       - https://engineering.teads.com
       - https://www.sec.gov/Archives/edgar/data/0001454938/000145493824000146/exhibit991812024.htm
     updated: '2026-05-25'
+  - type: Packages
+    url: packages/outbrain-packages.yml
+  - type: SDKs
+    name: Outbrain / Teads client SDKs
+    url: packages/outbrain-packages.yml
+  - type: WellKnown
+    url: well-known/outbrain-well-known.yml
+  - type: SecurityTxt
+    url: well-known/outbrain-security.txt
+  - type: Security
+    name: Outbrain bug bounty and vulnerability disclosure
+    url: https://www.outbrain.com/security/bug-bounty/
+  - type: Compliance
+    name: Outbrain security and compliance (SOC 2, ISO/IEC 27001)
+    url: https://www.outbrain.com/security/
+  - type: MCPServer
+    url: mcp/outbrain-mcp.yml
+  - type: LLMsTxt
+    url: llms/outbrain-llms.txt
+  - type: Conformance
+    url: conformance/outbrain-conformance.yml
+  - type: ErrorCatalog
+    url: errors/outbrain-problem-types.yml
+  - type: ErrorCodes
+    url: errors/outbrain-error-codes.yml
+  - type: Lifecycle
+    url: lifecycle/outbrain-lifecycle.yml
+  - type: Conventions
+    url: conventions/outbrain-conventions.yml
+  - type: ChangeLog
+    url: changelog/outbrain-changelog.yml
+  - type: ChangeLog
+    name: Amplify API updates
+    url: https://amplifyv01.docs.apiary.io/
+  - type: Sandbox
+    url: sandbox/outbrain-sandbox.yml
+  - type: Components
+    url: components/outbrain-components.yml
+  - type: DataModel
+    url: data-model/outbrain-data-model.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: Overlay
+    name: Amplify API enhancements
+    url: overlays/outbrain-amplify-api-full-overlay.yaml
+  - type: Overlay
+    name: Teads Report API enhancements
+    url: overlays/outbrain-teads-report-api-overlay.yaml
+  - type: DeveloperPortal
+    name: Teads Developer Portal
+    url: https://developers.teads.com
+  - type: APIReference
+    name: Outbrain Amplify API reference
+    url: https://amplifyv01.docs.apiary.io/
+  - type: APIReference
+    name: Teads Report API reference
+    url: https://teadsapi.docs.apiary.io/
+  - type: GettingStarted
+    name: Teads Developer Portal - Start Here
+    url: https://developers.teads.com/docs/category/start-here
+  - type: Support
+    name: Teads support centre
+    url: https://support.teads.com
+  - type: Support
+    name: Amplify API Google Group
+    url: https://groups.google.com/g/outbrain-amplifyapi
+  - type: SignUp
+    name: Amplify API partner access request
+    url: https://www.outbrain.com/partner-api/
+  - type: Login
+    name: Amplify API token page
+    url: https://my.outbrain.com/create-token
+  - type: TermsOfService
+    name: Teads terms
+    url: https://www.teads.com/terms/
+  - type: PrivacyPolicy
+    name: Teads privacy policy
+    url: https://www.teads.com/privacy-policy/
+  - type: SourceCode
+    name: Teads iOS SDK
+    url: https://github.com/teads/TeadsSDK-iOS
+  - type: SourceCode
+    name: Teads Android SDK
+    url: https://github.com/teads/TeadsSDK-android
 created: '2026-05-25T00:00:00.000Z'
-modified: '2026-05-25'
+modified: '2026-08-13'
 position: Consuming
 description: >
   Outbrain Inc. (NASDAQ&#58; OB), which closed its acquisition of Teads in early 2025 and now operates publicly as
@@ -558,3 +726,8 @@ maintainers:
     X: apievangelist
     url: https://apievangelist.com
 specificationVersion: '0.16'
+x-enrichment:
+  date: '2026-08-13'
+  status: enriched
+  artifacts_added: 25
+  pass: local-v1
