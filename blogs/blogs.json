@@ -13,30 +13,34 @@
       "feed_url": "https://www.outbrain.com/blog/",
       "title": "",
       "saved": 0,
-      "method": "none"
+      "method": "none",
+      "error": "parse_failed"
     },
     {
       "source": "https://www.teads.com/blog/",
       "feed_url": "https://www.teads.com/blog/",
       "title": "",
       "saved": 0,
-      "method": "none"
+      "method": "none",
+      "error": "fetch_failed: HTTPError"
     },
     {
       "source": "https://engineering.teads.com",
       "feed_url": "https://engineering.teads.com",
       "title": "",
       "saved": 0,
-      "method": "none"
+      "method": "none",
+      "error": "parse_failed"
     },
     {
       "source": "https://blog.outbrain.com",
       "feed_url": "https://blog.outbrain.com",
       "title": "",
       "saved": 0,
-      "method": "none"
+      "method": "none",
+      "error": "parse_failed"
     }
   ],
   "post_count": 14,
-  "fetched": "2026-08-06T14:08:46Z"
+  "fetched": "2026-08-15T12:11:08Z"
 }
