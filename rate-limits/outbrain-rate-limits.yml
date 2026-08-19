@@ -9,10 +9,16 @@ reconciled: true
 tags:
   - Advertising
   - Rate Limiting
-description: Published rate limits for the Outbrain Amplify API. Documented in the Outbrain Developer Center.
+description: >
+  Published rate limits for the Outbrain (Teads) API surface. Amplify limits are read verbatim from
+  the "Rate Limits" section of Outbrain's own Apiary blueprint; Teads Report API limits and quotas
+  from the Teads Analytics blueprint.
+method: searched
+generated: '2026-08-13'
 sources:
-  - https://developer.outbrain.com/home-page/amplify-api/documentation/
   - https://amplifyv01.docs.apiary.io/
+  - https://teadsapi.docs.apiary.io/
+  - https://developer.outbrain.com/home-page/amplify-api/documentation/
 algorithm: fixed-window
 responseCodes:
   throttled: 429
@@ -32,18 +38,60 @@ limits:
     perSubject: token
   - api: Outbrain Amplify API
     scope: performance-reporting
-    description: 'Performance reporting endpoints (/reports/marketers/{marketerId}/campaigns and /periodicContent) limited to 10 requests per minute per marketer.'
-    requests: 10
+    description: 'The entire performance reporting API is limited to 30 requests per minute per marketer.'
+    requests: 30
     window: 60s
     perSubject: marketer
   - api: Outbrain Amplify API
     scope: realtime-reporting
-    description: 'Real-time performance reporting (/reports/marketers/{marketerId}/realtime) limited to 50 requests per minute per marketer.'
+    description: 'The entire realtime performance reporting API (periodicHourly, periodicMinutely, sections/dateHourly, sections/dateMinutely) is limited to 50 requests per minute per marketer.'
     requests: 50
     window: 60s
     perSubject: marketer
+  - api: Teads Report API
+    scope: api-wide
+    description: >
+      A rate limit applies across all routes. On exhaustion the server returns 429 with a
+      Retry-After header stating the seconds to wait; the documented gap between two reports may be
+      up to 30 minutes. Neither the limit nor the window is published as a number.
+    requests: null
+    window: null
+    perSubject: account
+  - api: Teads Report API
+    scope: concurrency
+    description: 'No more than two reports may be generated at the same time; a third returns REPORTING.ERROR.RUNNING_REPORT_QUOTA_REACHED.'
+    requests: 2
+    window: concurrent
+    perSubject: account
+  - api: Teads Report API
+    scope: quota
+    description: 'A maximum of 50 reports may be generated per rolling 24-hour window; beyond that the server returns REPORTING.ERROR.PAST_24H_REPORT_QUOTA_REACHED.'
+    requests: 50
+    window: 86400s
+    perSubject: account
+responseHeaders:
+  - api: Outbrain Amplify API
+    header: rate-limit-msec-left
+    on: 429
+    semantics: >
+      Milliseconds remaining before the limit lifts. Every request inside that window also returns
+      429; the first request after it is served. Outbrain publishes no X-RateLimit-* or RateLimit-*
+      header family and no Retry-After on this API.
+  - api: Teads Report API
+    header: Retry-After
+    on: 429
+    semantics: Seconds to wait before attempting another request.
+notes:
+  - >
+    The performance-reporting limit was previously recorded here as 10 requests per minute. Outbrain's
+    own reference states 30 requests per minute per marketer for the entire performance reporting API;
+    corrected 2026-08-13 against https://amplifyv01.docs.apiary.io/.
+  - The Amplify rate limits have been in force since November 1, 2016 per the provider's own note.
 tokenLifecycle:
   tokenHeader: OB-TOKEN-V1
   acquireEndpoint: /login
   authMethod: HTTP Basic
   tokenType: opaque
+  tokenLifetimeDays: 30
+  issueUrl: https://my.outbrain.com/create-token
+  revocation: All tokens issued before an account password or email change are revoked.

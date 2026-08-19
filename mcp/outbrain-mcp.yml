@@ -1,0 +1,88 @@
+generated: '2026-08-13'
+method: derived
+status: candidate
+source: >
+  openapi/outbrain-amplify-api-full-openapi.yml and openapi/outbrain-teads-report-api-openapi.yml,
+  plus the Teads Developer Portal MCP status page
+  (https://developers.teads.com/docs/Chatbot-AI-SDK/Examples/sdk-mcp-coming-soon).
+description: >
+  Outbrain (Teads) publishes NO Model Context Protocol server today. Teads has publicly announced one
+  as an upcoming feature of the Teads AI Chatbot SDK — the developer portal page for it is headed
+  "🚧 In Development", targets "2026", and directs interested developers to their Teads Partner
+  Manager or ai-sdk@teads.com for beta consideration. Nothing is callable. The tools below are a
+  DERIVED candidate surface computed from the operations Outbrain actually publishes in its Apiary
+  blueprint, offered as a design starting point — no endpoint exists and none is invented here.
+deployment:
+  mode: none
+  auth: unknown
+  verified: probed
+  probes:
+    - url: https://mcp.outbrain.com/mcp
+      result: DNS does not resolve
+    - url: https://mcp.teads.com/mcp
+      result: DNS does not resolve
+    - url: https://api.outbrain.com/mcp
+      status: 404
+    - url: https://developer.outbrain.com/mcp
+      status: 404
+  announced:
+    product: Teads AI Chatbot SDK — MCP integration
+    status: In Development
+    target: '2026'
+    url: https://developers.teads.com/docs/Chatbot-AI-SDK/Examples/sdk-mcp-coming-soon
+    contact: ai-sdk@teads.com
+tools:
+  - name: list_marketers
+    description: List the marketer (customer) accounts the token can access.
+    source_operation: openapi/outbrain-amplify-api-full-openapi.yml#getMarketers
+  - name: get_marketer
+    description: Retrieve a single marketer account, optionally with extraFields.
+    source_operation: openapi/outbrain-amplify-api-full-openapi.yml#getMarketersId
+  - name: list_campaigns
+    description: List all campaigns associated with a marketer.
+    source_operation: openapi/outbrain-amplify-api-full-openapi.yml#getMarketersIdCampaigns
+  - name: get_campaign
+    description: Retrieve a single campaign.
+    source_operation: openapi/outbrain-amplify-api-full-openapi.yml#getCampaignsId
+  - name: create_campaign
+    description: Create a new campaign under a budget.
+    source_operation: openapi/outbrain-amplify-api-full-openapi.yml#createCampaigns
+  - name: update_campaign
+    description: Update an existing campaign.
+    source_operation: openapi/outbrain-amplify-api-full-openapi.yml#updateCampaignsId
+  - name: list_promoted_links
+    description: List the promoted links (ad creatives) on a campaign.
+    source_operation: openapi/outbrain-amplify-api-full-openapi.yml#getCampaignsIdPromotedLinks
+  - name: create_promoted_link
+    description: Create a promoted link on a campaign.
+    source_operation: openapi/outbrain-amplify-api-full-openapi.yml#createCampaignsCampaignIdPromotedLinks
+  - name: list_budgets
+    description: List the budgets belonging to a marketer.
+    source_operation: openapi/outbrain-amplify-api-full-openapi.yml#getMarketersIdBudgets
+  - name: create_budget
+    description: Create a budget for a marketer.
+    source_operation: openapi/outbrain-amplify-api-full-openapi.yml#createMarketersIdBudgets
+  - name: report_campaign_performance
+    description: Retrieve campaign-level performance statistics for a marketer over a date range.
+    source_operation: openapi/outbrain-amplify-api-full-openapi.yml#getReportsMarketersIdCampaigns
+  - name: report_periodic_performance
+    description: Retrieve periodic (daily/weekly/monthly) performance statistics for a marketer.
+    source_operation: openapi/outbrain-amplify-api-full-openapi.yml#getReportsMarketersIdPeriodic
+  - name: report_publisher_performance
+    description: Retrieve performance statistics for a marketer broken down by publisher.
+    source_operation: openapi/outbrain-amplify-api-full-openapi.yml#getReportsMarketersIdPublishers
+  - name: search_geo_locations
+    description: Search Outbrain geo-location targeting entities by term.
+    source_operation: openapi/outbrain-amplify-api-full-openapi.yml#getLocationsSearch
+  - name: search_interests
+    description: Search interest-targeting segments by term.
+    source_operation: openapi/outbrain-amplify-api-full-openapi.yml#getInterestsSearch
+  - name: list_segments
+    description: List the audience segments belonging to a marketer.
+    source_operation: openapi/outbrain-amplify-api-full-openapi.yml#getMarketersMarketerIdSegments
+  - name: request_teads_report
+    description: Trigger an asynchronous Teads analytics report.
+    source_operation: openapi/outbrain-teads-report-api-openapi.yml#createReport
+  - name: get_teads_report_status
+    description: Poll the status of a Teads analytics report and retrieve its download URL.
+    source_operation: openapi/outbrain-teads-report-api-openapi.yml#getReportStatus

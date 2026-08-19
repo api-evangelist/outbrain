@@ -1,0 +1,124 @@
+generated: '2026-08-13'
+method: searched
+source: live probes of every apis.yml and OpenAPI servers[] host
+description: >
+  Probe of the /.well-known/ discovery surface across every host Outbrain (Teads) serves an API
+  or developer property from. A real RFC 9116 security.txt is served from the Outbrain edge and is
+  returned identically on the marketing host, the Amplify API host and the Engage recommendation
+  host. No OIDC/OAuth discovery, api-catalog, ai-plugin or A2A agent card is published on any host.
+hosts:
+  - host: https://www.outbrain.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        file: outbrain-security.txt
+        note: RFC 9116 document with Contact and Policy fields; both point at the Outbrain bug bounty page.
+      - path: /.well-known/openid-configuration
+        status: 406
+        note: Edge rejects the request (bot filter) rather than serving a document.
+      - path: /.well-known/oauth-authorization-server
+        status: 406
+      - path: /.well-known/api-catalog
+        status: 406
+      - path: /.well-known/ai-plugin.json
+        status: 406
+      - path: /.well-known/agent-card.json
+        status: 406
+      - path: /.well-known/agent.json
+        status: 406
+  - host: https://api.outbrain.com
+    note: Amplify API host (servers[] of the Amplify OpenAPI).
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        file: outbrain-security.txt
+        note: Byte-identical to the www.outbrain.com document; served from the same edge.
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: https://odb.outbrain.com
+    note: Engage / recommendations host (servers[] of the Engage OpenAPI).
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        file: outbrain-security.txt
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: https://developer.outbrain.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: https://developers.teads.com
+    note: Teads Developer Portal (Docusaurus).
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+      - path: /llms.txt
+        status: 404
+  - host: https://r.teads.tv
+    note: >
+      Teads Conversion API / ad-serving host. It answers HTTP 200 with an empty VAST XML document
+      for EVERY path, including every /.well-known/* path probed. These 200s are a soft-200
+      catch-all, NOT published discovery documents, and are recorded here as misses so a later
+      pass does not mistake them for evidence.
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        served: application/xml (empty VAST 3.0)
+        real_document: false
+      - path: /.well-known/agent-card.json
+        status: 200
+        served: application/xml (empty VAST 3.0)
+        real_document: false
+      - path: /.well-known/openid-configuration
+        status: 200
+        served: application/xml (empty VAST 3.0)
+        real_document: false
+      - path: /.well-known/api-catalog
+        status: 200
+        served: application/xml (empty VAST 3.0)
+        real_document: false
+  - host: https://sdk.outbrain.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+summary:
+  real_documents: 1
+  document_types:
+    - security.txt
+  agent_card_found: false
+  oauth_discovery_found: false
+  api_catalog_found: false

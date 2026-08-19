@@ -1,0 +1,54 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Outbrain Amplify API
+  version: 1.0.0
+extends: openapi/outbrain-amplify-api-full-openapi.yml
+x-generated: '2026-08-13'
+x-method: generated
+x-source: >
+  Enhancements derived from conventions/outbrain-conventions.yml, rate-limits/outbrain-rate-limits.yml,
+  errors/outbrain-problem-types.yml and lifecycle/outbrain-lifecycle.yml. The underlying OpenAPI is a
+  faithful transcription of Outbrain's own Apiary blueprint and is never mutated.
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-source: https://amplifyv01.docs.apiary.io/
+      x-apievangelist-source-format: API Blueprint (Apiary), owned by Outbrain
+      x-apievangelist-harvested: '2026-08-13'
+      x-apievangelist-operations: 77
+      x-apievangelist-access: Partner application required at https://www.outbrain.com/partner-api/
+  - target: $.info
+    update:
+      x-idempotency:
+        supported: false
+        note: >
+          Outbrain publishes no idempotency key or safe-retry contract. Bulk operations
+          (multiplePromotedLinks, PUT /campaigns) are the documented alternative to retrying singles.
+  - target: $.info
+    update:
+      x-rate-limits:
+        login: 2 requests per hour per user
+        token: 30 requests per second
+        performance_reporting: 30 requests per minute per marketer
+        realtime_reporting: 50 requests per minute per marketer
+        exhaustion_status: 429
+        response_header: rate-limit-msec-left
+  - target: $.info
+    update:
+      x-request-id-header: AMPLIFY-REQUEST-ID
+      x-error-envelope:
+        fields: [moreInfo, errorMessage]
+        rfc9457: false
+  - target: $.info
+    update:
+      x-lifecycle:
+        versioning: uri-path (v0.1, unmoved)
+        deprecation_policy: none published
+        sunset_header: false
+        status_page: none
+        changelog: https://amplifyv01.docs.apiary.io/
+  - target: $.components.securitySchemes.OBTokenAuth
+    update:
+      x-token-lifetime-days: 30
+      x-token-issue-url: https://my.outbrain.com/create-token
+      x-token-revocation: All tokens are revoked when the account password or email changes.

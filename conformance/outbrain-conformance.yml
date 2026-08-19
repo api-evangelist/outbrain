@@ -1,0 +1,111 @@
+generated: '2026-08-13'
+method: derived
+source: >
+  openapi/outbrain-amplify-api-full-openapi.yml, openapi/outbrain-teads-report-api-openapi.yml,
+  conventions/outbrain-conventions.yml, security/outbrain-trust-center.yml, and the published
+  references at https://amplifyv01.docs.apiary.io/ and https://teadsapi.docs.apiary.io/
+description: >
+  Cross-cutting standards posture for the Outbrain (Teads) API surface. Outbrain publishes a
+  RESTful, JSON, token-authenticated API and adheres to the advertising-industry standards its
+  business runs on (IAB categories, TCF/GPP consent, OpenRTB/Prebid, Open Measurement) — but it does
+  not adopt the modern HTTP API conventions the agent tier depends on: no OAuth 2.0 on the primary
+  API, no RFC 9457 problem details, no RFC 8594 sunset headers, no standard RateLimit header field.
+standards:
+  - id: rest
+    conforms: true
+    evidence: >
+      Outbrain states its own convention explicitly — GET retrieves, POST creates, PUT updates,
+      resources are addressed by hierarchical URI. 77 operations across 64 paths in the published
+      blueprint follow it.
+  - id: json
+    conforms: true
+    evidence: application/json required on every POST/PUT with an entity body; all responses are JSON.
+  - id: oauth2
+    conforms: partial
+    evidence: >
+      The Amplify API uses an opaque proprietary token in a custom OB-TOKEN-V1 header obtained via
+      HTTP Basic — not OAuth 2.0. The Teads Report API does use an OAuth bearer token in a standard
+      Authorization header, but Teads publishes no authorization endpoint, token endpoint or scope
+      vocabulary in its reference, so the OAuth surface cannot be discovered or validated.
+  - id: oidc
+    conforms: false
+    evidence: No /.well-known/openid-configuration on any host (see well-known/outbrain-well-known.yml).
+  - id: rfc8414-oauth-authorization-server-metadata
+    conforms: false
+    evidence: /.well-known/oauth-authorization-server returns 404 on api.outbrain.com and odb.outbrain.com.
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: >
+      Both APIs return proprietary error envelopes — {moreInfo, errorMessage} on Amplify and
+      {status, msg} on the Teads Report API. No application/problem+json anywhere.
+  - id: rfc9116-security-txt
+    conforms: true
+    evidence: >
+      A real security.txt with Contact and Policy fields is served from www.outbrain.com,
+      api.outbrain.com and odb.outbrain.com (HTTP 200).
+  - id: rfc8594-sunset-header
+    conforms: false
+    evidence: No Sunset or Deprecation header support documented; deprecations are announced as dated prose.
+  - id: ratelimit-header-fields
+    conforms: false
+    evidence: >
+      Amplify returns a proprietary rate-limit-msec-left header on 429 instead of the
+      RateLimit / RateLimit-Policy fields. The Teads Report API does use the standard Retry-After.
+  - id: idempotency-key
+    conforms: false
+    evidence: No idempotency key, dedup window or safe-retry contract documented on either API.
+  - id: pagination
+    conforms: true
+    evidence: >
+      Consistent limit/offset query parameters with count/totalCount response fields across
+      campaign, promoted-link and reporting collections.
+  - id: openapi
+    conforms: partial
+    evidence: >
+      Outbrain publishes API Blueprint (Apiary), not OpenAPI. The OpenAPI documents in openapi/ are
+      faithful transcriptions of that provider-published blueprint, not provider-published OpenAPI.
+  - id: asyncapi
+    conforms: false
+    evidence: No event, streaming or webhook surface published; nothing to describe.
+  - id: mcp
+    conforms: false
+    evidence: >
+      Announced as In Development for 2026 on the Teads AI Chatbot SDK; no endpoint exists
+      (see mcp/outbrain-mcp.yml).
+  - id: a2a
+    conforms: false
+    evidence: No agent card at /.well-known/agent-card.json or /.well-known/agent.json on any host.
+  - id: iab-content-taxonomy
+    conforms: true
+    evidence: >
+      GET /iabcategories/all exposes IAB content categories as first-class targeting entities, and
+      the Teads In-Chat API accepts iabCategories against IAB V1.
+  - id: iab-tcf
+    conforms: true
+    version: '2.3'
+    evidence: Teads iOS SDK 6.0.11 (2026-03-25) added IAB TCF v2.3 consent support.
+  - id: iab-gpp
+    conforms: true
+    evidence: Teads iOS SDK 6.2.0 (2026-06-23) added GPP section id reading.
+  - id: iab-open-measurement
+    conforms: true
+    evidence: Open Measurement flags are returned in the In-Chat API display object and supported by the mobile SDKs.
+  - id: openrtb-prebid
+    conforms: true
+    evidence: >
+      Teads maintains a public Prebid Server fork (github.com/teads/prebid-server-fork), ships
+      Prebid adapters in the iOS/Android SDKs and maintains TeadsSDK-iOS-Prebid.
+  - id: ads-txt
+    conforms: true
+    evidence: Dedicated ads.txt guidance published for both mobile SDKs on developers.teads.com.
+  - id: soc2
+    conforms: true
+    evidence: SOC 2 named on https://www.outbrain.com/security/ (see security/outbrain-trust-center.yml).
+  - id: iso27001
+    conforms: true
+    evidence: ISO/IEC 27001 named on https://www.outbrain.com/security/.
+  - id: gdpr
+    conforms: true
+    evidence: >
+      Privacy guides published per SDK platform and a public privacy policy at
+      https://www.outbrain.com/privacy/; TCF/GPP consent plumbing is first-class in the SDKs.

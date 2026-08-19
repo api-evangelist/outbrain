@@ -1,0 +1,1238 @@
+{
+  "item": [
+    {
+      "id": "b2da57f3-d2ef-412c-a6ea-fdd9bdf32552",
+      "name": "Reporting",
+      "description": {
+        "content": "Teads Report API v1",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "222712e4-191e-4495-a118-9d0eb9631bf5",
+          "name": "Processing report",
+          "request": {
+            "name": "Processing report",
+            "description": {
+              "content": "Trigger an asynchronous report processing\n\nResponse JSON body attributes:\n\n- \nid (String):  unique identifier\n\n- \nstart (Timestamp ISO 8601): timestamp when the report request was registered in Teads backend\n\n- \nlastStatusUpdate (Timestamp ISO 8601): timestamp of the last internal status update in Teads backend,\n\n- \nstatus (String): report status, it can following values:\n\n- queued Teads platform has put the report in the queue to be processed, this stage may vary depending on our resources availability\n- processing The report is now being computed\n- error An issue prevented the report from being computed, please look at message field for more details\n- finished The report is now finished, you can download the result at url field.\n- killed The report was canceled during its process\n\n- \nvalid (Boolean): true if the format and content report request is valid and is being process\n\n- \nreportProgress (Object): object containing report progress\n\n- stepMax (Number): number of steps to finish report\n- step (Number): current step in the report\n- progressMax (Number): max progress to finish step\n- progress (Number): current progress in the step\n\nAll filters, except for date are optional.  emails and format are also optional groups. If not present, they will use their \"default\" value which are presented in the example above.\nFilters fields are based on ids, ie use placements : [ 1 ] for filtering on placement with id 1.\nExceptions are _status that take the status as stored in database, ie 1 for active and format which takes string format, ie inread for inread insertion/placement.\n\nWarning: format filtering can lead to long or failing requests, due to the amount of computing power it requires. If you encounter issues while using the format filter, we recommend dropping it and filtering afterwards if necessary.\n\nParameters\n\n    \n        parameter\n        type\n        default\n        required\n        description\n    \n    \n        dimensions\n        array(text)\n        -\n        Yes\n        List of dimensions to query by\n    \n    \n        filters.date.start\n        text\n        -\n        Yes\n        Lower-bound timestamp (ISO8601 format)\n    \n    \n        filters.date.end\n        text\n        -\n        Yes\n        Upper-bound timestamp (ISO8601 format)\n    \n    \n        filters.date.timezone\n        text\n        inferred from filters.date.start timestamp\n        -\n        The timezone you would like the report to be rendered in: used to resolve DST shifts (should be provided if filters.date.start is specified in UTC/GMT)\n    \n    \n        metrics\n        array(text)\n        -\n        Yes\n        List of metrics to return\n    \n    \n        emails\n        array(text)\n        []\n        -\n        E-mail addresses of report recipients\n    \n    \n        filters.ad_sources\n        array(int)\n        []\n        -\n        filter of adsource id (ex: Google DBM id \"3\")\n    \n    \n        filters.ad_status\n        array(int)\n        []\n        -\n        filter on ad status id (ex: status \"1\", active)\n    \n    \n        filters.ads\n        array(int)\n        []\n        -\n        filter on ad id (ex: ad id \"1\")\n    \n    \n        filters.adsources\n        array(int)\n        []\n        -\n        filter on connection id (ex: connection id \"1\")\n    \n    \n        filters.advertisers\n        array(int)\n        []\n        -\n        filter on advertiser id (ex: advertiser id \"1\")\n    \n    \n        filters.browser\n        array(text)\n        []\n        -\n        filter on browser name (ex: browser \"Chrome\")\n    \n    \n        filters.connection_buy_type\n        array(text)\n        []\n        -\n        filter on connection_buy_type (ex: type \"rtb\")\n    \n    \n        filters.country\n        array(text)\n        []\n        -\n        (in ISO 3166-1 alpha-2 format, ex: US, FR)\n    \n    \n        filters.creatives\n        array(int)\n        []\n        -\n        \n    \n    \n        filter on creative id (ex: creative id \"1\")\n    \n    \n        filters.demand_source\n        arr",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "custom"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "<object>",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c2060f4e-eabe-43bd-8919-ddcf3ac58116",
+              "name": "Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"filters\": {\n    \"ads\": [],\n    \"adsources\": [],\n    \"advertisers\": [],\n    \"ad_sources\": [],\n    \"ad_status\": [],\n    \"browser\": [],\n    \"country\": [],\n    \"connection_buy_type\": [],\n    \"creatives\": [],\n    \"device\": [],\n    \"formats\": [],\n    \"insertions\": [],\n    \"insertion_status\": [],\n    \"operating_system\": [],\n    \"packs\": [],\n    \"page\": [],\n    \"placements\": [\n      17270\n    ],\n    \"placement_status\": [],\n    \"publishers\": [],\n    \"scenarios\": [],\n    \"websites\": [],\n    \"date\": {\n      \"start\": \"2020-01-01T00:00:00+01:00\",\n      \"end\": \"2020-01-01T23:59:00+01:00\",\n      \"timezone\": \"Europe/Paris\"\n    }\n  },\n  \"dimensions\": [\n    \"day\",\n    \"placement\"\n  ],\n  \"metrics\": [\n    \"start\",\n    \"complete\",\n    \"click\",\n    \"impression\",\n    \"firstQuartile\",\n    \"midpoint\",\n    \"thirdQuartile\",\n    \"teads_billing\"\n  ],\n  \"emails\": [\n    \"myemail@teads.tv\"\n  ],\n  \"format\": \"xlsx\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"abcdefgh-cff2-4753-a08b-ee4587de4e9d\",\n  \"start\": \"2020-12-14T16:35:05.269Z\",\n  \"lastStatusUpdate\": \"2020-12-14T16:35:05.269Z\",\n  \"status\": \"queued\",\n  \"valid\": true,\n  \"reportProgress\": {\n    \"stepMax\": 4\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fea55dae-e607-4b92-8909-7bc848248625",
+              "name": "Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"filters\": {\n    \"ads\": [],\n    \"adsources\": [],\n    \"advertisers\": [],\n    \"ad_sources\": [],\n    \"ad_status\": [],\n    \"browser\": [],\n    \"country\": [],\n    \"connection_buy_type\": [],\n    \"creatives\": [],\n    \"device\": [],\n    \"formats\": [],\n    \"insertions\": [],\n    \"insertion_status\": [],\n    \"operating_system\": [],\n    \"packs\": [],\n    \"page\": [],\n    \"placements\": [\n      17270\n    ],\n    \"placement_status\": [],\n    \"publishers\": [],\n    \"scenarios\": [],\n    \"websites\": [],\n    \"date\": {\n      \"start\": \"2020-01-01T00:00:00+01:00\",\n      \"end\": \"2020-01-01T23:59:00+01:00\",\n      \"timezone\": \"Europe/Paris\"\n    }\n  },\n  \"dimensions\": [\n    \"day\",\n    \"placement\"\n  ],\n  \"metrics\": [\n    \"start\",\n    \"complete\",\n    \"click\",\n    \"impression\",\n    \"firstQuartile\",\n    \"midpoint\",\n    \"thirdQuartile\",\n    \"teads_billing\"\n  ],\n  \"emails\": [\n    \"myemail@teads.tv\"\n  ],\n  \"format\": \"xlsx\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"obj.dimensions.dimensions.filters.insertions[0]\": [\n    {\n      \"msg\": \"error.expected.jsnumber\",\n      \"args\": []\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bd89679c-d01e-4023-8674-b52bf8ebcbe8",
+              "name": "Unauthorized - missing or invalid OAuth bearer token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"filters\": {\n    \"ads\": [],\n    \"adsources\": [],\n    \"advertisers\": [],\n    \"ad_sources\": [],\n    \"ad_status\": [],\n    \"browser\": [],\n    \"country\": [],\n    \"connection_buy_type\": [],\n    \"creatives\": [],\n    \"device\": [],\n    \"formats\": [],\n    \"insertions\": [],\n    \"insertion_status\": [],\n    \"operating_system\": [],\n    \"packs\": [],\n    \"page\": [],\n    \"placements\": [\n      17270\n    ],\n    \"placement_status\": [],\n    \"publishers\": [],\n    \"scenarios\": [],\n    \"websites\": [],\n    \"date\": {\n      \"start\": \"2020-01-01T00:00:00+01:00\",\n      \"end\": \"2020-01-01T23:59:00+01:00\",\n      \"timezone\": \"Europe/Paris\"\n    }\n  },\n  \"dimensions\": [\n    \"day\",\n    \"placement\"\n  ],\n  \"metrics\": [\n    \"start\",\n    \"complete\",\n    \"click\",\n    \"impression\",\n    \"firstQuartile\",\n    \"midpoint\",\n    \"thirdQuartile\",\n    \"teads_billing\"\n  ],\n  \"emails\": [\n    \"myemail@teads.tv\"\n  ],\n  \"format\": \"xlsx\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 400,\n  \"msg\": \"REPORTING.ERROR.APPLICATION_NOT_FOUND\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "153aafa4-59da-4cfb-a98d-67a4251627dc",
+              "name": "Not Found - unknown report id",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"filters\": {\n    \"ads\": [],\n    \"adsources\": [],\n    \"advertisers\": [],\n    \"ad_sources\": [],\n    \"ad_status\": [],\n    \"browser\": [],\n    \"country\": [],\n    \"connection_buy_type\": [],\n    \"creatives\": [],\n    \"device\": [],\n    \"formats\": [],\n    \"insertions\": [],\n    \"insertion_status\": [],\n    \"operating_system\": [],\n    \"packs\": [],\n    \"page\": [],\n    \"placements\": [\n      17270\n    ],\n    \"placement_status\": [],\n    \"publishers\": [],\n    \"scenarios\": [],\n    \"websites\": [],\n    \"date\": {\n      \"start\": \"2020-01-01T00:00:00+01:00\",\n      \"end\": \"2020-01-01T23:59:00+01:00\",\n      \"timezone\": \"Europe/Paris\"\n    }\n  },\n  \"dimensions\": [\n    \"day\",\n    \"placement\"\n  ],\n  \"metrics\": [\n    \"start\",\n    \"complete\",\n    \"click\",\n    \"impression\",\n    \"firstQuartile\",\n    \"midpoint\",\n    \"thirdQuartile\",\n    \"teads_billing\"\n  ],\n  \"emails\": [\n    \"myemail@teads.tv\"\n  ],\n  \"format\": \"xlsx\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 400,\n  \"msg\": \"REPORTING.ERROR.APPLICATION_NOT_FOUND\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7084a3c7-8cd1-4fc6-a647-5ac49d91076d",
+              "name": "Too Many Requests - rate limit reached; a Retry-After header states the wait in seconds",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"filters\": {\n    \"ads\": [],\n    \"adsources\": [],\n    \"advertisers\": [],\n    \"ad_sources\": [],\n    \"ad_status\": [],\n    \"browser\": [],\n    \"country\": [],\n    \"connection_buy_type\": [],\n    \"creatives\": [],\n    \"device\": [],\n    \"formats\": [],\n    \"insertions\": [],\n    \"insertion_status\": [],\n    \"operating_system\": [],\n    \"packs\": [],\n    \"page\": [],\n    \"placements\": [\n      17270\n    ],\n    \"placement_status\": [],\n    \"publishers\": [],\n    \"scenarios\": [],\n    \"websites\": [],\n    \"date\": {\n      \"start\": \"2020-01-01T00:00:00+01:00\",\n      \"end\": \"2020-01-01T23:59:00+01:00\",\n      \"timezone\": \"Europe/Paris\"\n    }\n  },\n  \"dimensions\": [\n    \"day\",\n    \"placement\"\n  ],\n  \"metrics\": [\n    \"start\",\n    \"complete\",\n    \"click\",\n    \"impression\",\n    \"firstQuartile\",\n    \"midpoint\",\n    \"thirdQuartile\",\n    \"teads_billing\"\n  ],\n  \"emails\": [\n    \"myemail@teads.tv\"\n  ],\n  \"format\": \"xlsx\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Seconds to wait before retrying.",
+                  "key": "Retry-After",
+                  "value": "7239"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 400,\n  \"msg\": \"REPORTING.ERROR.APPLICATION_NOT_FOUND\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e076f639-8e07-4863-b619-7dc3ede04826",
+          "name": "Get report status",
+          "request": {
+            "name": "Get report status",
+            "description": {
+              "content": "Get the status of a report that is currently processing\n\nResponse JSON body attributes (list may not be exhaustive):\n\nlist[(Object)]:\n\n- \nid (String):  unique identifier\n\n- \nstatus (String):\n\n- queued Teads platform has put the report in the queue to be processed, this stage may vary depending on our resources availability\n- processing The report is now being computed\n- error An issue prevented the report from being computed, please look at message field for more details\n- finished The report is now finished, you can download the result at url field.\n- killed The report was canceled during its process\n\n- \nstart (Timestamp ISO 8601): timestamp when the report request was registered in Teads backend\n\n- \nreportProgress (Object): object containing report progress\n\n- stepMax (Number): number of steps to finish report\n- step (Number): current step in the report\n- progressMax (Number): max progress to finish step\n- progress (Number): current progress in the step",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "custom",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Report identifier returned by POST /custom."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2c78b342-6192-43b1-ba52-bacbbc312b5e",
+              "name": "Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Report identifier returned by POST /custom."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"abcdefgh-cff2-4753-a08b-ee4587de4e9d\",\n  \"start\": \"2020-12-14T16:35:05.269Z\",\n  \"lastStatusUpdate\": \"2020-12-14T16:35:05.269Z\",\n  \"status\": \"processing\",\n  \"valid\": true,\n  \"reportProgress\": {\n    \"stepMax\": 4,\n    \"step\": 1,\n    \"progress\": 1,\n    \"progressMax\": 2\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3128bf75-62c8-4161-aca5-449bc9898369",
+              "name": "Bad Request - malformed report definition; body carries the REPORTING.ERROR.* code",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Report identifier returned by POST /custom."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 400,\n  \"msg\": \"REPORTING.ERROR.APPLICATION_NOT_FOUND\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8b994ace-df94-4698-bf41-3409aa89babd",
+              "name": "Unauthorized - missing or invalid OAuth bearer token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Report identifier returned by POST /custom."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 400,\n  \"msg\": \"REPORTING.ERROR.APPLICATION_NOT_FOUND\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "da196583-869f-4127-a74b-5e4577cc9c9a",
+              "name": "Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Report identifier returned by POST /custom."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "The requested resource could not be found but may be available again in the future.",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c5959d9d-a8bd-4b92-a078-55a8934fbb41",
+              "name": "Too Many Requests - rate limit reached; a Retry-After header states the wait in seconds",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Report identifier returned by POST /custom."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Seconds to wait before retrying.",
+                  "key": "Retry-After",
+                  "value": "7239"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 400,\n  \"msg\": \"REPORTING.ERROR.APPLICATION_NOT_FOUND\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c18cea95-132d-4d93-adda-50b115880e47",
+          "name": "List processing reports",
+          "request": {
+            "name": "List processing reports",
+            "description": {
+              "content": "List reports that are currently processing.\n\nResponse JSON body attributes (list may not be exhaustive):\n\nlist[(Object)]:\n\n- \nid (String):  unique identifier\n\n- \nstatus (String):\n\n- queued Teads platform has put the report in the queue to be processed, this stage may vary depending on our resources availability\n- processing The report is now being computed\n\n- \nstart (Timestamp ISO 8601): timestamp when the report request was registered in Teads backend",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "running",
+                "list"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "17ba50ed-f044-48b5-8842-7be20b5adeea",
+              "name": "Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "running",
+                    "list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"abcdefgh-cff2-4753-a08b-ee4587de4e9d\",\n    \"status\": \"processing\",\n    \"start\": \"2020-01-28T07:37:55.273Z\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ff98bff9-1a67-494b-92a9-052a4b75e4e2",
+              "name": "Bad Request - malformed report definition; body carries the REPORTING.ERROR.* code",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "running",
+                    "list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 400,\n  \"msg\": \"REPORTING.ERROR.APPLICATION_NOT_FOUND\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "659fa836-d3cc-4632-84b8-7c41a228eee0",
+              "name": "Unauthorized - missing or invalid OAuth bearer token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "running",
+                    "list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 400,\n  \"msg\": \"REPORTING.ERROR.APPLICATION_NOT_FOUND\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a9f34f7d-76f6-4d20-a0bd-39dc7606ddba",
+              "name": "Not Found - unknown report id",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "running",
+                    "list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 400,\n  \"msg\": \"REPORTING.ERROR.APPLICATION_NOT_FOUND\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d47edc66-68cf-4b99-8806-aee640c4ee37",
+              "name": "Too Many Requests - rate limit reached; a Retry-After header states the wait in seconds",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "running",
+                    "list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Seconds to wait before retrying.",
+                  "key": "Retry-After",
+                  "value": "7239"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 400,\n  \"msg\": \"REPORTING.ERROR.APPLICATION_NOT_FOUND\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9e61a3dd-2af9-4bf4-b8bd-a45da3cd892d",
+          "name": "Cancel processing report",
+          "request": {
+            "name": "Cancel processing report",
+            "description": {
+              "content": "Cancel a report that is currently processing\n\nResponse JSON body attributes (list may not be exhaustive):\n\n- \nstatus (String):\n\n- killed The report was canceled during its process\n\n- \nid (String): unique identifier",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "custom",
+                ":id",
+                "kill"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Report identifier returned by POST /custom."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4a593706-74f1-4c9e-869b-d6d6e3421d23",
+              "name": "Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom",
+                    ":id",
+                    "kill"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Report identifier returned by POST /custom."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"killed\",\n  \"id\": \"{{report_id}}\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6899608f-4fa8-4267-8c41-66b66f288599",
+              "name": "Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom",
+                    ":id",
+                    "kill"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Report identifier returned by POST /custom."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 400,\n  \"msg\": \"REPORTING.ERROR.APPLICATION_NOT_FOUND\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cfd3f41a-5083-4cbe-b829-be2ca210bd8f",
+              "name": "Unauthorized - missing or invalid OAuth bearer token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom",
+                    ":id",
+                    "kill"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Report identifier returned by POST /custom."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 400,\n  \"msg\": \"REPORTING.ERROR.APPLICATION_NOT_FOUND\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c534c8c3-90d3-4826-a5f3-80515c0df017",
+              "name": "Not Found - unknown report id",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom",
+                    ":id",
+                    "kill"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Report identifier returned by POST /custom."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 400,\n  \"msg\": \"REPORTING.ERROR.APPLICATION_NOT_FOUND\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a6477d7a-1a38-4dfe-b737-788ae943d684",
+              "name": "Too Many Requests - rate limit reached; a Retry-After header states the wait in seconds",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "custom",
+                    ":id",
+                    "kill"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Report identifier returned by POST /custom."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Seconds to wait before retrying.",
+                  "key": "Retry-After",
+                  "value": "7239"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 400,\n  \"msg\": \"REPORTING.ERROR.APPLICATION_NOT_FOUND\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.teads.tv/v1/analytics",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "1b797758-b8ed-45f0-b054-eab4f76c8ce7",
+    "name": "Teads Report API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "About the company\nTeads, The Global Media Platform. We have united and empowered the best publishers in the world and distribute ads to over 1.5Bn people every month within professionally-produced content.\n\nFind out more on www.teads.com\n\nReport API v1\nReport API v1 requires an account on the platform with reporting rights to access the API. It relies on Teads OAuth for authentication. API users have to provide the authentication token in the Authorization HTTP header.\nThe API consists of one REST resource declined in 2 verbs:\nA POST triggers a report, to be processed asynchronously.\nA GET allows to poll the status of the previous request and to retrieve the results.\n\nDeprecation Notice\nReports with\n\n- \nuv flag will be deprecated starting January 1, 2024\n\n- \nexpanded finance metrics will be deprecated starting January 1, 2024, cf. the Finance metrics section\n\nAuthentication\nAll requests on Teads reporting APIs expect following headers:\n\n    \n         Header \n         Value \n    \n    \n         Authorization \n         Bearer {{OAuth bearer token}} \n    \n    \n         Content-Type \n         application/json \n    \n\nQuotas & Limits\nRate limit\nThis API is subject to a rate limit, applied for all routes.\nThe server will reject the request with a standard HTTP 429 error code and Retry-After header specifying how many seconds you have to wait for before attempting another request.\nThe wait duration between two reports may be up to 30min.\n\nThe number of reports concurrently running is limited to two (i.e. you cannot have more than two reports being generated at the same time). Server will return the REPORTING.ERROR.RUNNING_REPORT_QUOTA_REACHED error if this limit is reached.\nYou have to wait for previously requested reports to finish computing to request a new one, or cancel a processing report (see \"List processing reports\" and \"Cancel processing report\" sections).\n\nQuotas\nThe number of generated reports is limited to 50 per 24h sliding window. Server will return the REPORTING.ERROR.PAST_24H_REPORT_QUOTA_REACHED error if this quota is reached.\n\nReport period limits\nThere are limitations on the period (date.end - date.start) for a single report:\n\n- \nData before 2020 is not available.  Report will return the error REPORTING.ERROR.PERIOD_NOT_FULLY_AVAILABLE_IN_NEW_REPORTING_ENGINE otherwise.\n\n- \nMaximum period is 1 year. Report will return the error REPORTING.ERROR.REPORT_PERIOD_TOO_LONG otherwise.\n\n- \nReports with the uv dimension and a period greater than 100 days must use the day dimension. Report will return the error REPORTING.ERROR.UV_REPORT_PERIOD_TOO_LONG otherwise.\n\nSupport\nIf you need to reach our tech team for more information about API, please send us a message at api@teads.tv\n\nContact Support:\n Name: Teads API Support\n Email: api@teads.tv",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,471 @@
+{
+  "item": [
+    {
+      "id": "89a01a7c-11ab-4101-ba7a-6b48c2da8c3d",
+      "name": "PromotedLinks",
+      "description": {
+        "content": "Promoted link (ad creative) management",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1d3c119a-7dc7-443f-8709-8d306856375a",
+          "name": "List Promoted Links For A Campaign",
+          "request": {
+            "name": "List Promoted Links For A Campaign",
+            "description": {
+              "content": "Retrieve all promoted links (ad creatives) in a campaign.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "campaigns",
+                ":campaignId",
+                "promotedLinks"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "campaignId",
+                  "description": "(Required) Campaign identifier."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "aef184e9-7c82-4e90-b3a6-22ba0770d6a1",
+              "name": "A list of promoted links.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "campaigns",
+                    ":campaignId",
+                    "promotedLinks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "campaignId",
+                      "description": "(Required) Campaign identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "OB-TOKEN-V1",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"count\": 6517,\n  \"promotedLinks\": [\n    {\n      \"id\": \"string\",\n      \"campaignId\": \"string\",\n      \"text\": \"string\",\n      \"url\": \"https://CzjyMMyNMwnFl.pzttDxAM4Rz0iowCVaqGVMLr9.d6u5o5WZgxPjwbHFn,k3wRtapyqL5rCbZt2iiHTGzCD16t-zY0Ii\",\n      \"cachedImageUrl\": \"https://IQcKm.noSAcQpaDQffE8P0Bxh9fSyymv1IisFjeRftL,2rckC4xYwg3.\",\n      \"enabled\": false,\n      \"status\": \"approved\"\n    },\n    {\n      \"id\": \"string\",\n      \"campaignId\": \"string\",\n      \"text\": \"string\",\n      \"url\": \"http://bFPUUuIJaLXlHzAsNxUwhj.jlathhFes+VduMtvvCdjrETOZCid,61X8\",\n      \"cachedImageUrl\": \"https://icFdtOavyItLAgoQrHLU.fcaoWQ1E4xX2A.\",\n      \"enabled\": true,\n      \"status\": \"approved\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3ef48b4e-c8dc-4331-ab6c-748f252e1ca9",
+          "name": "Create A Promoted Link",
+          "request": {
+            "name": "Create A Promoted Link",
+            "description": {
+              "content": "Create a new promoted link inside a campaign.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "campaigns",
+                ":campaignId",
+                "promotedLinks"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "campaignId",
+                  "description": "(Required) Campaign identifier."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"<string>\",\n  \"url\": \"<uri>\",\n  \"imageUrl\": \"<uri>\",\n  \"enabled\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "42495f04-5553-4036-905b-552f021a6d6b",
+              "name": "Promoted link created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "campaigns",
+                    ":campaignId",
+                    "promotedLinks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "campaignId",
+                      "description": "(Required) Campaign identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "OB-TOKEN-V1",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"text\": \"<string>\",\n  \"url\": \"<uri>\",\n  \"imageUrl\": \"<uri>\",\n  \"enabled\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"campaignId\": \"string\",\n  \"text\": \"string\",\n  \"url\": \"http://NmtziwHxEkwmnNrkQrEhVSIiGfEn.svxfde0t3KqFHhO\",\n  \"cachedImageUrl\": \"https://j.qbGIajekduESgQ\",\n  \"enabled\": false,\n  \"status\": \"approved\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "368b121a-960b-40de-bfd5-cf9e1b4c7956",
+          "name": "Get A Promoted Link By Id",
+          "request": {
+            "name": "Get A Promoted Link By Id",
+            "description": {
+              "content": "Retrieve a single promoted link by its identifier.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "promotedLinks",
+                ":promotedLinkId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "promotedLinkId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "cc4d85b7-57cc-41e1-a451-7dac93a87a75",
+              "name": "A promoted link resource.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "promotedLinks",
+                    ":promotedLinkId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "promotedLinkId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "OB-TOKEN-V1",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"campaignId\": \"string\",\n  \"text\": \"string\",\n  \"url\": \"http://NmtziwHxEkwmnNrkQrEhVSIiGfEn.svxfde0t3KqFHhO\",\n  \"cachedImageUrl\": \"https://j.qbGIajekduESgQ\",\n  \"enabled\": false,\n  \"status\": \"approved\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "74766b9e-04f1-4160-8422-c80f4fdd45d7",
+          "name": "Update A Promoted Link",
+          "request": {
+            "name": "Update A Promoted Link",
+            "description": {
+              "content": "Update an existing promoted link.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "promotedLinks",
+                ":promotedLinkId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "promotedLinkId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"<string>\",\n  \"url\": \"<uri>\",\n  \"imageUrl\": \"<uri>\",\n  \"enabled\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "81d479eb-7033-42a2-a1d8-9db11029a27c",
+              "name": "Promoted link updated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "promotedLinks",
+                    ":promotedLinkId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "promotedLinkId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "OB-TOKEN-V1",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"text\": \"<string>\",\n  \"url\": \"<uri>\",\n  \"imageUrl\": \"<uri>\",\n  \"enabled\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.outbrain.com/amplify/v0.1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "OB-TOKEN-V1"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "50f7f0ed-f732-40ed-8686-6285489b193c",
+    "name": "Outbrain Amplify Authentication PromotedLinks API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Outbrain Amplify API enables advertisers, agencies, and technology partners to integrate Amplify campaign management and reporting into their own tools and platforms. The API is organized around core entities: Marketer (a customer account), Campaign (a collection of promoted links), PromotedLink (a single piece of promoted content), Budget, AudienceTargeting, and PerformanceBy* analytics resources for retrieving performance metrics.\n\n\nContact Support:\n Name: Outbrain Developer Center",
+      "type": "text/plain"
+    }
+  }
+}

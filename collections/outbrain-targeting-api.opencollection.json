@@ -1,0 +1,68 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Outbrain Amplify Authentication Targeting API",
+    "version": "0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "OB-TOKEN-V1",
+      "value": "{{OB-TOKEN-V1}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Targeting",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Audience Targeting For A Campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/campaigns/:campaignId/targeting/audience",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "path",
+                "description": "Campaign identifier."
+              }
+            ]
+          },
+          "docs": "Retrieve audience targeting (segments, geo, devices, OS, browsers) for a campaign."
+        },
+        {
+          "info": {
+            "name": "Update Audience Targeting For A Campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.outbrain.com/amplify/v0.1/campaigns/:campaignId/targeting/audience",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "path",
+                "description": "Campaign identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the audience targeting configuration for a campaign."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

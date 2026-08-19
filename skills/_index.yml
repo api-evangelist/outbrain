@@ -1,0 +1,26 @@
+generated: '2026-08-13'
+method: generated
+source: >
+  Grounded in openapi/outbrain-amplify-api-full-openapi.yml and
+  openapi/outbrain-teads-report-api-openapi.yml — both transcribed from the Outbrain- and
+  Teads-owned Apiary blueprints — plus conventions/outbrain-conventions.yml,
+  errors/outbrain-problem-types.yml, errors/outbrain-error-codes.yml and
+  rate-limits/outbrain-rate-limits.yml. Every operationId referenced was verified present in the
+  spec; none were invented.
+skills:
+  - file: outbrain-authenticate-and-list-marketers.md
+    name: Authenticate to the Outbrain Amplify API and list marketers
+    api: openapi/outbrain-amplify-api-full-openapi.yml
+    operations: [getLogin, getMarketers, getMarketersId]
+  - file: outbrain-create-campaign-and-promoted-links.md
+    name: Fund, launch and creative-load an Outbrain Amplify campaign
+    api: openapi/outbrain-amplify-api-full-openapi.yml
+    operations: [getMarketers, getCurrencies, createMarketersIdBudgets, createCampaigns, createCampaignsCampaignIdPromotedLinks, createCampaignsCampaignIdMultiplePromotedLinks, getCampaignsIdPromotedLinks, updateCampaignsId]
+  - file: outbrain-pull-campaign-performance.md
+    name: Pull Outbrain Amplify performance reporting
+    api: openapi/outbrain-amplify-api-full-openapi.yml
+    operations: [getReportsDataFreshness, getReportsFullDay, getReportsMarketersIdCampaigns, getReportsMarketersIdPromotedContent, getReportsMarketersIdPeriodic, getReportsMarketersIdPublishers, getReportsMarketersIdSections, getReportsMarketersIdGeo, getReportsAccountsPrimaryAccountIdMarketers]
+  - file: outbrain-run-teads-report.md
+    name: Run an asynchronous Teads analytics report
+    api: openapi/outbrain-teads-report-api-openapi.yml
+    operations: [createReport, getReportStatus, listProcessingReports, cancelReport]

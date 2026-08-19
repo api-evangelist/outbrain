@@ -1,0 +1,88 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Teads Report API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Reporting",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Processing report",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.teads.tv/v1/analytics/custom",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Trigger an asynchronous report processing\n\nResponse JSON body attributes:\n\n- \nid (String):  unique identifier\n\n- \nstart (Timestamp ISO 8601): timestamp when the report request was registered in Teads backend\n\n- \nlastStatusUpdate (Timestamp ISO 8601): timestamp of the last internal status update in Teads backend,\n\n- \nstatus (String): report status, it can following values:\n\n- queued Teads platform has put the report in the queue to be processed, this stage may vary depending on our resources avai"
+        },
+        {
+          "info": {
+            "name": "Get report status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.teads.tv/v1/analytics/custom/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Report identifier returned by POST /custom."
+              }
+            ]
+          },
+          "docs": "Get the status of a report that is currently processing\n\nResponse JSON body attributes (list may not be exhaustive):\n\nlist[(Object)]:\n\n- \nid (String):  unique identifier\n\n- \nstatus (String):\n\n- queued Teads platform has put the report in the queue to be processed, this stage may vary depending on our resources availability\n- processing The report is now being computed\n- error An issue prevented the report from being computed, please look at message field for more details\n- finished The report is"
+        },
+        {
+          "info": {
+            "name": "List processing reports",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.teads.tv/v1/analytics/running/list"
+          },
+          "docs": "List reports that are currently processing.\n\nResponse JSON body attributes (list may not be exhaustive):\n\nlist[(Object)]:\n\n- \nid (String):  unique identifier\n\n- \nstatus (String):\n\n- queued Teads platform has put the report in the queue to be processed, this stage may vary depending on our resources availability\n- processing The report is now being computed\n\n- \nstart (Timestamp ISO 8601): timestamp when the report request was registered in Teads backend"
+        },
+        {
+          "info": {
+            "name": "Cancel processing report",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.teads.tv/v1/analytics/custom/:id/kill",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Report identifier returned by POST /custom."
+              }
+            ]
+          },
+          "docs": "Cancel a report that is currently processing\n\nResponse JSON body attributes (list may not be exhaustive):\n\n- \nstatus (String):\n\n- killed The report was canceled during its process\n\n- \nid (String): unique identifier"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,101 @@
+generated: '2026-08-13'
+method: searched
+source: >
+  https://amplifyv01.docs.apiary.io/, https://teadsapi.docs.apiary.io/,
+  https://developers.teads.com/ (release-notes pages), and live probes of status.outbrain.com /
+  status.teads.com / status.teads.tv
+description: >
+  Version, deprecation and availability posture for the Outbrain (Teads) API surface. Outbrain
+  communicates change through dated entries in the API reference itself; there is no separate
+  deprecation policy document, no Sunset/Deprecation header support, no published SLA and no status
+  page on any host probed.
+versioning:
+  - api: Outbrain Amplify API
+    scheme: uri-path
+    current: v0.1
+    pattern: https://api.outbrain.com/amplify/v0.1/
+    docs: https://amplifyv01.docs.apiary.io/
+    note: >
+      The path version has never moved. Behaviour changes — including breaking ones such as the
+      2025-11-03 minimum-budget enforcement and the enabledCampaignsOnly default flip — are shipped
+      in place and announced as dated entries in the reference. An integrator has no version to pin.
+  - api: Teads Report API
+    scheme: uri-path
+    current: v1
+    pattern: https://api.teads.tv/v1/analytics
+    docs: https://teadsapi.docs.apiary.io/
+  - api: Teads mobile SDKs
+    scheme: semver
+    current:
+      ios: 6.2.0
+      android: 6.2.1
+      react_native: 6.2.0
+    docs: https://developers.teads.com/
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  note: >
+    No deprecation policy page, no notice window commitment and no RFC 8594 Sunset / Deprecation
+    header support was found on any host. Deprecations are announced as prose with a date, inline in
+    the reference.
+  announced_deprecations:
+    - api: Teads Report API
+      item: Reports using the uv flag
+      effective: '2024-01-01'
+      source: https://teadsapi.docs.apiary.io/
+    - api: Teads Report API
+      item: Expanded finance metrics
+      effective: '2024-01-01'
+      source: https://teadsapi.docs.apiary.io/
+    - component: Teads Flutter SDK sample
+      item: TeadsSDK-flutter repository marked Deprecated
+      last_activity: '2024-03-26'
+      source: https://github.com/teads/TeadsSDK-flutter
+    - component: react-native-teads-sdk-module (npm)
+      item: Superseded by teads-react-native
+      last_release: '2023-06-21'
+  breaking_changes_announced:
+    - date: '2025-10-16'
+      effective: '2025-11-03'
+      change: Minimum daily campaign budget raised from 20 to 25 USD, enforced on POST/PUT /budgets.
+    - date: '2024-12-22'
+      effective: '2025-01-31'
+      change: enabledCampaignsOnly reporting filter default changed from false to true.
+    - date: '2026-06-23'
+      component: Teads iOS SDK 6.2.0
+      change: TeadsAdPlacementType gained a banner case, breaking exhaustive switches.
+deprecated_operations: []
+sla:
+  url: null
+  uptime_target: null
+  note: No public SLA or uptime commitment published for the Amplify API or the Teads Report API.
+status_page: null
+status_page_probes:
+  - url: https://status.outbrain.com
+    result: DNS does not resolve
+  - url: https://status.teads.com
+    result: DNS does not resolve
+  - url: https://status.teads.tv
+    result: DNS does not resolve
+support:
+  - channel: Google Group (Amplify API)
+    url: https://groups.google.com/g/outbrain-amplifyapi
+    note: >
+      Outbrain's documented troubleshooting path. Support asks for the AMPLIFY-REQUEST-ID response
+      header value when reporting a problem.
+  - channel: Teads API email
+    url: mailto:api@teads.tv
+  - channel: Teads support centre
+    url: https://support.teads.com
+  - channel: Outbrain help centre
+    url: https://www.outbrain.com/help/
+data_freshness:
+  note: >
+    The Amplify API exposes its own reporting freshness contract as operations rather than as an SLA
+    document — GET /reports/dataFreshness and GET /reports/fullDay tell a caller how current the
+    reporting warehouse is.
+  operations:
+    - openapi/outbrain-amplify-api-full-openapi.yml#getReportsDataFreshness
+    - openapi/outbrain-amplify-api-full-openapi.yml#getReportsFullDay

@@ -1,0 +1,133 @@
+generated: '2026-08-13'
+method: searched
+source: >
+  npm registry metadata (registry.npmjs.org), CocoaPods trunk API, the Teads Artifactory Maven
+  repository (teads.jfrog.io) named by the Teads Android SDK install docs, and the install pages of
+  the Teads Developer Portal (developers.teads.com).
+description: >
+  Outbrain / Teads ships client libraries on the publisher / app-monetization side of its business —
+  mobile and cross-platform SDKs that render Teads and Outbrain ad placements. There is no
+  first-party server-side client library for the Amplify API (campaign management) or for the Teads
+  Report API in any package registry; both are documented as plain HTTP + JSON only. The Android SDK
+  is distributed from a Teads-operated Artifactory repository rather than Maven Central, so it has no
+  Maven Central metadata endpoint; the version below is read from that repository's maven-metadata.xml.
+packages:
+  - language: javascript
+    registry: npm
+    name: teads-react-native
+    url: https://www.npmjs.com/package/teads-react-native
+    install: npm install --save teads-react-native
+    official: true
+    version: 6.2.0
+    published: '2026-06-22'
+    source_code: https://github.com/teads/TeadsSDK-ReactNative
+    docs: https://developers.teads.com/docs/React-Native-SDK/Getting-Started/installation
+    note: Current first-party React Native SDK. Version tracks the native iOS/Android SDK train.
+  - language: javascript
+    registry: npm
+    name: outbrain-react-native
+    url: https://www.npmjs.com/package/outbrain-react-native
+    install: npm install outbrain-react-native
+    official: true
+    version: 1.0.1
+    published: '2025-07-21'
+    note: >
+      Outbrain SmartFeed widget component for React Native, published under the Outbrain GitHub
+      organisation. Last release predates the Teads SDK 6.x train by roughly a year.
+  - language: swift
+    registry: cocoapods
+    name: TeadsSDK
+    url: https://cocoapods.org/pods/TeadsSDK
+    install: "pod 'TeadsSDK', '~> 6.2'"
+    official: true
+    version: 6.2.0
+    published: '2026-06-23'
+    source_code: https://github.com/teads/TeadsSDK-iOS
+    docs: https://developers.teads.com/docs/iOS-SDK/Getting-Started/installation
+    note: >
+      124 published versions on the CocoaPods trunk. Also consumable via Swift Package Manager from
+      https://github.com/teads/TeadsSDK-iOS.git (.upToNextMajor(from "6.2.0")) and as a manually
+      downloaded TeadsSDK.xcframework.
+  - language: swift
+    registry: swift-package-manager
+    name: TeadsSDK-iOS
+    url: https://github.com/teads/TeadsSDK-iOS.git
+    install: '.package(url: "https://github.com/teads/TeadsSDK-iOS.git", .upToNextMajor(from: "6.2.0"))'
+    official: true
+    version: 6.2.0
+    published: '2026-06-23'
+    note: >
+      SwiftPM consumes the same GitHub releases as CocoaPods; version and date mirror the
+      CocoaPods trunk entry. SwiftPM has no central registry metadata endpoint to query.
+  - language: java
+    registry: maven
+    name: tv.teads.sdk.android:sdk
+    url: https://teads.jfrog.io/artifactory/SDKAndroid-maven-prod/tv/teads/sdk/android/sdk/
+    install: 'implementation("tv.teads.sdk.android:sdk:6.2.1@aar") { transitive = true }'
+    official: true
+    version: 6.2.1
+    published: '2026-08-05'
+    docs: https://developers.teads.com/docs/Android-SDK/Getting-Started/installation
+    repository: https://teads.jfrog.io/artifactory/SDKAndroid-maven-prod
+    source_code: https://github.com/teads/TeadsSDK-android
+    note: >
+      NOT on Maven Central (search.maven.org returns 0 results for g:tv.teads). Distributed from a
+      Teads-operated Artifactory repository that consumers must add to their Gradle repositories
+      block. Version and date read from that repository's maven-metadata.xml (<release>6.2.1</release>,
+      <lastUpdated>20260805092653</lastUpdated>) — note the install docs still show 6.2.0.
+  - language: javascript
+    registry: npm
+    name: react-native-teads-sdk-module
+    url: https://www.npmjs.com/package/react-native-teads-sdk-module
+    install: npm install react-native-teads-sdk-module
+    official: true
+    version: 0.0.2
+    published: '2023-06-21'
+    source_code: https://github.com/teads/TeadsSDK-ReactNative
+    status: superseded
+    note: >
+      Earlier first-party React Native package from the same repository, published as a test release
+      and superseded by teads-react-native. Left unmaintained since 2023 — recorded as a decay
+      signal, not as a recommended dependency.
+  - language: dart
+    registry: none
+    name: TeadsSDK-flutter
+    url: https://github.com/teads/TeadsSDK-flutter
+    official: true
+    version: null
+    published: null
+    status: deprecated
+    note: >
+      The Teads Flutter sample repository is marked "Deprecated" by Teads and was last pushed
+      2024-03-26. It was never published to pub.dev, so there is no registry metadata endpoint and
+      no version to record — checked, nothing to record.
+not_found:
+  - registry: pypi
+    query: outbrain
+    note: >
+      pypi.org/project/outbrain/ exists but is third-party — author Brian Mason
+      (bmsaon@simplereach.com), home page github.com/andessen/python-outbrain, last release 0.0.9
+      on 2015-05-12. Not an Outbrain-published SDK; deliberately excluded.
+  - registry: pypi
+    query: teads
+    status: 404
+  - registry: rubygems
+    query: outbrain, teads
+    status: 404
+  - registry: nuget
+    query: teads
+    status: 404
+  - registry: crates.io
+    query: teads
+    note: 0 results
+  - registry: maven-central
+    query: 'g:tv.teads'
+    note: 0 results — the Android SDK ships from Teads Artifactory instead.
+summary:
+  official_count: 7
+  languages: [javascript, swift, java, dart]
+  server_side_sdk: false
+  note: >
+    Every first-party package is a client-side ad-rendering SDK. The Amplify API and the Teads
+    Report API — the two campaign/reporting surfaces an integrator actually calls — ship no
+    official server-side client library in any language.

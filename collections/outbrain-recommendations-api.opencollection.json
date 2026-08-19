@@ -1,0 +1,68 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Outbrain Amplify Authentication Recommendations API",
+    "version": "0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "OB-TOKEN-V1",
+      "value": "{{OB-TOKEN-V1}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Recommendations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Recommendations For A Widget",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://odb.outbrain.com/utils/get",
+            "params": [
+              {
+                "name": "widgetJSId",
+                "value": "",
+                "type": "query",
+                "description": "The publisher widget ID (e.g. AR_1, AR_2)."
+              },
+              {
+                "name": "permalink",
+                "value": "",
+                "type": "query",
+                "description": "Canonical URL of the page rendering the widget."
+              },
+              {
+                "name": "publisherKey",
+                "value": "",
+                "type": "query",
+                "description": "Outbrain publisher key."
+              },
+              {
+                "name": "idx",
+                "value": "",
+                "type": "query",
+                "description": "Widget index on the page."
+              },
+              {
+                "name": "pageNum",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Fetch a set of recommended content items for a given publisher widget. Recommendations include both organic content and sponsored (paid) promoted links. Driven by the publisher key, widget ID, and the page URL.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

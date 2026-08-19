@@ -1,0 +1,42 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Outbrain Amplify Authentication API",
+    "version": "0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "OB-TOKEN-V1",
+      "value": "{{OB-TOKEN-V1}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Authenticate And Retrieve Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/login",
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Authenticate using HTTP Basic auth (Base64 of username:password) and receive an OB-TOKEN-V1 token to be sent in the OB-TOKEN-V1 header on subsequent requests. Rate limited to 2 requests per hour per user.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

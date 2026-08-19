@@ -1,0 +1,113 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Outbrain Amplify Authentication Reporting API",
+    "version": "0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "OB-TOKEN-V1",
+      "value": "{{OB-TOKEN-V1}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Reporting",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Performance Report By Campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/reports/marketers/:marketerId/campaigns",
+            "params": [
+              {
+                "name": "marketerId",
+                "value": "",
+                "type": "path",
+                "description": "Marketer (customer account) identifier."
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Start date of the report range (YYYY-MM-DD)."
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "End date of the report range (YYYY-MM-DD)."
+              },
+              {
+                "name": "breakdown",
+                "value": "",
+                "type": "query",
+                "description": "Breakdown dimension for the report."
+              }
+            ]
+          },
+          "docs": "Retrieve performance metrics (impressions, clicks, spend, conversions, CPA, CTR) aggregated by campaign for the given marketer and date range. Limited to 10 requests per minute per marketer.\n"
+        },
+        {
+          "info": {
+            "name": "Performance Report By Periodic Content",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/reports/marketers/:marketerId/periodicContent",
+            "params": [
+              {
+                "name": "marketerId",
+                "value": "",
+                "type": "path",
+                "description": "Marketer (customer account) identifier."
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Start date of the report range (YYYY-MM-DD)."
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "End date of the report range (YYYY-MM-DD)."
+              }
+            ]
+          },
+          "docs": "Retrieve performance by promoted link over a period."
+        },
+        {
+          "info": {
+            "name": "Real Time Performance Report",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/reports/marketers/:marketerId/realtime",
+            "params": [
+              {
+                "name": "marketerId",
+                "value": "",
+                "type": "path",
+                "description": "Marketer (customer account) identifier."
+              }
+            ]
+          },
+          "docs": "Retrieve real-time performance metrics for a marketer. Limited to 50 requests per minute per marketer.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

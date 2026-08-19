@@ -1,0 +1,56 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Outbrain Amplify Authentication Marketers API",
+    "version": "0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "OB-TOKEN-V1",
+      "value": "{{OB-TOKEN-V1}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Marketers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Marketers For The Authenticated User",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/marketers"
+          },
+          "docs": "Retrieve all marketers (customer accounts) accessible to the authenticated user."
+        },
+        {
+          "info": {
+            "name": "Get A Marketer By Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/marketers/:marketerId",
+            "params": [
+              {
+                "name": "marketerId",
+                "value": "",
+                "type": "path",
+                "description": "Marketer (customer account) identifier."
+              }
+            ]
+          },
+          "docs": "Retrieve a single marketer by its identifier."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

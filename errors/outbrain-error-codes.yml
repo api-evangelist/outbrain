@@ -1,0 +1,58 @@
+generated: '2026-08-13'
+method: searched
+source: https://teadsapi.docs.apiary.io/ (Teads Analytics API Blueprint, retrieved as https://jsapi.apiary.io/apis/teadsapi.apib)
+description: >
+  Named error codes the Teads Report API returns in the msg field of its error envelope. These are
+  quota, concurrency and reporting-period guards rather than transport errors — an agent driving the
+  asynchronous report flow will meet these long before it meets an HTTP-level failure. Captured
+  verbatim from the Teads-owned blueprint; only the codes the provider documents are listed.
+envelope_field: msg
+error_codes:
+  - code: REPORTING.ERROR.RUNNING_REPORT_QUOTA_REACHED
+    status: 400
+    meaning: More than two reports are being generated at the same time.
+    action: >
+      Wait for a previously requested report to finish, or cancel one with
+      PUT /custom/{id}/kill. GET /running/list shows what is currently processing.
+  - code: REPORTING.ERROR.PAST_24H_REPORT_QUOTA_REACHED
+    status: 400
+    meaning: The account generated more than 50 reports in the rolling 24-hour window.
+    action: Wait for the sliding window to clear; there is no documented way to raise the quota via the API.
+  - code: REPORTING.ERROR.PERIOD_NOT_FULLY_AVAILABLE_IN_NEW_REPORTING_ENGINE
+    status: 400
+    meaning: The requested report period reaches back before 2020, which the reporting engine does not serve.
+    action: Move date.start to 2020-01-01 or later.
+  - code: REPORTING.ERROR.REPORT_PERIOD_TOO_LONG
+    status: 400
+    meaning: date.end minus date.start exceeds the one-year maximum for a single report.
+    action: Split the request into consecutive periods of one year or less.
+  - code: REPORTING.ERROR.UV_REPORT_PERIOD_TOO_LONG
+    status: 400
+    meaning: A report using the uv (unique visitor) dimension covers more than 100 days without the day dimension.
+    action: >
+      Add the day dimension, or shorten the period to 100 days. Note the uv flag was announced for
+      deprecation from January 1, 2024.
+  - code: REPORTING.ERROR.APPLICATION_NOT_FOUND
+    status: 400
+    meaning: The referenced application/report could not be resolved.
+    action: Verify the report id returned by POST /custom.
+validation_errors:
+  shape: >
+    Field-level validation failures do not use the {status, msg} envelope. They return a map keyed by
+    the JSON path of the offending field, each value an array of {msg, args} objects.
+  example:
+    obj.dimensions.dimensions.filters.insertions[0]:
+      - msg: error.expected.jsnumber
+        args: []
+report_statuses:
+  - status: queued
+    meaning: Teads has put the report in the queue; time in this stage varies with resource availability.
+  - status: processing
+    meaning: The report is being computed.
+  - status: error
+    meaning: An issue prevented the report from being computed; the message field carries detail.
+  - status: finished
+    meaning: The report is complete and downloadable from the url field.
+  - status: killed
+    meaning: The report was cancelled during processing.
+support_contact: api@teads.tv

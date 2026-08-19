@@ -1,6 +1,7 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/outbrain-amplify-api-openapi.yml, openapi/outbrain-engage-api-openapi.yml, openapi/outbrain-teads-conversion-api-openapi.yml
+generated: '2026-08-13'
+method: searched
+source: https://amplifyv01.docs.apiary.io/ (Authentications section) and https://teadsapi.docs.apiary.io/ (Authentication
+  section), reconciled against the OpenAPI securitySchemes
 summary:
   types:
   - apiKey
@@ -8,27 +9,79 @@ summary:
   api_key_in:
   - header
   - query
+  oauth2_flows: []
+  note: The Amplify API does not use OAuth 2.0 — it issues an opaque proprietary token carried in a custom OB-TOKEN-V1
+    header. The Teads Report API uses an OAuth bearer token in a standard Authorization header, but Teads publishes
+    no authorization endpoint, token endpoint or scope vocabulary, so there is no OAuth scope surface to catalogue
+    for this provider.
 schemes:
 - name: OBTokenAuth
   type: apiKey
   in: header
   parameter: OB-TOKEN-V1
-  description: Token returned from /login. Send on all authenticated requests.
+  description: Token obtained from GET /login (HTTP Basic) or from https://my.outbrain.com/create-token. Valid for
+    30 days.
   sources:
-  - openapi/outbrain-amplify-api-openapi.yml
+  - openapi/outbrain-amplify-api-full-openapi.yml
+  - openapi/outbrain-authentication-api-openapi.yml
+  - openapi/outbrain-budgets-api-openapi.yml
+  - openapi/outbrain-campaigns-api-openapi.yml
+  - openapi/outbrain-conversions-api-openapi.yml
+  - openapi/outbrain-events-api-openapi.yml
+  - openapi/outbrain-marketers-api-openapi.yml
+  - openapi/outbrain-promotedlinks-api-openapi.yml
+  - openapi/outbrain-recommendations-api-openapi.yml
+  - openapi/outbrain-reporting-api-openapi.yml
+  - openapi/outbrain-targeting-api-openapi.yml
+  token_lifetime_days: 30
+  acquire:
+  - GET /login with HTTP Basic credentials
+  - https://my.outbrain.com/create-token (web form)
+  acquire_rate_limit: 2 requests per hour per user on /login
+  revocation: All tokens issued before an account password or email change are revoked. Issuing a new token does
+    not invalidate existing ones.
+  docs: https://amplifyv01.docs.apiary.io/
 - name: BasicAuth
   type: http
   scheme: basic
+  description: HTTP Basic credentials used only on GET /login to obtain an OB-TOKEN-V1 token.
   sources:
-  - openapi/outbrain-amplify-api-openapi.yml
+  - openapi/outbrain-amplify-api-full-openapi.yml
+  - openapi/outbrain-authentication-api-openapi.yml
+  - openapi/outbrain-budgets-api-openapi.yml
+  - openapi/outbrain-campaigns-api-openapi.yml
+  - openapi/outbrain-conversions-api-openapi.yml
+  - openapi/outbrain-events-api-openapi.yml
+  - openapi/outbrain-marketers-api-openapi.yml
+  - openapi/outbrain-promotedlinks-api-openapi.yml
+  - openapi/outbrain-recommendations-api-openapi.yml
+  - openapi/outbrain-reporting-api-openapi.yml
+  - openapi/outbrain-targeting-api-openapi.yml
+  scope: Used only on GET /login to mint an OB-TOKEN-V1 token; never sent on any other operation.
+- name: BearerAuth
+  type: http
+  scheme: bearer
+  description: Teads OAuth bearer token supplied in the Authorization header. Requires a Teads platform account
+    with reporting rights.
+  sources:
+  - openapi/outbrain-teads-report-api-openapi.yml
+  api: Teads Report API
+  header: 'Authorization: Bearer {token}'
+  requires: A Teads platform account with reporting rights.
+  docs: https://teadsapi.docs.apiary.io/
+  also_used_by: Teads Advertiser Conversion API (https://r.teads.tv) — see openapi/_original/outbrain-teads-conversion-api-openapi.yml
 - name: PublisherKeyAuth
   type: apiKey
   in: query
   parameter: publisherKey
+  api: Outbrain Engage API
+  description: Publisher installation key passed as a query parameter to the Engage recommendation endpoint on odb.outbrain.com.
   sources:
-  - openapi/outbrain-engage-api-openapi.yml
-- name: BearerAuth
-  type: http
-  scheme: bearer
-  sources:
-  - openapi/outbrain-teads-conversion-api-openapi.yml
+  - openapi/_original/outbrain-engage-api-openapi.yml
+docs:
+- https://amplifyv01.docs.apiary.io/
+- https://teadsapi.docs.apiary.io/
+- https://my.outbrain.com/create-token
+access_gate:
+  url: https://www.outbrain.com/partner-api/
+  note: Amplify API credentials are issued only to approved partners; the API is not self-serve.

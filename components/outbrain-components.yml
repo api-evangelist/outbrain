@@ -1,0 +1,78 @@
+generated: '2026-08-13'
+method: searched
+source: >
+  https://developers.teads.com/, https://developer.outbrain.com/outbrain-javascript-implementation-guide/,
+  https://developer.outbrain.com/apis/outbrain-js-api-guide/ and https://sdk.outbrain.com
+description: >
+  Outbrain (Teads) is unusual in that its client-side components ARE the product for one half of the
+  business: the publisher-side integration is a set of embeddable ad and recommendation surfaces
+  rather than a dashboard widget library. These are distinct from the server-side API surface and
+  from the mobile packages catalogued in packages/outbrain-packages.yml — this file records the
+  embeddable surfaces themselves and the loaders that mount them.
+families:
+  - name: Outbrain Web Widget (SmartFeed)
+    kind: script-embedded web widget
+    docs: https://developer.outbrain.com/outbrain-javascript-implementation-guide/
+    api_docs: https://developer.outbrain.com/apis/outbrain-js-api-guide/
+    loader: outbrain.js (OBR JS API)
+    mount: 'Container div carrying data-widget-id and data-src attributes, plus the outbrain.js loader script.'
+    components:
+      - name: SmartFeed
+        description: Infinite content-recommendation feed placed below or inside article content.
+      - name: Standard recommendation widget
+        description: Fixed-slot organic + paid recommendation grid addressed by widget id (e.g. MB_1, AR_1).
+    note: >
+      The loader script is referenced unpinned from the Outbrain CDN, so a publisher always receives
+      the current build. Version is therefore not observable from the embed — recorded as a fact
+      about the distribution, not a gap in this file.
+  - name: Teads Mobile SDK placements
+    kind: native mobile UI components
+    docs: https://developers.teads.com/
+    platforms: [ios, android, react-native]
+    packages_ref: packages/outbrain-packages.yml
+    components:
+      - name: inRead
+        description: In-article outstream video placement.
+      - name: Media placement
+        description: Video/display placement supporting landscape, vertical, square and carousel creatives.
+      - name: Native placement
+        description: Publisher-rendered native ad, styled by the host app.
+      - name: Anchored banner
+        description: Screen-anchored banner placement, added in SDK 6.2.0.
+      - name: Interstitial
+        description: Fullscreen placement with a preload/show/dismiss lifecycle, added in SDK 6.1.0.
+      - name: Feed placement
+        description: Outbrain feed surface embedded in a mobile app scroll view.
+  - name: Teads Conversational AI Ads SDK (In-Chat)
+    kind: conversational-surface component
+    status: public beta since 2025-11-12
+    docs: https://developers.teads.com/docs/Chatbot-AI-SDK/Getting-Started/
+    api: https://mv.outbrain.com/Multivac/api/in-chat-recs
+    description: >
+      Lets a chatbot or LLM publisher fetch contextually relevant sponsored recommendations and
+      render them inside a conversational UI. The backing In-Chat API v2.0 takes a partner key plus
+      one of contentUrl / bundleUrl / portalUrl, a widgetJSId placement identifier and optional
+      keywords / iabCategories / chat context, and returns recommendation sets grouped by engine
+      (catOrKeywords, embeddings, BrandDisplay) with tracking pixels and an optional display object
+      carrying ad creative HTML and Open Measurement flags.
+    components:
+      - name: In-chat recommendation set
+        description: Sponsored content items injected into the conversation stream.
+      - name: BrandDisplay creative
+        description: Display creative HTML returned in the optional display object.
+  - name: Google Tag Manager templates
+    kind: hosted tag templates
+    components:
+      - name: Teads GTM template
+        url: https://github.com/teads/teads-gtm-template
+      - name: Teads Advertiser Conversion API GTM server-side template
+        url: https://github.com/teads/teads-advertiser-conversion-api-gtm-template
+    note: >
+      Open-source, first-party, and the documented no-code route to the Teads Conversion API for
+      advertisers running server-side GTM.
+mediation_adapters:
+  note: >
+    Teads publishes prebuilt adapters so its placements can be mounted through third-party
+    mediation stacks rather than directly.
+  targets: [AdMob, AppLovin, Smart/Equativ, Prebid]
+  docs: https://developers.teads.com/docs/category/mediation

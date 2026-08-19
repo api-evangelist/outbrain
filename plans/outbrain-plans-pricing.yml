@@ -4,8 +4,23 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Outbrain (Teads)
 providerId: outbrain
 created: '2026-05-25'
-modified: '2026-05-25'
+modified: '2026-08-13'
 reconciled: true
+generated: '2026-08-13'
+method: searched
+plan_count: 4
+sourceUrls:
+  - https://www.outbrain.com/partner-api/
+  - https://amplifyv01.docs.apiary.io/
+  - https://www.teads.com/
+note: >
+  Outbrain publishes no SKU-style price list for API access. The Amplify API itself carries no fee —
+  it is admitted by partner application at https://www.outbrain.com/partner-api/ — and all money moves
+  through the underlying ad auction (CPC/CPM/CPV/CPCV) or a negotiated managed-service arrangement.
+  The tiers below are the commercial shapes Outbrain and Teads document, not published price points;
+  every price field reads "auction" or "negotiated" for that reason. The one hard published number is
+  the minimum campaign budget enforced by POST /budgets since 2025-11-03 — 25 USD daily, 750 USD
+  monthly, or 25 USD x campaign days — with per-currency equivalents exposed by GET /currencies.
 tags:
   - Advertising
   - Native Advertising

@@ -1,0 +1,999 @@
+FORMAT: 1A
+HOST: https://api.teads.tv/v1/analytics
+
+Teads API
+---
+
+## About the company
+
+Teads, The Global Media Platform. We have united and empowered the best publishers in the world and distribute ads to over 1.5Bn people every month within professionally-produced content.
+
+Find out more on <a href="http://www.teads.com">www.teads.com</a>
+
+## Report API v1
+
+Report API v1 requires an account on the platform with reporting rights to access the API. It relies on Teads OAuth for authentication. API users have to provide the authentication token in the Authorization HTTP header.
+The API consists of one REST resource declined in 2 verbs:
+A POST triggers a report, to be processed asynchronously.
+A GET allows to poll the status of the previous request and to retrieve the results.
+
+### Deprecation Notice
+
+Reports with
+ - <b>uv</b> flag will be deprecated starting January 1, 2024
+ - expanded finance metrics will be deprecated starting January 1, 2024, cf. the Finance metrics section
+
+### Authentication
+
+All requests on Teads reporting APIs expect following headers:
+
+<table>
+    <tr>
+        <td> Header </td>
+        <td> Value </td>
+    </tr>
+    <tr>
+        <td> Authorization </td>
+        <td> Bearer {{OAuth bearer token}} </td>
+    </tr>
+    <tr>
+        <td> Content-Type </td>
+        <td> application/json </td>
+    </tr>
+</table>
+
+## Quotas & Limits
+
+### Rate limit
+
+This API is subject to a rate limit, applied for all routes.
+The server will reject the request with a standard HTTP 429 error code and `Retry-After` header specifying how many seconds you have to wait for before attempting another request.
+The wait duration between two reports may be up to 30min.
+
+The number of reports concurrently running is limited to two (i.e. you cannot have more than two reports being generated at the same time). Server will return the `REPORTING.ERROR.RUNNING_REPORT_QUOTA_REACHED` error if this limit is reached.
+You have to wait for previously requested reports to finish computing to request a new one, or cancel a processing report (see "List processing reports" and "Cancel processing report" sections).
+
+
+### Quotas
+
+The number of generated reports is limited to 50 per 24h sliding window. Server will return the `REPORTING.ERROR.PAST_24H_REPORT_QUOTA_REACHED` error if this quota is reached.
+
+### Report period limits
+
+There are limitations on the period (date.end - date.start) for a single report:
+
+- Data before 2020 is not available.  Report will return the error `REPORTING.ERROR.PERIOD_NOT_FULLY_AVAILABLE_IN_NEW_REPORTING_ENGINE` otherwise.
+- Maximum period is 1 year. Report will return the error `REPORTING.ERROR.REPORT_PERIOD_TOO_LONG` otherwise.
+- Reports with the uv dimension and a period greater than 100 days must use the day dimension. Report will return the error `REPORTING.ERROR.UV_REPORT_PERIOD_TOO_LONG` otherwise.
+
+## Support
+If you need to reach our tech team for more information about API, please send us a message at api@teads.tv
+
+---
+
+## Processing report [POST /custom]
+
+Trigger an asynchronous report processing
+
+**Response JSON body attributes:**
+
+- id `(String)`:  unique identifier
+- start `(Timestamp ISO 8601)`: timestamp when the report request was registered in Teads backend
+- lastStatusUpdate `(Timestamp ISO 8601)`: timestamp of the last internal status update in Teads backend,
+- status `(String)`: report status, it can following values:
+  - **queued** Teads platform has put the report in the queue to be processed, this stage may vary depending on our resources availability
+  - **processing** The report is now being computed
+  - **error** An issue prevented the report from being computed, please look at message field for more details
+  - **finished** The report is now finished, you can download the result at url field.
+  - **killed** The report was canceled during its process
+- valid `(Boolean)`: true if the format and content report request is valid and is being process
+- reportProgress `(Object)`: object containing report progress
+  - stepMax `(Number)`: number of steps to finish report
+  - step `(Number)`: current step in the report
+  - progressMax `(Number)`: max progress to finish step
+  - progress `(Number)`: current progress in the step
+
+All filters, except for **date** are optional.  **emails** and **format** are also optional groups. If not present, they will use their "default" value which are presented in the example above.
+Filters fields are based on ids, ie use `placements : [ 1 ]` for filtering on placement with id 1.
+Exceptions are ***_status*** that take the status as stored in database, ie *1* for active and **format** which takes string format, ie *inread* for inread insertion/placement.
+
+Warning: **format** filtering can lead to long or failing requests, due to the amount of computing power it requires. If you encounter issues while using the **format** filter, we recommend dropping it and filtering afterwards if necessary.
+
+### Parameters
+
+<table>
+    <tr>
+        <td>parameter</td>
+        <td>type</td>
+        <td>default</td>
+        <td>required</td>
+        <td>description</td>
+    </tr>
+    <tr>
+        <td>dimensions</td>
+        <td>array(text)</td>
+        <td>-</td>
+        <td>Yes</td>
+        <td>List of dimensions to query by</td>
+    </tr>
+    <tr>
+        <td>filters.date.start</td>
+        <td>text</td>
+        <td>-</td>
+        <td>Yes</td>
+        <td>Lower-bound timestamp (ISO8601 format)</td>
+    </tr>
+    <tr>
+        <td>filters.date.end</td>
+        <td>text</td>
+        <td>-</td>
+        <td>Yes</td>
+        <td>Upper-bound timestamp (ISO8601 format)</td>
+    </tr>
+    <tr>
+        <td>filters.date.timezone</td>
+        <td>text</td>
+        <td>inferred from filters.date.start timestamp</td>
+        <td>-</td>
+        <td>The timezone you would like the report to be rendered in: used to resolve DST shifts (should be provided if filters.date.start is specified in UTC/GMT)</td>
+    </tr>
+    <tr>
+        <td>metrics</td>
+        <td>array(text)</td>
+        <td>-</td>
+        <td>Yes</td>
+        <td>List of metrics to return</td>
+    </tr>
+    <tr>
+        <td>emails</td>
+        <td>array(text)</td>
+        <td>[]</td>
+        <td>-</td>
+        <td>E-mail addresses of report recipients</td>
+    </tr>
+    <tr>
+        <td>filters.ad_sources</td>
+        <td>array(int)</td>
+        <td>[]</td>
+        <td>-</td>
+        <td>filter of adsource id (ex: Google DBM id "3")</td>
+    </tr>
+    <tr>
+        <td>filters.ad_status</td>
+        <td>array(int)</td>
+        <td>[]</td>
+        <td>-</td>
+        <td>filter on ad status id (ex: status "1", active)</td>
+    </tr>
+    <tr>
+        <td>filters.ads</td>
+        <td>array(int)</td>
+        <td>[]</td>
+        <td>-</td>
+        <td>filter on ad id (ex: ad id "1")</td>
+    </tr>
+    <tr>
+        <td>filters.adsources</td>
+        <td>array(int)</td>
+        <td>[]</td>
+        <td>-</td>
+        <td>filter on connection id (ex: connection id "1")</td>
+    </tr>
+    <tr>
+        <td>filters.advertisers</td>
+        <td>array(int)</td>
+        <td>[]</td>
+        <td>-</td>
+        <td>filter on advertiser id (ex: advertiser id "1")</td>
+    </tr>
+    <tr>
+        <td>filters.browser</td>
+        <td>array(text)</td>
+        <td>[]</td>
+        <td>-</td>
+        <td>filter on browser name (ex: browser "Chrome")</td>
+    </tr>
+    <tr>
+        <td>filters.connection_buy_type</td>
+        <td>array(text)</td>
+        <td>[]</td>
+        <td>-</td>
+        <td>filter on connection_buy_type (ex: type "rtb")</td>
+    </tr>
+    <tr>
+        <td>filters.country</td>
+        <td>array(text)</td>
+        <td>[]</td>
+        <td>-</td>
+        <td>(in ISO 3166-1 alpha-2 format, ex: US, FR)</td>
+    </tr>
+    <tr>
+        <td>filters.creatives</td>
+        <td>array(int)</td>
+        <td>[]</td>
+        <td>-</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>filter on creative id (ex: creative id "1")</td>
+    </tr>
+    <tr>
+        <td>filters.demand_source</td>
+        <td>array(text)</td>
+        <td>[]</td>
+        <td>-</td>
+        <td>filter on the type of demand ("direct sold", "programmatic")</td>
+    </tr>
+    <tr>
+        <td>filters.device</td>
+        <td>array(text)</td>
+        <td>[]</td>
+        <td>-</td>
+        <td>filter on device name (ex: device "Desktop")</td>
+    </tr>
+    <tr>
+        <td>filters.formats</td>
+        <td>array(text)</td>
+        <td>[]</td>
+        <td>-</td>
+        <td>filter on format name (ex: format "inread")</td>
+    </tr>
+    <tr>
+        <td>filters.insertion_status</td>
+        <td>array(int)</td>
+        <td>[]</td>
+        <td>-</td>
+        <td>filter on insertion status id (ex: status "1", active)</td>
+    </tr>
+    <tr>
+        <td>filters.insertions</td>
+        <td>array(int)</td>
+        <td>[]</td>
+        <td>-</td>
+        <td>filter on insertion id (ex: insertion id "1")</td>
+    </tr>
+    <tr>
+        <td>filters.operating_system</td>
+        <td>array(text)</td>
+        <td>[]</td>
+        <td>-</td>
+        <td>filter on OS name (ex: OS "Windows")</td>
+    </tr>
+    <tr>
+        <td>filters.packs</td>
+        <td>array(int)</td>
+        <td>[]</td>
+        <td>-</td>
+        <td>filter on pack id (ex: pack id "1")</td>
+    </tr>
+    <tr>
+        <td>filters.placement_status</td>
+        <td>array(int)</td>
+        <td>[]</td>
+        <td>-</td>
+        <td>filter on placement status id (ex: status "1", active)</td>
+    </tr>
+    <tr>
+        <td>filters.placements</td>
+        <td>array(int)</td>
+        <td>[]</td>
+        <td>-</td>
+        <td>filter on placement id (ex: placement id "1")</td>
+    </tr>
+    <tr>
+        <td>filters.publishers</td>
+        <td>array(int)</td>
+        <td>[]</td>
+        <td>-</td>
+        <td>filter on publisher id (ex: publisher id "1")</td>
+    </tr>
+    <tr>
+        <td>filters.scenarios</td>
+        <td>array(int)</td>
+        <td>[]</td>
+        <td>-</td>
+        <td>filter on scenario id (ex: scenario id "1")</td>
+    </tr>
+    <tr>
+        <td>filters.tags</td>
+        <td>array(text)</td>
+        <td>[]</td>
+        <td>-</td>
+        <td>filter on tag id (ex: tag id "1")</td>
+    </tr>
+    <tr>
+        <td>filters.websites</td>
+        <td>array(int)</td>
+        <td>[]</td>
+        <td>-</td>
+        <td>filter on website id (ex: website id "1")</td>
+    </tr>
+    <tr>
+        <td>format</td>
+        <td>text</td>
+        <td>xlsx</td>
+        <td>-</td>
+        <td>output format: [csv|jsonv1|xlsx]</td>
+    </tr>
+</table>
+
+### Output formats
+
+#### CSV
+That format value is **csv** in the payload.
+It's the recommended format for machine consumption.
+
+**Example**
+<pre>
+day,advertiser_billable_volume,teads_billing-usd
+2020-11-23T00:00:00Etc/GMT,30622,197.68621
+</pre>
+
+#### JSONV1 (JSON format)
+That format value is **jsonv1** in the payload.
+
+**Example**
+<pre>
+{
+    "filters": {
+        "placement": [
+            17270
+        ]
+    },
+    "dimensions": [
+        "day",
+        "placement"
+    ],
+    "metrics": [
+        "placementCall",
+        "start", "complete",
+        "click", "impression",
+        "firstQuartile",
+        "midpoint",
+        "thirdQuartile",
+        "teads_billing-eur"
+    ],
+    "date": {
+        "start": "2020/01/01 00:00:00 +00:00",
+        "end": "2020/01/01 23:59:59 +00:00"
+    },
+    "lines": [
+        [
+            "2020/01/01",
+            "17270 - Inread",
+            "1 000",
+            "99",
+            "5",
+            "2",
+            "98",
+            "100",
+            "50",
+            "20",
+            "0.40000\\ EUR"
+        ]
+    ],
+    "totals": [
+        "1 000",
+        "99",
+        "5",
+        "2",
+        "100",
+        "75",
+        "50",
+        "20",
+        "0.40000\\ EUR"
+    ]
+}
+</pre>
+
+#### XLSX
+That format value is **xlsx** in the payload.
+You may omit it as it's the default output format.
+XSLX is the Excel format. It's the most convenient output for customers that want to get an overview of their statistics. Teads manager users receive reports as XLSX files.
+
+### Dimensions
+#### **Publisher dimensions**
+#### Publisher
+- It's aggregating stats for all its websites or all its publishers in case of an adnetwork
+<table><tr><td>Reporting dimension</td><td>Definition</td></tr>
+</table>
+
+#### Website
+- It's aggregating stats for all its placements
+
+<table><tr><td>Reporting dimension</td><td>Definition</td></tr>
+<tr><td>website</td><td>the id & the name of the website</td></tr>
+<tr><td>website_domain</td><td>the domain of the website</td></tr>
+</table>
+
+#### Page
+- A page is integrated on a publisher’s website as a new generic tag. it only embeds one information from Teads, the pageId.
+
+<table><tr><td>Reporting dimension</td><td>Definition</td></tr>
+<tr><td>page</td><td>the id & the name of the page</td></tr>
+</table>
+
+#### Placement
+- it is a space in which are accessible data from all campaigns that are served on one specific script, on one or several pages from a website across one or several formats and environments
+
+<table><tr><td>Reporting dimension</td><td>Definition</td></tr>
+<tr><td>placement</td><td>the id & the name of the placement</td></tr>
+</table>
+
+#### Header bidding
+
+<table><tr><td>Reporting dimension</td><td>Definition</td></tr>
+<tr><td>hb_provider</td><td>Provider of the the Header Bidding implementation. null or N/A means the integration is not Header Bidding.</td></tr>
+</table>
+
+#### **Programmatic dimensions**
+#### Adsource
+- it is the "parent" of a connection, it's usually a DSP, VAST Compliant or the marketplace
+
+<table><tr><td>Reporting dimension</td><td>Definition</td></tr>
+<tr><td>adsource</td><td>the id & the name of the ad source</td></tr>
+</table>
+
+#### Connection
+- it is a specific adsource configuration for an entity using SSP
+
+<table><tr><td>Reporting dimension</td><td>Definition</td></tr>
+<tr><td>connection</td><td>the id & the name of the connection</td></tr>
+<tr><td>connection_type</td><td>it could be a rtb or fixed</td></tr>
+<tr><td>connection_is_moat</td><td>if moat is activated or not on the connection level</td></tr>
+</table>
+
+#### Scenario
+- it is a set of connection configurations to broadcast. Scenario is only usable for SSP stats.
+
+<table><tr><td>Reporting dimension</td><td>Definition</td></tr>
+<tr><td>scenario_id</td><td>the id of the scenario</td></tr>
+<tr><td>scenario_name</td><td>the name of the scenario</td></tr>
+</table>
+
+#### **Campaign dimensions**
+#### Advertiser
+- it is the brand for which the ad is advertising ex Coca, BMW or Mercedes.
+
+<table><tr><td>Reporting dimension</td><td>Definition</td></tr>
+<tr><td>advertiser</td><td>the id & the name of the advertiser</td></tr>
+<tr><td>advertiser_name</td><td>the name of the advertiser</td></tr>
+<tr><td>advertiser_domain</td><td>domain name of the advertiser</td></tr>
+</table>
+
+#### Agency
+- it is the agency responsible for an ad or a connection example Group M, Havas or Videology.
+
+<table><tr><td>Reporting dimension</td><td>Definition</td></tr>
+<tr><td>agency</td><td>the id & the name of the agency</td></tr>
+<tr><td>agency_name</td><td>the name of the agency</td></tr>
+</table>
+
+#### Ad
+- it is aggregating stats for all its insertions
+
+<table><tr><td>Reporting dimension</td><td>Definition</td></tr>
+<tr><td>ad</td><td>the id & the name of the ad</td></tr>
+<tr><td>ad_type</td><td>the type of the ad as defined in database, either managed, monitoring or agency</td></tr>
+<tr><td>ad_is_moat</td><td>if moat is activated or not on the ad level</td></tr>
+<tr><td>ad_is_test</td><td>if test is activated or not on the ad level</td></tr>
+</table>
+
+#### Insertion
+- it is a sub-division of a campaign with specific criteria (volume, targeting,capping, format etc…)
+
+<table><tr><td>Reporting dimension</td><td>Definition</td></tr>
+<tr><td>insertion</td><td>the id & the name of the insertion</td></tr>
+<tr><td>insertion_type</td><td>the type of the insertion, it can be either direct sold, intragroup or a self serve</td></tr>
+<tr><td>insertion_budget</td><td>the budget of the insertion as a number (no currency)</td></tr>
+<tr><td>insertion_start_date</td><td>the start date of the insertion</td></tr>
+<tr><td>insertion_end_date</td><td>the end date of the insertion</td></tr>
+<tr><td>insertion_volume_value</td><td>If a volume is defined on the insertion, this dimension prints the volume limit count ex volume at 60000 start prints "60000"</td></tr>
+<tr><td>insertion_volume_event</td><td>If a volume is defined on the insertion, this dimension prints the volume limit count ex volume at 60000 start prints "start"</td></tr>
+<tr><td>insertion_price_publisher</td><td>it is the buying price set up on the insertion level</td></tr>
+<tr><td>insertion_price_publisher_cpm</td><td>if a price is defined on the insertion, the buying price value is displayed as a cost per mille</td></tr>
+<tr><td>insertion_price_publisher_currency</td><td>If a price is defined on the insertion, this dimension prints the buying price currency ex price at 0.003$ on complete prints "USD"</td></tr>
+<tr><td>insertion_price_advertiser</td><td>it is the selling price set up on the insertion level</td></tr>
+<tr><td>insertion_price_advertiser_event</td><td>If a selling price is defined on the insertion, this dimension prints the selling price event ex price at 0.003$ on complete prints "complete"</td></tr>
+</table>
+
+#### Creative
+- it is a media element that corresponds to the ad.
+
+<table><tr><td>Reporting dimension</td><td>Definition</td></tr>
+<tr><td>creative</td><td>the id & the name of the creative</td></tr>
+</table>
+
+#### **Temporal dimensions**
+<table>
+<tr><td>Reporting dimension</td></tr>
+<tr><td>hour</td></tr>
+<tr><td>day</td></tr>
+<tr><td>week</td></tr>
+<tr><td>month</td></tr>
+<tr><td>quarter</td></tr>
+<tr><td>year</td></tr>
+</table>
+
+#### Country
+<table><tr><td>Reporting dimension</td><td>Definition</td></tr>
+<tr><td>country</td><td>the code & the name of the country</td></tr>
+<tr><td>country_code</td><td>the code of the country</td></tr>
+<tr><td>country_continent</td><td>the continent of the country</td></tr>
+</table>
+
+#### Device
+<table><tr><td>Reporting dimension</td><td>Definition</td></tr>
+<tr><td>device</td><td>it is extracted from the viewer user agent. Either Phone (Smartphone), IPTV,
+tablet or PC (default fallback)</td></tr>
+</table>
+
+#### Demand
+- This dimension aggregates the common attributes of connection and insertion dimensions.
+
+<table><tr><td>Reporting dimension</td><td>Definition</td></tr>
+<tr><td>demand</td><td>Displays the connection or insertion accordingly (id & name)</td></tr>
+<tr><td>demand_source</td><td>Indicates if a given row of your report is about a programmatic or an IO-based campaign</td></tr>
+<tr><td>demand_id</td><td>Displays the id of the connection or the insertion accordingly</td></tr>
+<tr><td>demand_name</td><td>Displays the name of the connection or the insertion accordingly</td></tr>
+<tr><td>demand_category</td><td>Indicates the format mode of the connection or insertion</td></tr>
+<tr><td>demand_start_mode</td><td>Indicates the start mode of the connection or insertion</td></tr>
+<tr><td>demand_type</td><td>Indicates the buying type of the connection or insertion</td></tr>
+<tr><td>demand_rule</td><td>Displays the rule of the connection or insertion accordingly</td></tr>
+<tr><td>demand_rule_id</td><td>Displays the rule id of the connection or insertion accordingly</td></tr>
+<tr><td>demand_rule_is_exelate</td><td>Indicates whether your connection or insertion has Exelate targeting</td></tr>
+<tr><td>demand_rule_is_grapeshot</td><td>Indicates whether your connection or insertion has Grapeshot targeting</td></tr>
+<tr><td>demand_rule_is_emetriq</td><td>Indicates whether your connection or insertion has Emetriq targeting</td></tr>
+<tr><td>demand_rule_is_bluekai</td><td>Indicates whether your connection or insertion has Bluekai targeting</td></tr>
+</table>
+
+#### Format
+
+<table><tr><td>Reporting dimension</td><td>Definition</td></tr>
+<tr><td>format_position</td><td>Position where the creative is displayed: inRead, inBoard, Smart or Slider</td></tr>
+<tr><td>format_size</td><td>Creative size: Landscape, Square, Vertical or MPU</td></tr>
+<tr><td>format_creative_type</td><td>Creative type: Video, 360, Carousel, Scroller, Flow, etc.</td></tr>
+<tr><td>format_creative_type_family</td><td>Creative family: Video, Viewable Display or Standard Display</td></tr>
+<tr><td>format</td><td>[deprecated] inRead or inBoard</td></tr>
+</table>
+
+#### Browser
+
+<table><tr><td>Reporting dimension</td><td>Definition</td></tr>
+<tr><td>browser</td><td>it is available as a whole. Stats are written for instance chrome, Internet explorer, firefox and safari</td></tr>
+</table>
+
+#### Operating_system
+
+<table><tr><td>Reporting dimension</td><td>Definition</td></tr>
+<tr><td>operating_system</td><td>it is the viewer operating system, the list is quite long but you are likely to read Windows, MacOS, Linux, Android...</td></tr>
+</table>
+
+#### Studio_creative
+
+<table><tr><td>Reporting dimension</td><td>Definition</td></tr>
+<tr><td>studio_creative_id</td><td>Studio creative id as defined in Teads Studio if used as it differs from the Teads Manager creative id</td></tr>
+</table>
+
+#### Studio_segment
+
+<table><tr><td>Reporting dimension</td><td>Definition</td></tr>
+<tr><td>studio_segment</td><td>Studio segment as defined in Teads Studio if used</td></tr>
+</table>
+
+#### Unique visitor
+
+<table>
+  <tr>
+    <td>Reporting dimension</td>
+    <td>Definition</td>
+  </tr>
+  <tr>
+    <td>uv</td>
+    <td>Not a dimension as such, but a flag to de-duplicate a few supported metrics by distinct visitor (based on cookies)
+        <b>This flag will be deprecated starting January 1, 2024</b>
+    </td>
+  </tr>
+</table>
+
+### Metrics
+Metrics data are updated around every 30 minutes.
+
+#### Publisher integration metrics
+
+<table>
+<tr><td>Reporting metric</td><td>Logged events</td><td>Definition</td></tr>
+<tr><td>placementCall</td><td>callJS + placementCall</td><td>Records that the script has been called by each placement of the webpage or app. This metric will replace callJS as a more descriptive metric.</td></tr>
+<tr><td>placementCapping</td><td>placementCapping</td><td>The placement capping has been reached.</td></tr>
+<tr><td>slot_available</td><td>slot_available + slotAvailable</td><td>The browser and device are compatible and a slot is available on the webpage. Will be phased out and replaced by slotAvailable)</td></tr>
+<tr><td>slotAvailable</td><td>slot_available + slotAvailable</td><td>The browser and device are compatible and a slot is available on the webpage (previously slot_available)</td></tr>
+<tr><td>adAvailable-success</td><td>adAvailable-success</td><td>The SSP responded with a compatible ad to serve</td></tr>
+<tr><td>adCall</td><td>adCall</td><td>An ad is called because the user has scrolled to the slot</td></tr>
+<tr><td>adNotAvailable-ivt-tag</td><td>adNotAvailable-ivt-tag</td><td>Our 3rd party partner TAG has declared the current session as invalid</td></tr>
+<tr><td>adNotAvailable-blockedSite-doubleVerify</td><td>adNotAvailable-blockedSite-doubleVerify</td><td>Our 3rd party partner DV has blacklisted this website</td></tr>
+<tr><td>adNotAvailable-ivt-doubleVerify</td><td>adNotAvailable-ivt-doubleVerify</td><td>Our 3rd party partner TAG has declared the current session as invalid</td></tr>
+<tr><td>integration-rate</td><td>slot_available / placementCall</td><td>Represents the efficiency of our script in finding a slot on your publishers' pages</td></tr>
+<tr><td>noSlot</td><td>noSlot + noSlot-selector + noSlot-filter + noSlot-avoid +noSlot-size + noSlot-BTF + noSlot-minimum + noSlot-minimumBelow + noSlot-content + noSlot-position</td><td>The slot defined could not be found on the page. it's the sum of the noSlot events. You may use noSlot-details to get the distribution. noSlot behavior on the legacy engine is the one from noSlot-details.</td></tr>
+<tr><td>noSlot-avoid</td><td>noSlot-avoid</td><td>There is a match to the avoidSlot defined in the script.</td></tr>
+<tr><td>noSlot-BTF</td><td>noSlot-BTF</td><td>The format could not find a slot below the fold.</td></tr>
+<tr><td>noSlot-content</td><td>noSlot-content</td><td>The format detects that the number of characters on the page is too low or it contains forbidden DOM elements (as defined in the format)</td></tr>
+<tr><td>noSlot-details</td><td>Display 9 columns with the following metrics: noSlot-selector, noSlot-filter, noSlot-avoid, noSlot-size, noSlot-BTF, noSlot-minimum, noSlot-minimumBelow, noSlot-content, noSlot-position</td><td>Defines slot errors based on the webpage structure (DOM). Selecting this metric in your report dimensions will display all noSlot-x metrics</td></tr>
+<tr><td>noSlot-DOM</td><td>noSlot-DOM</td><td>Will be phased out in phased out in favour of noSlot-selector</td></tr>
+<tr><td>noSlot-filter</td><td>noSlot-filter</td><td>There is a match to the filterdefined in the script.</td></tr>
+<tr><td>noSlot-minimum</td><td>noSlot-minimum + noSlot-MinSlot</td><td>There is no slot available below the minSlot defined in the script. noSlot-MinSlot will be phased out.</td></tr>
+<tr><td>noSlot-MinSlot</td><td>noSlot-MinSlot</td><td>Will be phased out in phased out in favour of noSlot-minimum</td></tr>
+<tr><td>noSlot-position</td><td>noSlot-position</td><td>the format detects if the top position of the slot meets the minimum format requirements and checks that the format will not distort the general page layout</td></tr>
+<tr><td>noSlot-selector</td><td>noSlot-selector + noSlot-DOM</td><td>The slot defined could not be found on the page. noSlot-DOM will be phased out and replaced by noSlot-selector.</td></tr>
+<tr><td>noSlot-size</td><td>noSlot-size</td><td>The format could not find a slot with acceptable size dimensions.</td></tr>
+<tr><td>passback</td><td> </td><td>Will be phased out in favour of passback-noAd or passback-integration.</td></tr>
+<tr><td>passback-noAd</td><td> </td><td>A noAd event has occurred and the publisher has defined a fallback in the placement settings</td></tr>
+</table>
+
+#### Campaign setup metrics
+
+<table>
+<tr>
+    <td>Reporting metric</td>
+    <td>Logged events</td>
+    <td>Definition</td>
+</tr>
+<tr>
+    <td>adCall</td>
+    <td>adCall</td>
+    <td>An ad is called because the user has scrolled to the slot</td>
+</tr>
+<tr>
+    <td>noAd</td>
+    <td>noAd-networkError + noAd-serverError + noAd-notFilled + Noad-badResponse + noAd-vast-code + noAd-settings + noAd-parseTimeout</td>
+    <td>The ad requested cannot be displayed due to errors</td>
+</tr>
+<tr>
+    <td>noAd-badResponse</td>
+    <td>noAd-badResponse</td>
+    <td>No ad is displayed because the JSON response is not correctly formatted.</td>
+</tr>
+<tr>
+    <td>noAd-details</td>
+    <td>Display 7 columns with the following metrics: noAd-networkError, noAd-serverError, noAd-notFilled, noAd-badResponse, noAd-vast-(code), noAd-settings, noAd-parseTimeout</td>
+    <td>Selecting this metric in your report dimensions will display all noAd-x metrics</td>
+</tr>
+<tr>
+    <td>noAd-exitPage</td>
+    <td>adCall - noAd - ad</td>
+    <td>The user exits the page before the ad can launch</td>
+</tr>
+<tr>
+    <td>noAd-networkError</td>
+    <td>noAd-networkError</td>
+    <td>No ad is displayed because the internet connection has been lost</td>
+</tr>
+<tr>
+    <td>noAd-notFilled</td>
+    <td>noAd-notFilled</td>
+    <td>The ad server has not find a suitable ad to serve</td>
+</tr>
+<tr>
+    <td>noAd-parseTimeout</td>
+    <td>noAd-parseTimeout</td>
+    <td>The time taken to parse the VAST is too long.</td>
+</tr>
+<tr>
+    <td>noAd-serverError</td>
+    <td>noAd-serverError</td>
+    <td>No ad is displayed because the server is not responding</td>
+</tr>
+<tr>
+    <td>noAd-settingsError</td>
+    <td>noAd-settingsError</td>
+    <td>The client cannot understand the placement settings returned by the ad server</td>
+</tr>
+<tr>
+    <td>noAd-vastError</td>
+    <td>noAd-vastError-(all code)</td>
+    <td>No ad is displayed because there is an error coming from the VAST, the error code is IAB.</td>
+</tr>
+<tr>
+    <td>noAdCall</td>
+    <td>slotAvailable - adCall</td>
+    <td>An ad is not called because the user has not scrolled to the slot</td>
+</tr>
+<tr>
+    <td>publisher-perf-rate</td>
+    <td>adCall / placementCall</td>
+    <td>Represents the efficiency of our integration in providing actual delivery opportunities</td>
+</tr>
+<tr>
+    <td>scroll-rate</td>
+    <td>adCall / slot_available</td>
+    <td>Represents the percentage of times where the user scrolled down to our slot on the page</td>
+</tr>
+</table>
+
+#### Tracking metrics
+
+<table>
+<tr><td>Reporting metric</td><td>Logged events</td><td>Definition</td></tr>
+<tr><td>errorVast</td><td>errorVast</td><td>This metric is not raised by the V3 format. It is replaced by adAvailable-error-vast-code and noAd-vastError-code</td></tr>
+<tr><td>focusOut</td><td>ad - impression</td><td>The user scrolls away before the format can fully load on the webpage</td></tr>
+<tr><td>impression</td><td>impression</td><td>The player is loaded onto the webpage.</td></tr>
+<tr><td>start</td><td>start</td><td>The first frame of the ad is displayed</td></tr>
+<tr><td>vastError</td><td>vastError</td><td>This metric is not raised by the V3 format. It is replaced by adAvailable-error-vast-code and noAd-vastError-code</td></tr>
+</table>
+
+##### Page metrics
+
+<table>
+<tr><td>Reporting metric</td><td>Logged events</td><td>Definition</td></tr>
+<tr><td>emptyPage</td><td>pageNoPlacement</td><td>The page does not contain any placement</td></tr>
+<tr><td>pageAvailable</td><td>pageTagResponse</td><td>The page has been set up and contains at least one placement</td></tr>
+<tr><td>pageCall</td><td>pageTagRequest</td><td>Records that the script has been called by the webpage or app</td></tr>
+</table>
+
+##### Progress metrics
+
+<table>
+<tr><td>Reporting metric</td><td>Logged events</td><td>Definition</td></tr>
+<tr><td>firstQuartile</td><td>firstQuartile</td><td>The ad has played up to the first quarter of the video</td></tr>
+<tr><td>midpoint</td><td>midpoint</td><td>The ad has played up to the halfway-point of the video</td></tr>
+<tr><td>thirdQuartile</td><td>thirdQuartile</td><td>The ad has played up to the third quarter of the video</td></tr>
+<tr><td>complete</td><td>complete</td><td>The ad has played to the end of the video</td></tr>
+<tr><td>progress-x</td><td>progress-1, progress-2, etc</td><td>The ad has played to x second of the video</td></tr>
+</table>
+
+#### User interaction metrics
+
+<table>
+<tr><td>Reporting metric</td><td>Logged events</td><td>Definition</td></tr>
+<tr><td>mute</td><td>mute</td><td>The user activated the mute control and muted the creative</td></tr>
+<tr><td>unmute</td><td>unmute</td><td>The user activated the mute control and un-muted the creative</td></tr>
+<tr><td>pause</td><td>pause</td><td>The user scrolled to a point at which the video is less than 50% visible</td></tr>
+<tr><td>resume</td><td>resume</td><td>The user scrolled to a point at which the video is more than 50% visible</td></tr>
+<tr><td>fullscreen</td><td>fullscreen</td><td>The user activates the full-screen mode (device only)</td></tr>
+<tr><td>exit-fullscreen</td><td>exit-fullscreen</td><td>The user de-activates the full-screen mode (device only)</td></tr>
+<tr><td>ClickTracking</td><td>ClickTracking</td><td>The user clicks within the video frame while the Linear ad is played</td></tr>
+<tr><td>Click-call-button</td><td>Click-call-button</td><td>The user clicks on the end-screen click-to-action (Learn More) button</td></tr>
+<tr><td>Click-replay</td><td>Click-replay</td><td>The user clicks on the end-screen 'Replay' button</td></tr>
+<tr><td>Close</td><td>Close</td><td>The user clicks on the close button</td></tr>
+</table>
+
+#### Programmatic metrics
+
+<table>
+<tr><td>Reporting metric</td><td>Logged events</td><td>Definition</td></tr>
+<tr><td>ssp_auction</td><td>ssp_auction</td><td>Number of auctions triggered (only available for placements)</td></tr>
+<tr><td>ssp_bidrequest</td><td>ssp_bidrequest</td><td>Number of bid requests we made to the DSP</td></tr>
+<tr><td>dsp_response_bid</td><td>dsp_response_bid</td><td>Number of valid bid from the DSP</td></tr>
+<tr><td>dsp_response_error</td><td>dsp_response_error</td><td>Number of bid responses which resulted in an error (unable to get a bid)</td></tr>
+<tr><td>dsp_response_filtered</td><td>dsp_response_filtered</td><td>Number of bid responses which resulted in a filtering (invalid bid)</td></tr>
+<tr><td>dsp_response_declined</td><td>dsp_response_declined</td><td>Number of bids that were declined by the DSP (the DSP isn't interested by the deal)</td></tr>
+<tr><td>ssp_timeout</td><td>ssp_timeout</td><td>Number of timeouts on ssp_bidrequest, i.e. it took too long for the DSP to answer to the bid request</td></tr>
+<tr><td>ssp_auctionwon</td><td>ssp_auctionwon</td><td>Number of won auctions</td></tr>
+<tr><td>dsp_response-rate</td><td>dsp_response_bid / ssp_bidrequest</td><td>Represents the ratio of bid response we receive from a dsp over the number of bidrequests we send</td></tr>
+<tr><td>ssp_win-rate</td><td>ssp_auctionwon / ssp_bidrequest</td><td>Represents the ratio of auction won by a dsp over the number of bidrequests we send to him</td></tr>
+</table>
+
+#### Finance metrics
+
+<table>
+<tr><td>Logged events</td><td>Definition</td></tr>
+<tr><td>teads_billing</td><td>Teads billing is the amount paid by Teads to a publisher. Practically, it contains all the money Teads owe the publisher regardless of if it's part of the margin activity or collect & fee activity.</td></tr>
+<tr><td>income</td><td>Income is the amount of money that a publisher generates through Teads platform. Practically, income = teads_billing + self served direct sold. If the publisher is a managed service income = teads_billing.</td></tr>
+</table>
+
+There are 3 ways of getting finance metrics:
+
+##### Currency dimension with value metric
+
+This method allows you to fetch currency as dimension and the metric value in its own column.
+
+Example:
+
+<table>
+<tr><td>income_currency</td><td>income_value</td></tr>
+<tr><td>EUR</td><td>0.1234</td></tr>
+<tr><td>USD</td><td>0.5678</td></tr>
+</table>
+
+##### Converted metrics
+
+This method allows you to have the sum of all currencies in a single column converted in the selected currency.
+
+Example:
+
+<table>
+<tr><td>income_converted_usd</td></tr>
+<tr><td>1.234</td></tr>
+<tr><td>5.678</td></tr>
+</table>
+
+##### Expanded metrics (Deprecated)
+
+income, along with all currency based finance metrics, is dynamic, meaning that you may get multiple metrics as the result.
+Some publishers/adnetworks are working with Teads with multiple currencies and therefore might be billed in several currencies.
+So that depending on the report they are doing, they might get different results. Currency codes used are based on ISO 4217.
+
+These metrics are designed to work, with "income" as an example, as follows:
+- The account doesn't have any income, we return "income" metric with "0"
+- The account has only USD currency on income, we return a single metric as "income-usd"
+- The account has 2 or more currencies on income, we return multiple columns like "income-usd", "income-eur" and "income-gbp"
+
+Expanded metrics "teads_billing" and "income" will be deprecated starting January 1, 2024.
+Starting January 1, 2024, expanded metrics will not return one column per currency in use, but one column for each of the 37 currencies that are supported by Teads, regardless of their usage.
+We recommend to use one of the two other finance metrics methods above (Currency dimensions with Value metric or Converted metrics)
+
+##### Specific currency metrics
+
+You can request a currency specific income part by directly requesting it such as "income-usd".
+However if multiple currencies are involved and you would like to get all revenues in a single currency, you can request the converted version "income_converted_usd" (which won't expand).
+
+##### billable metrics
+
+<table>
+<tr><td>Logged events</td><td>Definition</td></tr>
+<tr><td>publisher_billable_volume</td><td>Amount of events that require payment to the publisher</td></tr>
+<tr><td>advertiser_billable_volume</td><td>Amount of events that require payment from the advertiser</td></tr>
+</table>
+
+
++ Request (application/json)
+    + Headers
+
+            Authorization: Bearer {{OAuth bearer token}}
+    + Body
+
+            {
+            "filters": {
+              "ads": [],
+              "adsources": [],
+              "advertisers": [],
+              "ad_sources": [],
+              "ad_status": [],
+              "browser": [],
+              "country": [],
+              "connection_buy_type": [],
+              "creatives": [],
+              "device": [],
+              "formats": [],
+              "insertions": [],
+              "insertion_status": [],
+              "operating_system": [],
+              "packs": [],
+              "page": [],
+              "placements": [17270],
+              "placement_status": [],
+              "publishers": [],
+              "scenarios": [],
+              "websites": [],
+              "date": {
+                  "start": "2020-01-01T00:00:00+01:00",
+                  "end": "2020-01-01T23:59:00+01:00",
+                  "timezone": "Europe/Paris"
+              }
+            },
+            "dimensions": ["day", "placement"],
+            "metrics": ["start", "complete", "click", "impression", "firstQuartile", "midpoint", "thirdQuartile", "teads_billing"],
+            "emails": ["myemail@teads.tv"],
+            "format": "xlsx"
+            }
+
++ Response 200 (application/json)
+
+        {
+        "id": "abcdefgh-cff2-4753-a08b-ee4587de4e9d",
+        "start": "2020-12-14T16:35:05.269Z",
+        "lastStatusUpdate": "2020-12-14T16:35:05.269Z",
+        "status": "queued",
+        "valid": true,
+        "reportProgress": {
+          "stepMax": 4
+          }
+        }
+
++ Response 400 (application/json)
+
+        {
+        "obj.dimensions.dimensions.filters.insertions[0]" : [ {
+          "msg" : "error.expected.jsnumber",
+          "args" : [ ]
+          } ]
+        }
+
+## Get report status [GET /custom/{id}]
+Get the status of a report that is currently processing
+
+**Response JSON body attributes (list may not be exhaustive):**
+
+`list[(Object)]`:
+- id `(String)`:  unique identifier
+- status `(String)`:
+  - **queued** Teads platform has put the report in the queue to be processed, this stage may vary depending on our resources availability
+  - **processing** The report is now being computed
+  - **error** An issue prevented the report from being computed, please look at message field for more details
+  - **finished** The report is now finished, you can download the result at url field.
+  - **killed** The report was canceled during its process
+- start `(Timestamp ISO 8601)`: timestamp when the report request was registered in Teads backend
+- reportProgress `(Object)`: object containing report progress
+  - stepMax `(Number)`: number of steps to finish report
+  - step `(Number)`: current step in the report
+  - progressMax `(Number)`: max progress to finish step
+  - progress `(Number)`: current progress in the step
+
++ Request (application/json)
+    + Headers
+
+            Authorization: Bearer {{OAuth bearer token}}
+
++ Response 200 (application/json)
+
+        {
+        "id": "abcdefgh-cff2-4753-a08b-ee4587de4e9d",
+        "start": "2020-12-14T16:35:05.269Z",
+        "lastStatusUpdate": "2020-12-14T16:35:05.269Z",
+        "status": "processing",
+        "valid": true,
+        "reportProgress": {
+          "stepMax": 4,
+          "step": 1,
+          "progress": 1,
+          "progressMax": 2
+          }
+        }
+
++ Response 404 (text)
+
+        The requested resource could not be found but may be available again in the future.
+
+## List processing reports [GET /running/list]
+List reports that are currently processing.
+
+**Response JSON body attributes (list may not be exhaustive):**
+
+`list[(Object)]`:
+- id `(String)`:  unique identifier
+- status `(String)`:
+  - **queued** Teads platform has put the report in the queue to be processed, this stage may vary depending on our resources availability
+  - **processing** The report is now being computed
+- start `(Timestamp ISO 8601)`: timestamp when the report request was registered in Teads backend
+
++ Request (application/json)
+    + Headers
+
+            Authorization: Bearer {{OAuth bearer token}}
+
++ response 200 (application/json)
+
+        [
+            {
+                "id": "abcdefgh-cff2-4753-a08b-ee4587de4e9d",
+                "status": "processing",
+                "start": "2020-01-28T07:37:55.273Z"
+            }
+        ]
+
+## Cancel processing report [PUT /custom/{id}/kill]
+Cancel a report that is currently processing
+
+**Response JSON body attributes (list may not be exhaustive):**
+
+- status `(String)`:
+  - **killed** The report was canceled during its process
+- id `(String)`: unique identifier
+
++ Request (application/json)
+    + Headers
+
+            Authorization: Bearer {{OAuth bearer token}}
+
++ response 200 (application/json)
+
+         {
+           "status": "killed",
+           "id": "{{report_id}}"
+         }
+
++ response 400 (application/json)
+
+        {
+          "status" : 400,
+          "msg" : "REPORTING.ERROR.APPLICATION_NOT_FOUND"
+        }

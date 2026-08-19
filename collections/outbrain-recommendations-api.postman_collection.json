@@ -1,0 +1,180 @@
+{
+  "item": [
+    {
+      "id": "c0fb64e0-75a6-4e89-a5f5-35c4dd442c7f",
+      "name": "Recommendations",
+      "description": {
+        "content": "Retrieve content recommendations",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d514b784-1dfc-45be-afc2-4fdd9722d320",
+          "name": "Get Recommendations For A Widget",
+          "request": {
+            "name": "Get Recommendations For A Widget",
+            "description": {
+              "content": "Fetch a set of recommended content items for a given publisher widget. Recommendations include both organic content and sponsored (paid) promoted links. Driven by the publisher key, widget ID, and the page URL.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "utils",
+                "get"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "widgetJSId",
+                  "value": "<string>",
+                  "description": "(Required) The publisher widget ID (e.g. AR_1, AR_2)."
+                },
+                {
+                  "disabled": false,
+                  "key": "permalink",
+                  "value": "<uri>",
+                  "description": "(Required) Canonical URL of the page rendering the widget."
+                },
+                {
+                  "disabled": false,
+                  "key": "publisherKey",
+                  "value": "<string>",
+                  "description": "(Required) Outbrain publisher key."
+                },
+                {
+                  "disabled": false,
+                  "key": "idx",
+                  "value": "<integer>",
+                  "description": "Widget index on the page."
+                },
+                {
+                  "disabled": false,
+                  "key": "pageNum",
+                  "value": "<integer>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "88a2b78a-2fa6-430c-98c5-8adc8ddbf485",
+              "name": "Recommendations payload.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "utils",
+                    "get"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "widgetJSId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "permalink",
+                      "value": "<uri>"
+                    },
+                    {
+                      "key": "publisherKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "idx",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "pageNum",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "OB-TOKEN-V1",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": {\n    \"success\": false,\n    \"id\": \"string\"\n  },\n  \"settings\": {},\n  \"response\": {\n    \"recommendations\": [\n      {\n        \"id\": \"string\",\n        \"content\": \"string\",\n        \"url\": \"https://BWaTDuVWqarmgNSRoRsKjOQddRwpqhKa.cst.mWkcRJjIVG\",\n        \"thumbnail\": {\n          \"url\": \"https://VctYnmWstqRurbiY.gbh8Coy1zvBTBY6YYUL0fOHP3yTg84FzYJxcCvddWDScb89L8F8OYH9wDSnNIX2Xsj\",\n          \"width\": 5218,\n          \"height\": 6985\n        },\n        \"origin\": \"PAID\",\n        \"source_name\": \"string\",\n        \"publish_date\": \"1990-06-13T15:05:30.587Z\",\n        \"disclosure\": {\n          \"informationUrl\": \"http://N.fbLDsaEJHc\",\n          \"prefix\": \"string\"\n        }\n      },\n      {\n        \"id\": \"string\",\n        \"content\": \"string\",\n        \"url\": \"http://xQbEmcwuSkgUZJRlNSspF.nwSDKUiW4wSsc3gCo,-JfhaDWlRDu3SUzf4eNmyLm6WOM\",\n        \"thumbnail\": {\n          \"url\": \"http://aKMNhVviv.dwUW7Ec.TnyjQT8n8ziObUmPhIhP7.YGaTlvaXG9BX9gHC,WTDEh,B\",\n          \"width\": 5166,\n          \"height\": 7599\n        },\n        \"origin\": \"ORGANIC\",\n        \"source_name\": \"string\",\n        \"publish_date\": \"1966-02-02T18:25:06.737Z\",\n        \"disclosure\": {\n          \"informationUrl\": \"http://redTvkoTsvncYffOTmhbgxOMkLzsUqsUu.deC8PnE7OPynKBsKl0,G+mMjUB.8aE+VF\",\n          \"prefix\": \"string\"\n        }\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://odb.outbrain.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "OB-TOKEN-V1"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "6759b70f-6a25-4939-857b-912640e2b2d5",
+    "name": "Outbrain Amplify Authentication Recommendations API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Outbrain Amplify API enables advertisers, agencies, and technology partners to integrate Amplify campaign management and reporting into their own tools and platforms. The API is organized around core entities: Marketer (a customer account), Campaign (a collection of promoted links), PromotedLink (a single piece of promoted content), Budget, AudienceTargeting, and PerformanceBy* analytics resources for retrieving performance metrics.\n\n\nContact Support:\n Name: Outbrain Developer Center",
+      "type": "text/plain"
+    }
+  }
+}

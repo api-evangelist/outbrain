@@ -1,0 +1,191 @@
+generated: '2026-08-13'
+method: searched
+source: >
+  https://amplifyv01.docs.apiary.io/ (Outbrain-owned Apiary blueprint, retrieved as
+  https://jsapi.apiary.io/apis/amplifyv01/apiaryDocument.json, last updated 2026-08-13),
+  https://teadsapi.docs.apiary.io/ (Teads Analytics blueprint), and
+  openapi/outbrain-amplify-api-full-openapi.yml
+description: >
+  Cross-cutting request/response semantics for the two Outbrain (Teads) HTTP APIs an integrator
+  actually calls: the Outbrain Amplify API (campaign management + performance reporting) and the
+  Teads Report API (asynchronous analytics). The two surfaces do NOT share conventions — different
+  auth, different error envelopes, different rate-limit signals — so each is recorded separately.
+apis:
+  - name: Outbrain Amplify API
+    base_url: https://api.outbrain.com/amplify/v0.1
+    docs: https://amplifyv01.docs.apiary.io/
+
+    authentication:
+      style: opaque token in a custom header
+      header: OB-TOKEN-V1
+      acquire: GET /login with HTTP Basic credentials, or the web form at https://my.outbrain.com/create-token
+      token_lifetime: 30 days
+      notes: >
+        Multiple concurrent tokens are allowed and generating a new token does not invalidate older
+        ones. Changing the account password or email revokes every token issued before the change.
+        Because /login is capped at 2 requests per hour per user, the documented pattern is to store
+        one active token and refresh it on a cadence of 30 days or less.
+
+    content_type:
+      request: application/json (required on every POST/PUT carrying an entity)
+      response: application/json
+
+    pagination:
+      style: offset
+      params:
+        limit: Maximum number of records to return.
+        offset: Zero-based index of the first record to return.
+      applies_to: >
+        Campaign listing, promoted-link listing, promoted-link-sequence listing and every
+        /reports/* endpoint.
+      response_fields:
+        - count
+        - totalCount
+      note: No cursor or link-header pagination; there is no documented maximum page size.
+
+    field_expansion:
+      style: opt-in field sets
+      param: extraFields
+      description: >
+        Several read endpoints accept an extraFields query parameter that adds otherwise-omitted
+        blocks to the representation — e.g. extraFields=Account on the Marketer entity returns the
+        primary account id needed by the marketers performance report, and
+        extraFields=LogoMetaData returns per-ad brand logo metadata on a PromotedLink.
+      applies_to:
+        - GET /marketers/{id}
+        - PUT /marketers/{id}
+        - GET /campaigns/{id}
+        - PUT /campaigns/{id}
+        - POST /campaigns
+        - GET /campaigns/{campaignIds}/multiple
+        - GET /marketers/{id}/campaigns
+
+    request_tracing:
+      header: AMPLIFY-REQUEST-ID
+      direction: response
+      format: UUID
+      example: 45903f98-279b-4dc9-be81-91f3b7782a39
+      usage: >
+        Outbrain's own troubleshooting instructions ask integrators to attach this header value when
+        reporting a problem to the Amplify API Google group — it is the correlation id support uses
+        to find the request.
+
+    versioning:
+      scheme: uri-path
+      current: v0.1
+      pattern: https://api.outbrain.com/amplify/v0.1/
+      note: >
+        The version segment has not moved since the API was published; behaviour changes are
+        announced as dated entries in the Apiary "Updates" section rather than as a new version.
+        See changelog/outbrain-changelog.yml.
+
+    error_envelope:
+      shape: proprietary JSON object
+      media_type: application/json
+      fields:
+        moreInfo: Short machine-readable hint naming the failing operation, e.g. "get-budget".
+        errorMessage: Human-readable message, e.g. "access denied".
+      example:
+        moreInfo: get-budget
+        errorMessage: access denied
+      rfc9457: false
+      statuses: [400, 401, 403, 404, 429]
+      see: errors/outbrain-problem-types.yml
+
+    rate_limit_signaling:
+      exhaustion_status: 429
+      response_header: rate-limit-msec-left
+      header_semantics: >
+        Milliseconds remaining before the limit lifts. Every request inside that window returns 429;
+        the first request after it is served. There is no X-RateLimit-Limit / -Remaining / -Reset
+        family and no Retry-After on this API.
+      see: rate-limits/outbrain-rate-limits.yml
+
+    idempotency:
+      supported: false
+      note: >
+        Outbrain publishes no idempotency key, no request-deduplication window and no safe-retry
+        contract for POST/PUT on the Amplify API. Creates are documented as plain POSTs. Recorded as
+        an honest absence — no Idempotency pointer is emitted for this provider.
+
+    bulk_operations:
+      supported: true
+      note: >
+        Where a retry-safe single write is missing, Outbrain instead offers explicit bulk variants:
+        PUT /campaigns (update multiple campaigns), GET /campaigns/{campaignIds}/multiple,
+        POST /campaigns/{campaignId}/multiplePromotedLinks,
+        PUT /campaigns/{campaignId}/promotedLinks/, POST /locations/search/multiple and
+        POST /invitations/multiple.
+
+  - name: Teads Report API
+    base_url: https://api.teads.tv/v1/analytics
+    docs: https://teadsapi.docs.apiary.io/
+
+    authentication:
+      style: OAuth bearer token
+      header: 'Authorization: Bearer {token}'
+      requires: A Teads platform account with reporting rights.
+      note: Teads publishes no scope vocabulary and no token endpoint in this blueprint.
+
+    content_type:
+      request: application/json
+      response: application/json (also csv / jsonv1 / xlsx as the report OUTPUT format)
+
+    async_pattern:
+      style: request-poll-download
+      steps:
+        - POST /custom triggers a report and returns an id plus a status of queued.
+        - GET /custom/{id} polls status (queued, processing, error, finished, killed) and a reportProgress object.
+        - When status is finished, the response carries a url from which the rendered report is downloaded.
+        - PUT /custom/{id}/kill cancels a report that is still processing.
+        - GET /running/list lists reports currently processing.
+      output_formats: [csv, jsonv1, xlsx]
+
+    pagination:
+      style: none
+      note: Results are delivered as a whole downloadable report file, not as a paged collection.
+
+    error_envelope:
+      shape: proprietary JSON object
+      fields:
+        status: Numeric HTTP status echoed into the body.
+        msg: A dotted REPORTING.ERROR.* code.
+      example:
+        status: 400
+        msg: REPORTING.ERROR.APPLICATION_NOT_FOUND
+      rfc9457: false
+      validation_errors: >
+        Field-level validation failures return a different shape — a map keyed by the JSON path of
+        the offending field, each value an array of {msg, args} objects, e.g.
+        {"obj.dimensions.dimensions.filters.insertions[0]": [{"msg": "error.expected.jsnumber", "args": []}]}.
+      see: errors/outbrain-error-codes.yml
+
+    rate_limit_signaling:
+      exhaustion_status: 429
+      response_header: Retry-After
+      header_semantics: Seconds to wait before attempting another request; documented as up to 30 minutes between reports.
+      concurrency_limit: 2 reports processing at once (REPORTING.ERROR.RUNNING_REPORT_QUOTA_REACHED)
+      quota: 50 generated reports per rolling 24 hours (REPORTING.ERROR.PAST_24H_REPORT_QUOTA_REACHED)
+
+    idempotency:
+      supported: false
+      note: >
+        Each POST /custom creates a new report and consumes quota. There is no idempotency key; the
+        documented guard is the two-concurrent-report cap plus the 50-per-24h quota.
+
+    versioning:
+      scheme: uri-path
+      current: v1
+      pattern: https://api.teads.tv/v1/analytics
+      deprecations:
+        - The uv flag was announced for deprecation from January 1, 2024.
+        - Expanded finance metrics were announced for deprecation from January 1, 2024.
+
+cross_links:
+  errors: errors/outbrain-problem-types.yml
+  error_codes: errors/outbrain-error-codes.yml
+  lifecycle: lifecycle/outbrain-lifecycle.yml
+  authentication: authentication/outbrain-authentication.yml
+  rate_limits: rate-limits/outbrain-rate-limits.yml
+  changelog: changelog/outbrain-changelog.yml
+  sandbox: sandbox/outbrain-sandbox.yml

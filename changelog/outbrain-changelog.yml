@@ -1,0 +1,140 @@
+generated: '2026-08-13'
+method: searched
+source: >
+  https://amplifyv01.docs.apiary.io/ ("Updates" section of the Outbrain-owned Apiary blueprint,
+  document last updated 2026-08-13), https://developers.teads.com/docs/iOS-SDK/Getting-Started/release-notes
+  and https://developers.teads.com/docs/Chatbot-AI-SDK/News/release-notes
+description: >
+  Outbrain (Teads) maintains two separate dated change surfaces and no single unified changelog.
+  API behaviour changes are published as dated entries inside the Amplify API reference itself;
+  SDK changes are published as per-platform release notes on the Teads Developer Portal. Both are
+  captured here as a recent window — the live pages remain the source of truth.
+surfaces:
+  - name: Amplify API updates
+    url: https://amplifyv01.docs.apiary.io/
+    scheme: dated entries (no version numbers)
+    format: prose inside the API reference
+  - name: Teads iOS SDK release notes
+    url: https://developers.teads.com/docs/iOS-SDK/Getting-Started/release-notes
+    scheme: semver
+    current: 6.2.0
+  - name: Teads Android SDK release notes
+    url: https://developers.teads.com/docs/Android-SDK/Getting-Started/release-notes
+    scheme: semver
+    current: 6.2.1
+  - name: Teads React Native SDK release notes
+    url: https://developers.teads.com/docs/React-Native-SDK/Getting-Started/release-notes
+    scheme: semver
+    current: 6.2.0
+  - name: Teads Conversational AI Ads SDK release notes
+    url: https://developers.teads.com/docs/Chatbot-AI-SDK/News/release-notes
+    scheme: unversioned beta
+api_entries:
+  - date: '2026-08-13'
+    api: Outbrain Amplify API
+    type: addition
+    breaking: false
+    title: 'New: Brand Logo'
+    highlights:
+      - A logoMetadata field was added to the Marketer entity.
+      - The same field is available on the PromotedLink entity via extraFields=LogoMetaData, so an individual ad can carry its own logo.
+  - date: '2026-02-01'
+    api: Outbrain Amplify API
+    type: addition
+    breaking: false
+    title: 'New: Section Volume Control for CBS Campaigns'
+    highlights:
+      - A volumeControl object was added to the Campaign entity.
+      - Lets advertisers raise or lower traffic from individual sections on Conversion Bid Strategy Auto mode campaigns (tROAS, tCPA, Max Conversion) using their own external data.
+  - date: '2026-01-04'
+    api: Outbrain Amplify API
+    type: addition
+    breaking: false
+    title: Enhanced publisher and section exclusion experience
+    highlights:
+      - A new optional expiration field was added to blockedPublishers and blockedSections under blockedSites, enabling temporary rather than permanent blocks.
+      - Temporary exclusions auto-expire and reintroduce inventory without an alert.
+      - Permanently blocked sections can now be re-activated by updating their settings.
+      - Duplicated campaigns inherit the original campaign's exclusion states.
+      - Exclusions uploaded via CSV remain permanent; the expiration field is not yet supported in CSV uploads.
+  - date: '2025-10-16'
+    api: Outbrain Amplify API
+    type: breaking
+    breaking: true
+    effective: '2025-11-03'
+    title: Minimum campaign budget increased
+    highlights:
+      - 'POST /budgets now enforces: type DAILY requires amount >= 25 USD (up from 20).'
+      - 'type MONTHLY requires amount >= 750 USD.'
+      - 'type CAMPAIGN requires amount >= 25 x number of campaign days.'
+      - PUT /budgets applies the same enforcement to campaigns created on or after 2025-11-03.
+      - Existing campaigns with budgets under 25 USD continue to run unchanged.
+      - Daily minimums for other currencies are exposed via GET /currencies.
+  - date: '2025-07-08'
+    api: Outbrain Amplify API
+    type: addition
+    breaking: false
+    title: 'New performance report endpoint: marketers report'
+    highlights:
+      - Performance reporting can now be aggregated by marketer using a primary account id.
+      - The primary account id is obtained from the Marketer entity with extraFields=Account.
+      - 'Endpoint: GET /reports/accounts/{primaryAccountId}/marketers.'
+  - date: '2024-12-22'
+    api: Outbrain Amplify API
+    type: behaviour-change
+    breaking: true
+    effective: '2025-01-31'
+    title: 'New reporting filter: enabledCampaignsOnly'
+    highlights:
+      - An enabledCampaignsOnly filter was added across the reporting endpoints (promoted content, periodic, publishers, sections).
+      - Default was false at announcement and was scheduled to change to true by end of January 2025 — a silent result-set change for integrations that do not set it explicitly.
+  - date: '2024-09-22'
+    api: Outbrain Amplify API
+    type: addition
+    breaking: false
+    title: 'New recommendation field for CBS Auto mode campaigns: maxCpcRecommendation'
+    highlights:
+      - Exposes whether the optimisation algorithm wants to bid above the campaign's specified max average CPC.
+sdk_entries:
+  - date: '2026-06-23'
+    component: Teads iOS SDK
+    version: 6.2.0
+    breaking: true
+    highlights:
+      - 'Breaking: TeadsAdPlacementType gained a new banner case, requiring exhaustive switch handling.'
+      - Added anchored banner placement, a floor price API, GPP section id reading, no-fill handling and binary distribution of mediation adapters.
+  - date: '2026-04-09'
+    component: Teads iOS SDK
+    version: 6.1.0
+    breaking: false
+    highlights:
+      - New Interstitial ad format with a preload/show/dismiss lifecycle.
+      - Teads.configure() made thread-safe.
+  - date: '2026-03-25'
+    component: Teads iOS SDK
+    version: 6.0.11
+    breaking: false
+    highlights:
+      - IAB TCF v2.3 support.
+      - Google Mobile Ads SDK v13 compatibility fix.
+  - date: '2026-02-04'
+    component: Teads iOS SDK
+    version: 6.0.7
+    breaking: false
+    highlights:
+      - Added a disableAudioSessionManagement option for unified placements.
+      - Playback events forwarded through the delegate.
+  - date: '2025-12-28'
+    component: Teads iOS SDK
+    version: 6.0.5
+    breaking: false
+    highlights:
+      - Fixed a Media placement crash and SwiftUI click handling.
+      - 'Provider warning: do not use the Prebid adapter with this version.'
+  - date: '2025-11-12'
+    component: Teads Conversational AI Ads SDK
+    version: beta
+    breaking: false
+    highlights:
+      - First public beta of the Teads Conversational AI Ads SDK.
+      - Native in-conversation ad placements, contextual relevance, placement controls and reporting via the Teads platform.

@@ -1,0 +1,50 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Teads Report API
+  version: 1.0.0
+extends: openapi/outbrain-teads-report-api-openapi.yml
+x-generated: '2026-08-13'
+x-method: generated
+x-source: >
+  Enhancements derived from conventions/outbrain-conventions.yml and
+  errors/outbrain-error-codes.yml. The underlying OpenAPI is a faithful transcription of the
+  Teads Analytics Apiary blueprint and is never mutated.
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-source: https://teadsapi.docs.apiary.io/
+      x-apievangelist-source-format: API Blueprint (Apiary), owned by Teads Analytics
+      x-apievangelist-harvested: '2026-08-13'
+      x-apievangelist-blueprint-updated: '2024-06-25'
+  - target: $.info
+    update:
+      x-async-pattern:
+        style: request-poll-download
+        trigger: POST /custom
+        poll: GET /custom/{id}
+        cancel: PUT /custom/{id}/kill
+        inflight: GET /running/list
+        output_formats: [csv, jsonv1, xlsx]
+  - target: $.info
+    update:
+      x-quotas:
+        concurrent_reports: 2
+        reports_per_24h: 50
+        max_report_period: 1 year
+        earliest_data: '2020-01-01'
+        exhaustion_status: 429
+        response_header: Retry-After
+  - target: $.info
+    update:
+      x-error-envelope:
+        fields: [status, msg]
+        code_namespace: REPORTING.ERROR.*
+        rfc9457: false
+        catalog: errors/outbrain-error-codes.yml
+  - target: $.info
+    update:
+      x-deprecations:
+        - item: uv flag
+          effective: '2024-01-01'
+        - item: expanded finance metrics
+          effective: '2024-01-01'

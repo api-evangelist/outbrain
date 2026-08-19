@@ -1,0 +1,381 @@
+openapi: 3.1.0
+info:
+  title: Teads Report API
+  version: '1.0'
+  description: "About the company\nTeads, The Global Media Platform. We have united and empowered the best publishers in the\
+    \ world and distribute ads to over 1.5Bn people every month within professionally-produced content.\n\nFind out more on\
+    \ www.teads.com\n\nReport API v1\nReport API v1 requires an account on the platform with reporting rights to access the\
+    \ API. It relies on Teads OAuth for authentication. API users have to provide the authentication token in the Authorization\
+    \ HTTP header.\nThe API consists of one REST resource declined in 2 verbs:\nA POST triggers a report, to be processed\
+    \ asynchronously.\nA GET allows to poll the status of the previous request and to retrieve the results.\n\nDeprecation\
+    \ Notice\nReports with\n\n- \nuv flag will be deprecated starting January 1, 2024\n\n- \nexpanded finance metrics will\
+    \ be deprecated starting January 1, 2024, cf. the Finance metrics section\n\nAuthentication\nAll requests on Teads reporting\
+    \ APIs expect following headers:\n\n    \n         Header \n         Value \n    \n    \n         Authorization \n   \
+    \      Bearer {{OAuth bearer token}} \n    \n    \n         Content-Type \n         application/json \n    \n\nQuotas\
+    \ & Limits\nRate limit\nThis API is subject to a rate limit, applied for all routes.\nThe server will reject the request\
+    \ with a standard HTTP 429 error code and Retry-After header specifying how many seconds you have to wait for before attempting\
+    \ another request.\nThe wait duration between two reports may be up to 30min.\n\nThe number of reports concurrently running\
+    \ is limited to two (i.e. you cannot have more than two reports being generated at the same time). Server will return\
+    \ the REPORTING.ERROR.RUNNING_REPORT_QUOTA_REACHED error if this limit is reached.\nYou have to wait for previously requested\
+    \ reports to finish computing to request a new one, or cancel a processing report (see \"List processing reports\" and\
+    \ \"Cancel processing report\" sections).\n\nQuotas\nThe number of generated reports is limited to 50 per 24h sliding\
+    \ window. Server will return the REPORTING.ERROR.PAST_24H_REPORT_QUOTA_REACHED error if this quota is reached.\n\nReport\
+    \ period limits\nThere are limitations on the period (date.end - date.start) for a single report:\n\n- \nData before 2020\
+    \ is not available.  Report will return the error REPORTING.ERROR.PERIOD_NOT_FULLY_AVAILABLE_IN_NEW_REPORTING_ENGINE otherwise.\n\
+    \n- \nMaximum period is 1 year. Report will return the error REPORTING.ERROR.REPORT_PERIOD_TOO_LONG otherwise.\n\n- \n\
+    Reports with the uv dimension and a period greater than 100 days must use the day dimension. Report will return the error\
+    \ REPORTING.ERROR.UV_REPORT_PERIOD_TOO_LONG otherwise.\n\nSupport\nIf you need to reach our tech team for more information\
+    \ about API, please send us a message at api@teads.tv"
+  contact:
+    name: Teads API Support
+    email: api@teads.tv
+    url: https://www.teads.com
+servers:
+- url: https://api.teads.tv/v1/analytics
+  description: Teads Analytics reporting endpoint
+tags:
+- name: Reporting
+  description: Teads Report API v1
+security:
+- BearerAuth: []
+paths:
+  /custom:
+    post:
+      operationId: createReport
+      summary: Processing report
+      description: "Trigger an asynchronous report processing\n\nResponse JSON body attributes:\n\n- \nid (String):  unique\
+        \ identifier\n\n- \nstart (Timestamp ISO 8601): timestamp when the report request was registered in Teads backend\n\
+        \n- \nlastStatusUpdate (Timestamp ISO 8601): timestamp of the last internal status update in Teads backend,\n\n- \n\
+        status (String): report status, it can following values:\n\n- queued Teads platform has put the report in the queue\
+        \ to be processed, this stage may vary depending on our resources availability\n- processing The report is now being\
+        \ computed\n- error An issue prevented the report from being computed, please look at message field for more details\n\
+        - finished The report is now finished, you can download the result at url field.\n- killed The report was canceled\
+        \ during its process\n\n- \nvalid (Boolean): true if the format and content report request is valid and is being process\n\
+        \n- \nreportProgress (Object): object containing report progress\n\n- stepMax (Number): number of steps to finish\
+        \ report\n- step (Number): current step in the report\n- progressMax (Number): max progress to finish step\n- progress\
+        \ (Number): current progress in the step\n\nAll filters, except for date are optional.  emails and format are also\
+        \ optional groups. If not present, they will use their \"default\" value which are presented in the example above.\n\
+        Filters fields are based on ids, ie use placements : [ 1 ] for filtering on placement with id 1.\nExceptions are _status\
+        \ that take the status as stored in database, ie 1 for active and format which takes string format, ie inread for\
+        \ inread insertion/placement.\n\nWarning: format filtering can lead to long or failing requests, due to the amount\
+        \ of computing power it requires. If you encounter issues while using the format filter, we recommend dropping it\
+        \ and filtering afterwards if necessary.\n\nParameters\n\n    \n        parameter\n        type\n        default\n\
+        \        required\n        description\n    \n    \n        dimensions\n        array(text)\n        -\n        Yes\n\
+        \        List of dimensions to query by\n    \n    \n        filters.date.start\n        text\n        -\n       \
+        \ Yes\n        Lower-bound timestamp (ISO8601 format)\n    \n    \n        filters.date.end\n        text\n      \
+        \  -\n        Yes\n        Upper-bound timestamp (ISO8601 format)\n    \n    \n        filters.date.timezone\n   \
+        \     text\n        inferred from filters.date.start timestamp\n        -\n        The timezone you would like the\
+        \ report to be rendered in: used to resolve DST shifts (should be provided if filters.date.start is specified in UTC/GMT)\n\
+        \    \n    \n        metrics\n        array(text)\n        -\n        Yes\n        List of metrics to return\n   \
+        \ \n    \n        emails\n        array(text)\n        []\n        -\n        E-mail addresses of report recipients\n\
+        \    \n    \n        filters.ad_sources\n        array(int)\n        []\n        -\n        filter of adsource id\
+        \ (ex: Google DBM id \"3\")\n    \n    \n        filters.ad_status\n        array(int)\n        []\n        -\n  \
+        \      filter on ad status id (ex: status \"1\", active)\n    \n    \n        filters.ads\n        array(int)\n  \
+        \      []\n        -\n        filter on ad id (ex: ad id \"1\")\n    \n    \n        filters.adsources\n        array(int)\n\
+        \        []\n        -\n        filter on connection id (ex: connection id \"1\")\n    \n    \n        filters.advertisers\n\
+        \        array(int)\n        []\n        -\n        filter on advertiser id (ex: advertiser id \"1\")\n    \n    \n\
+        \        filters.browser\n        array(text)\n        []\n        -\n        filter on browser name (ex: browser\
+        \ \"Chrome\")\n    \n    \n        filters.connection_buy_type\n        array(text)\n        []\n        -\n     \
+        \   filter on connection_buy_type (ex: type \"rtb\")\n    \n    \n        filters.country\n        array(text)\n \
+        \       []\n        -\n        (in ISO 3166-1 alpha-2 format, ex: US, FR)\n    \n    \n        filters.creatives\n\
+        \        array(int)\n        []\n        -\n        \n    \n    \n        filter on creative id (ex: creative id \"\
+        1\")\n    \n    \n        filters.demand_source\n        arr"
+      tags:
+      - Reporting
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              filters:
+                ads: []
+                adsources: []
+                advertisers: []
+                ad_sources: []
+                ad_status: []
+                browser: []
+                country: []
+                connection_buy_type: []
+                creatives: []
+                device: []
+                formats: []
+                insertions: []
+                insertion_status: []
+                operating_system: []
+                packs: []
+                page: []
+                placements:
+                - 17270
+                placement_status: []
+                publishers: []
+                scenarios: []
+                websites: []
+                date:
+                  start: '2020-01-01T00:00:00+01:00'
+                  end: '2020-01-01T23:59:00+01:00'
+                  timezone: Europe/Paris
+              dimensions:
+              - day
+              - placement
+              metrics:
+              - start
+              - complete
+              - click
+              - impression
+              - firstQuartile
+              - midpoint
+              - thirdQuartile
+              - teads_billing
+              emails:
+              - myemail@teads.tv
+              format: xlsx
+      responses:
+        '200':
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                id: abcdefgh-cff2-4753-a08b-ee4587de4e9d
+                start: '2020-12-14T16:35:05.269Z'
+                lastStatusUpdate: '2020-12-14T16:35:05.269Z'
+                status: queued
+                valid: true
+                reportProgress:
+                  stepMax: 4
+        '400':
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                obj.dimensions.dimensions.filters.insertions[0]:
+                - msg: error.expected.jsnumber
+                  args: []
+        '401':
+          description: Unauthorized - missing or invalid OAuth bearer token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - unknown report id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests - rate limit reached; a Retry-After header states the wait in seconds
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          headers:
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+  /custom/{id}:
+    get:
+      operationId: getReportStatus
+      summary: Get report status
+      description: "Get the status of a report that is currently processing\n\nResponse JSON body attributes (list may not\
+        \ be exhaustive):\n\nlist[(Object)]:\n\n- \nid (String):  unique identifier\n\n- \nstatus (String):\n\n- queued Teads\
+        \ platform has put the report in the queue to be processed, this stage may vary depending on our resources availability\n\
+        - processing The report is now being computed\n- error An issue prevented the report from being computed, please look\
+        \ at message field for more details\n- finished The report is now finished, you can download the result at url field.\n\
+        - killed The report was canceled during its process\n\n- \nstart (Timestamp ISO 8601): timestamp when the report request\
+        \ was registered in Teads backend\n\n- \nreportProgress (Object): object containing report progress\n\n- stepMax (Number):\
+        \ number of steps to finish report\n- step (Number): current step in the report\n- progressMax (Number): max progress\
+        \ to finish step\n- progress (Number): current progress in the step"
+      tags:
+      - Reporting
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Report identifier returned by POST /custom.
+      responses:
+        '200':
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                id: abcdefgh-cff2-4753-a08b-ee4587de4e9d
+                start: '2020-12-14T16:35:05.269Z'
+                lastStatusUpdate: '2020-12-14T16:35:05.269Z'
+                status: processing
+                valid: true
+                reportProgress:
+                  stepMax: 4
+                  step: 1
+                  progress: 1
+                  progressMax: 2
+        '404':
+          description: Response
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: The requested resource could not be found but may be available again in the future.
+        '400':
+          description: Bad Request - malformed report definition; body carries the REPORTING.ERROR.* code
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - missing or invalid OAuth bearer token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests - rate limit reached; a Retry-After header states the wait in seconds
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          headers:
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+  /running/list:
+    get:
+      operationId: listProcessingReports
+      summary: List processing reports
+      description: "List reports that are currently processing.\n\nResponse JSON body attributes (list may not be exhaustive):\n\
+        \nlist[(Object)]:\n\n- \nid (String):  unique identifier\n\n- \nstatus (String):\n\n- queued Teads platform has put\
+        \ the report in the queue to be processed, this stage may vary depending on our resources availability\n- processing\
+        \ The report is now being computed\n\n- \nstart (Timestamp ISO 8601): timestamp when the report request was registered\
+        \ in Teads backend"
+      tags:
+      - Reporting
+      responses:
+        '200':
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+              example:
+              - id: abcdefgh-cff2-4753-a08b-ee4587de4e9d
+                status: processing
+                start: '2020-01-28T07:37:55.273Z'
+        '400':
+          description: Bad Request - malformed report definition; body carries the REPORTING.ERROR.* code
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - missing or invalid OAuth bearer token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - unknown report id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests - rate limit reached; a Retry-After header states the wait in seconds
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          headers:
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+  /custom/{id}/kill:
+    put:
+      operationId: cancelReport
+      summary: Cancel processing report
+      description: "Cancel a report that is currently processing\n\nResponse JSON body attributes (list may not be exhaustive):\n\
+        \n- \nstatus (String):\n\n- killed The report was canceled during its process\n\n- \nid (String): unique identifier"
+      tags:
+      - Reporting
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Report identifier returned by POST /custom.
+      responses:
+        '200':
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: killed
+                id: '{{report_id}}'
+        '400':
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: 400
+                msg: REPORTING.ERROR.APPLICATION_NOT_FOUND
+        '401':
+          description: Unauthorized - missing or invalid OAuth bearer token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - unknown report id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests - rate limit reached; a Retry-After header states the wait in seconds
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          headers:
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Teads OAuth bearer token supplied in the Authorization header. Requires a Teads platform account with reporting
+        rights.
+  schemas:
+    Error:
+      type: object
+      description: Teads reporting error envelope.
+      properties:
+        status:
+          type: integer
+        msg:
+          type: string
+          description: REPORTING.ERROR.* code
+      examples:
+      - status: 400
+        msg: REPORTING.ERROR.APPLICATION_NOT_FOUND

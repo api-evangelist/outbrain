@@ -1,0 +1,479 @@
+{
+  "item": [
+    {
+      "id": "866e1a7f-232a-4a36-8bed-0bd5365ac040",
+      "name": "Campaigns",
+      "description": {
+        "content": "Campaign management",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ed542fc7-efe8-441f-bbc5-ec23e06cd51e",
+          "name": "List Campaigns For A Marketer",
+          "request": {
+            "name": "List Campaigns For A Marketer",
+            "description": {
+              "content": "Retrieve all campaigns belonging to a specific marketer.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "marketers",
+                ":marketerId",
+                "campaigns"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "marketerId",
+                  "description": "(Required) Marketer (customer account) identifier."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9384384a-d763-4d05-bb07-473265efa6b6",
+              "name": "A list of campaigns.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "marketers",
+                    ":marketerId",
+                    "campaigns"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "marketerId",
+                      "description": "(Required) Marketer (customer account) identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "OB-TOKEN-V1",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"count\": 8198,\n  \"campaigns\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"marketerId\": \"string\",\n      \"enabled\": true,\n      \"budgetId\": \"string\",\n      \"cpc\": 889.2883572447896,\n      \"targeting\": {\n        \"geoTargeting\": [\n          \"string\",\n          \"string\"\n        ],\n        \"platformTargeting\": [\n          \"DESKTOP\",\n          \"TABLET\"\n        ],\n        \"operatingSystems\": [\n          \"string\",\n          \"string\"\n        ],\n        \"browsers\": [\n          \"string\",\n          \"string\"\n        ],\n        \"interestSegments\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      \"startDate\": \"1986-02-23\",\n      \"endDate\": \"2001-05-19\",\n      \"objective\": \"awareness\"\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"marketerId\": \"string\",\n      \"enabled\": false,\n      \"budgetId\": \"string\",\n      \"cpc\": 2799.393003441999,\n      \"targeting\": {\n        \"geoTargeting\": [\n          \"string\",\n          \"string\"\n        ],\n        \"platformTargeting\": [\n          \"DESKTOP\",\n          \"SMARTPHONE\"\n        ],\n        \"operatingSystems\": [\n          \"string\",\n          \"string\"\n        ],\n        \"browsers\": [\n          \"string\",\n          \"string\"\n        ],\n        \"interestSegments\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      \"startDate\": \"2021-01-05\",\n      \"endDate\": \"1970-04-30\",\n      \"objective\": \"leadGeneration\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ddde2472-ba2c-4bc6-9502-67df0b24f646",
+          "name": "Create A Campaign For A Marketer",
+          "request": {
+            "name": "Create A Campaign For A Marketer",
+            "description": {
+              "content": "Create a new campaign under the specified marketer.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "marketers",
+                ":marketerId",
+                "campaigns"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "marketerId",
+                  "description": "(Required) Marketer (customer account) identifier."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"cpc\": \"<number>\",\n  \"enabled\": \"<boolean>\",\n  \"budgetId\": \"<string>\",\n  \"objective\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "70a64026-7b4d-4124-bd9a-5af7da681e98",
+              "name": "Campaign created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "marketers",
+                    ":marketerId",
+                    "campaigns"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "marketerId",
+                      "description": "(Required) Marketer (customer account) identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "OB-TOKEN-V1",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"cpc\": \"<number>\",\n  \"enabled\": \"<boolean>\",\n  \"budgetId\": \"<string>\",\n  \"objective\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"name\": \"string\",\n  \"marketerId\": \"string\",\n  \"enabled\": false,\n  \"budgetId\": \"string\",\n  \"cpc\": 1310.7763684012596,\n  \"targeting\": {\n    \"geoTargeting\": [\n      \"string\",\n      \"string\"\n    ],\n    \"platformTargeting\": [\n      \"DESKTOP\",\n      \"DESKTOP\"\n    ],\n    \"operatingSystems\": [\n      \"string\",\n      \"string\"\n    ],\n    \"browsers\": [\n      \"string\",\n      \"string\"\n    ],\n    \"interestSegments\": [\n      \"string\",\n      \"string\"\n    ]\n  },\n  \"startDate\": \"1991-11-25\",\n  \"endDate\": \"1989-11-20\",\n  \"objective\": \"traffic\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "14d8865b-e510-4f7e-908c-1fdd0c370f8c",
+          "name": "Get A Campaign By Id",
+          "request": {
+            "name": "Get A Campaign By Id",
+            "description": {
+              "content": "Retrieve a single campaign by its identifier.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "campaigns",
+                ":campaignId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "campaignId",
+                  "description": "(Required) Campaign identifier."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d51c1c8d-7f5f-4295-a3ed-18fd0883380e",
+              "name": "A campaign resource.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "campaigns",
+                    ":campaignId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "campaignId",
+                      "description": "(Required) Campaign identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "OB-TOKEN-V1",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"name\": \"string\",\n  \"marketerId\": \"string\",\n  \"enabled\": false,\n  \"budgetId\": \"string\",\n  \"cpc\": 1310.7763684012596,\n  \"targeting\": {\n    \"geoTargeting\": [\n      \"string\",\n      \"string\"\n    ],\n    \"platformTargeting\": [\n      \"DESKTOP\",\n      \"DESKTOP\"\n    ],\n    \"operatingSystems\": [\n      \"string\",\n      \"string\"\n    ],\n    \"browsers\": [\n      \"string\",\n      \"string\"\n    ],\n    \"interestSegments\": [\n      \"string\",\n      \"string\"\n    ]\n  },\n  \"startDate\": \"1991-11-25\",\n  \"endDate\": \"1989-11-20\",\n  \"objective\": \"traffic\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "08ce04cc-5e2b-41ef-a131-01bc164e0d57",
+          "name": "Update A Campaign",
+          "request": {
+            "name": "Update A Campaign",
+            "description": {
+              "content": "Update an existing campaign's settings.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "campaigns",
+                ":campaignId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "campaignId",
+                  "description": "(Required) Campaign identifier."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"cpc\": \"<number>\",\n  \"enabled\": \"<boolean>\",\n  \"budgetId\": \"<string>\",\n  \"objective\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d9163cc2-f0c2-4ebb-a440-d43858a06881",
+              "name": "Campaign updated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "campaigns",
+                    ":campaignId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "campaignId",
+                      "description": "(Required) Campaign identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "OB-TOKEN-V1",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"cpc\": \"<number>\",\n  \"enabled\": \"<boolean>\",\n  \"budgetId\": \"<string>\",\n  \"objective\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"name\": \"string\",\n  \"marketerId\": \"string\",\n  \"enabled\": false,\n  \"budgetId\": \"string\",\n  \"cpc\": 1310.7763684012596,\n  \"targeting\": {\n    \"geoTargeting\": [\n      \"string\",\n      \"string\"\n    ],\n    \"platformTargeting\": [\n      \"DESKTOP\",\n      \"DESKTOP\"\n    ],\n    \"operatingSystems\": [\n      \"string\",\n      \"string\"\n    ],\n    \"browsers\": [\n      \"string\",\n      \"string\"\n    ],\n    \"interestSegments\": [\n      \"string\",\n      \"string\"\n    ]\n  },\n  \"startDate\": \"1991-11-25\",\n  \"endDate\": \"1989-11-20\",\n  \"objective\": \"traffic\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.outbrain.com/amplify/v0.1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "OB-TOKEN-V1"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "36d66e1c-41ec-40dc-b28d-fc0095f041fa",
+    "name": "Outbrain Amplify Authentication Campaigns API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Outbrain Amplify API enables advertisers, agencies, and technology partners to integrate Amplify campaign management and reporting into their own tools and platforms. The API is organized around core entities: Marketer (a customer account), Campaign (a collection of promoted links), PromotedLink (a single piece of promoted content), Budget, AudienceTargeting, and PerformanceBy* analytics resources for retrieving performance metrics.\n\n\nContact Support:\n Name: Outbrain Developer Center",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,111 @@
+generated: '2026-08-13'
+method: searched
+source: >
+  https://developers.teads.com/docs/Android-SDK/Getting-Started/test-pids,
+  https://developers.teads.com/docs/iOS-SDK/Getting-Started/test-pids,
+  https://amplifyv01.docs.apiary.io/ (Apiary mock/proxy service) and
+  https://my.outbrain.com/create-token
+description: >
+  Outbrain (Teads) publishes no test-mode credential separation for the Amplify API — there is no
+  sandbox account, no test key prefix and no live/test toggle; API calls run against production
+  data with a production OB-TOKEN-V1 token. What it does publish is a rich set of magic test
+  placement identifiers on the ad-rendering side, so a publisher can prove an SDK integration
+  renders every creative shape without buying inventory. That, plus the Apiary mock server, is the
+  whole test surface. Every value below is published by Teads verbatim.
+test_live_separation:
+  supported: false
+  key_prefixes: null
+  note: >
+    One token type (OB-TOKEN-V1) against one base URL (https://api.outbrain.com/amplify/v0.1). No
+    test mode is documented for the Amplify API or the Teads Report API.
+mock_server:
+  provider: Apiary
+  url: https://private-anon-42f82d8b12-amplifyv01.apiary-mock.com
+  proxy: https://private-anon-42f82d8b12-amplifyv01.apiary-proxy.com
+  note: >
+    Apiary generates a mock server from Outbrain's own published blueprint that replays the
+    documented example responses. The host segment is a per-visitor anonymous traffic token, not a
+    stable Outbrain endpoint — useful for contract testing, not a provider-operated sandbox.
+test_identifiers:
+  - family: Media placement test PIDs
+    platform: [ios, android]
+    values:
+      - id: '84242'
+        renders: Landscape creatives only
+      - id: '127546'
+        renders: Vertical creatives only
+      - id: '127547'
+        renders: Square creatives only
+      - id: '128779'
+        renders: Carousel creatives only
+      - id: '128780'
+        renders: Multiple creative sizes and formats
+  - family: Media native placement test PIDs
+    platform: [ios, android]
+    values:
+      - id: '124859'
+        renders: Display creatives only — validates native rendering with a custom layout
+  - family: Feed placement test configuration
+    platform: [ios, android]
+    values:
+      - parameter: articleUrl
+        value: https://test-demo.outbrain.com
+      - parameter: widgetId
+        value: MB_1
+      - parameter: widgetId
+        value: MB_2
+      - parameter: widgetId
+        value: TEST_FEED
+      - parameter: installationKey
+        value: NANOWDGT01
+      - parameter: installationKey
+        value: TESTKEY01
+  - family: Recommendations API test configuration
+    platform: [ios, android]
+    values:
+      - parameter: articleUrl
+        value: https://test-demo.outbrain.com
+      - parameter: widgetId
+        value: SDK_1
+      - parameter: widgetId
+        value: RECS_1
+      - parameter: widgetId
+        value: TEST_RECS
+      - parameter: installationKey
+        value: NANOWDGT01
+      - parameter: installationKey
+        value: TESTKEY01
+  - family: Interstitial test configuration
+    platform: [ios, android]
+    values:
+      - parameter: widgetId
+        value: INT_MW_1
+      - parameter: installationKey
+        value: NANOWDGT01
+      - parameter: articleUrl
+        value: https://mobile-demo.outbrain.com
+  - family: Banner test configuration
+    platform: [ios, android]
+    values:
+      - parameter: widgetId
+        value: MB_10
+      - parameter: installationKey
+        value: NANOWDGT01
+      - parameter: articleUrl
+        value: https://mobile-demo.outbrain.com/
+tooling:
+  - name: Teads validation tool
+    url: https://developers.teads.com/docs/iOS-SDK/Troubleshooting/validation-tool
+    note: Provider-published integration validator for the mobile SDKs (iOS and Android variants).
+  - name: Amplify API token page
+    url: https://my.outbrain.com/create-token
+    note: >
+      Web form that issues an OB-TOKEN-V1 token without spending a /login call against the
+      2-per-hour limit. Production credential — there is no test equivalent.
+time_simulation:
+  supported: false
+fixtures:
+  supported: false
+  note: >
+    No event triggers, no fixture generator and no dispute/decline simulation. Reporting freshness
+    can be inspected instead via GET /reports/dataFreshness and GET /reports/fullDay.

@@ -1,0 +1,151 @@
+generated: '2026-08-13'
+method: derived
+source: >
+  openapi/outbrain-amplify-api-full-openapi.yml (path hierarchy and id-reference fields) and the
+  entity reference published in https://amplifyv01.docs.apiary.io/ ("Overview and Entities" plus the
+  per-entity attribute tables).
+description: >
+  Entity-relationship graph for the Outbrain Amplify API. Outbrain states the core model plainly in
+  its own overview — Marketer, Budget, Campaign, PromotedLink and a family of Performance* reporting
+  entities — and the URI hierarchy carries the containment relationships directly. Relationships
+  below are derived from that hierarchy and from the id-reference fields in the documented entity
+  representations; nothing is inferred beyond what the paths and attribute tables show.
+identifiers:
+  format: opaque hexadecimal string
+  example: 00f4b02153ee75f3c9dc4fc128ab041962
+  note: >
+    Amplify ids are unprefixed opaque hex strings — there is no type-prefixed id scheme, so an id
+    alone does not tell an agent which entity it addresses. The path does.
+entities:
+  - name: Marketer
+    description: A customer account. The root of the object graph; almost every collection hangs off a marketer.
+    operations: [getMarketers, getMarketersId, updateMarketersId]
+    extra_fields: [Account, LogoMetaData]
+    key_fields: [id, name, currency, logoMetadata]
+  - name: Budget
+    description: A pot of money spent by one or more campaigns; may be shared.
+    operations: [getMarketersIdBudgets, createMarketersIdBudgets, getBudgetsId, updateBudgetsId, deleteBudgetsId]
+    key_fields: [id, name, shared, amount, amountRemaining, amountSpent, startDate, endDate, runForever, type, pacing, dailyTarget, maximumAmount, currency]
+    enums:
+      type: [DAILY, MONTHLY, CAMPAIGN]
+      pacing: [AUTOMATIC, SPEND_ASAP]
+  - name: Campaign
+    description: A collection of promoted links funded by a budget, carrying targeting and bidding configuration.
+    operations: [createCampaigns, updateCampaigns, getCampaignsId, updateCampaignsId, getCampaignsCampaignIdsMultiple, getMarketersIdCampaigns, getBudgetsIdCampaigns]
+    key_fields: [id, name, enabled, budgetId, cpc, targeting, blockedSites, volumeControl, maxCpcRecommendation]
+  - name: PromotedLink
+    description: A single piece of promoted content — the ad creative — belonging to a campaign.
+    operations: [getPromotedLinksId, updatePromotedLinksIds, getCampaignsIdPromotedLinks, createCampaignsCampaignIdPromotedLinks, createCampaignsCampaignIdMultiplePromotedLinks, updateCampaignsCampaignIdPromotedLinks]
+    key_fields: [id, text, url, imageUrl, enabled, cpc, campaignId, logoMetadata]
+  - name: PromotedLinkSequence
+    description: An ordered sequence of promoted links delivered as a narrative unit.
+    operations: [getPromotedLinksSequencesId, createCampaignsCampaignIdPromotedLinksSequences, updatePromotedLinksSequencesPromotedLinksSequenceId, getCampaignsCampaignIdPromotedLinksSequences]
+  - name: Segment
+    description: An audience segment used for targeting; marketer-scoped, with a global catalogue alongside.
+    operations: [getSegmentsId, updateSegmentsId, getMarketersMarketerIdSegments, createMarketersMarketerIdSegments, getAudienceIntelSegmentsAll, createSegmentsTargetingCampaigns]
+  - name: ConversionEvent
+    description: A tracked conversion definition owned by a marketer, used for CBS optimisation and reporting.
+    operations: [getConversionEventsId, createMarketersMarketerIdConversionEvents, updateConversionEventsId, getMarketersIdConversionEvents]
+  - name: User / Invitation
+    description: A person with access to a marketer account, and the pending invitation that grants it.
+    operations: [getMarketersMarketerIdUsers, updateMarketersMarketerIdUsers, deleteMarketersMarketerIdUsers, createInvitationsMultiple, updateInvitations]
+  - name: GeoLocation
+    description: A targetable place, resolved by search rather than enumerated.
+    operations: [getLocationsSearch, createLocationsSearchMultiple, getCampaignsCampaignIdLocations]
+  - name: Interest
+    description: A targetable interest category.
+    operations: [getInterestsSearch, getInterestsAll]
+  - name: IABCategory
+    description: A targetable IAB content category.
+    operations: [getIabcategoriesAll]
+  - name: Section
+    description: A publisher placement Outbrain serves into; the unit of publisher/section exclusion and of section-level reporting.
+    operations: [createSections, getReportsMarketersIdSections, getReportsMarketersIdCampaignsSections]
+  - name: Currency
+    description: A supported billing currency and its per-currency budget minimums.
+    operations: [getCurrencies]
+  - name: PerformanceReport
+    description: >
+      Derived reporting projections rather than stored entities — the same spend/click/conversion
+      facts sliced by campaign, promoted content, publisher, section, platform, geo, interest,
+      marketer or time bucket.
+    operations: [getReportsMarketersIdCampaigns, getReportsMarketersIdPromotedContent, getReportsMarketersIdPeriodic, getReportsMarketersIdPublishers, getReportsMarketersIdSections, getReportsMarketersIdPlatforms, getReportsMarketersIdGeo, getReportsMarketersIdInterests, getReportsAccountsPrimaryAccountIdMarketers]
+relationships:
+  - from: Marketer
+    to: Budget
+    type: has_many
+    via: /marketers/{id}/budgets
+  - from: Marketer
+    to: Campaign
+    type: has_many
+    via: /marketers/{id}/campaigns
+  - from: Marketer
+    to: Segment
+    type: has_many
+    via: /marketers/{marketerId}/segments
+  - from: Marketer
+    to: ConversionEvent
+    type: has_many
+    via: /marketers/{marketerId}/conversionEvents
+  - from: Marketer
+    to: User
+    type: has_many
+    via: /marketers/{marketerId}/users
+  - from: Budget
+    to: Campaign
+    type: has_many
+    via: /budgets/{id}/campaigns
+  - from: Campaign
+    to: Budget
+    type: belongs_to
+    via: budgetId
+  - from: Campaign
+    to: PromotedLink
+    type: has_many
+    via: /campaigns/{id}/promotedLinks
+  - from: Campaign
+    to: PromotedLinkSequence
+    type: has_many
+    via: /campaigns/{campaignId}/promotedLinksSequences
+  - from: Campaign
+    to: GeoLocation
+    type: has_many
+    via: /campaigns/{campaignId}/locations
+  - from: Campaign
+    to: Segment
+    type: has_many
+    via: targeting
+  - from: Campaign
+    to: Section
+    type: has_many
+    via: blockedSites.blockedSections
+  - from: PromotedLink
+    to: Campaign
+    type: belongs_to
+    via: campaignId
+  - from: Segment
+    to: Campaign
+    type: has_many
+    via: /segments/targetingCampaigns
+  - from: PerformanceReport
+    to: Marketer
+    type: belongs_to
+    via: /reports/marketers/{id}/...
+  - from: Budget
+    to: Currency
+    type: belongs_to
+    via: currency
+teads_report_model:
+  api: Teads Report API
+  note: >
+    The Teads Report API models a Report as a job, not as a business entity — the graph is a
+    lifecycle, not a hierarchy.
+  entities:
+    - name: Report
+      states: [queued, processing, error, finished, killed]
+      operations: [createReport, getReportStatus, listProcessingReports, cancelReport]
+  dimensions:
+    publisher: [publisher, website, page, placement, header_bidding]
+    programmatic: [adsource, connection, scenario]
+    campaign: [advertiser, agency, ad, insertion, creative]
+    context: [country, device, demand, format, browser, operating_system, studio_creative, studio_segment, unique_visitor]

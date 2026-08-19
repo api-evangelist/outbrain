@@ -1,0 +1,86 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Outbrain Amplify Authentication Budgets API",
+    "version": "0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "OB-TOKEN-V1",
+      "value": "{{OB-TOKEN-V1}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Budgets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Budgets For A Marketer",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/marketers/:marketerId/budgets",
+            "params": [
+              {
+                "name": "marketerId",
+                "value": "",
+                "type": "path",
+                "description": "Marketer (customer account) identifier."
+              }
+            ]
+          },
+          "docs": "Retrieve all budgets belonging to a marketer."
+        },
+        {
+          "info": {
+            "name": "Create A Budget",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.outbrain.com/amplify/v0.1/marketers/:marketerId/budgets",
+            "params": [
+              {
+                "name": "marketerId",
+                "value": "",
+                "type": "path",
+                "description": "Marketer (customer account) identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new shared budget for the marketer."
+        },
+        {
+          "info": {
+            "name": "Get A Budget By Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/budgets/:budgetId",
+            "params": [
+              {
+                "name": "budgetId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve a single budget by its identifier."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,108 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Outbrain Amplify Authentication PromotedLinks API",
+    "version": "0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "OB-TOKEN-V1",
+      "value": "{{OB-TOKEN-V1}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "PromotedLinks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Promoted Links For A Campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/campaigns/:campaignId/promotedLinks",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "path",
+                "description": "Campaign identifier."
+              }
+            ]
+          },
+          "docs": "Retrieve all promoted links (ad creatives) in a campaign."
+        },
+        {
+          "info": {
+            "name": "Create A Promoted Link",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.outbrain.com/amplify/v0.1/campaigns/:campaignId/promotedLinks",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "path",
+                "description": "Campaign identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new promoted link inside a campaign."
+        },
+        {
+          "info": {
+            "name": "Get A Promoted Link By Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/promotedLinks/:promotedLinkId",
+            "params": [
+              {
+                "name": "promotedLinkId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve a single promoted link by its identifier."
+        },
+        {
+          "info": {
+            "name": "Update A Promoted Link",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.outbrain.com/amplify/v0.1/promotedLinks/:promotedLinkId",
+            "params": [
+              {
+                "name": "promotedLinkId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an existing promoted link."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

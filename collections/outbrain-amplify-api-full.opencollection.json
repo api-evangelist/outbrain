@@ -1,0 +1,2960 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Outbrain Amplify API",
+    "version": "0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "OB-TOKEN-V1",
+      "value": "{{OB-TOKEN-V1}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Authentications",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "via API",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/login"
+          },
+          "docs": "Yes, you can obtain a new token using the Amplify API. Why? API is all about automation, so why not obtain a new token using the API before your token expires?\n\nThis API transaction is the only one in which you need to supply your Outbrain credentials.\n\nYour credentials should be sent using Basic Authentication.\n\nThis means that the HTTP Request should include a header:\n\nnamed Authorization\nvalue: BASIC BASE-64-ENC(YOUR_OUTBRAIN_USER_NAME:YOUR_OUTBRAIN_PASSWORD)\n\nSince all communication to Ampli"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Getting all users permitted to a marketer",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/marketers/:marketerId/users",
+            "params": [
+              {
+                "name": "marketerId",
+                "value": "00f4b02153ee75f3c9dc4fc128ab041962",
+                "type": "path",
+                "description": "the Marketer's id"
+              }
+            ]
+          },
+          "docs": "The response contains an array of a user object that has the following attributes:\n\nProperty\nType\nSemantic\nExample\n\nname\nString\nThe User's name\n\"full name\"\n\nemail\nString\nThe User's email\n\"a@b.ocm\"\n\ncreationTime\nTime\nThe time when the user was assigned to the marketer\n\"2013-01-14 07:19:16\"\n\nstatus\nString\nThe User's status - ACTIVE, PENDING, DISABLED\n\"ACTIVE\"\n\ninvitationId\nString\nThe invitation ID of the user in case the user has a pending invitation\n\nfullName\nString\nThe user's full name\n\nrole\nUse"
+        },
+        {
+          "info": {
+            "name": "Update marketer's users",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.outbrain.com/amplify/v0.1/marketers/:marketerId/users",
+            "params": [
+              {
+                "name": "marketerId",
+                "value": "00f4b02153ee75f3c9dc4fc128ab041962",
+                "type": "path",
+                "description": "the Marketer's id"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update marketer's users allows disabling/enabling a user and updating their role"
+        },
+        {
+          "info": {
+            "name": "Remove a user from a marketer",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.outbrain.com/amplify/v0.1/marketers/:marketerId/users",
+            "params": [
+              {
+                "name": "marketerId",
+                "value": "00f4b02153ee75f3c9dc4fc128ab041962",
+                "type": "path",
+                "description": "the Marketer's id"
+              },
+              {
+                "name": "email",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "This endpoint allows revoking a permission for a user to access a marketer."
+        },
+        {
+          "info": {
+            "name": "Providing access for new users to a marketer",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.outbrain.com/amplify/v0.1/invitations/multiple",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Providing access for new users to a marketer"
+        },
+        {
+          "info": {
+            "name": "Delete pending invitations",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.outbrain.com/amplify/v0.1/invitations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete pending invitations should be done by updating the status of the invitations to REVOKED"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Marketers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve a Single Marketer",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/marketers/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "00f4b02153ee75f3c9dc4fc128ab041962",
+                "type": "path",
+                "description": "the Marketer's id"
+              },
+              {
+                "name": "extraFields",
+                "value": "Account",
+                "type": "query",
+                "description": "the additional marketer fields you want to include in the response"
+              }
+            ]
+          },
+          "docs": "The Marketer object has the following attributes:\n\nProperty\nType\nSemantic\nExample\n\nid\nString\nThe Marketer's id\n\"00f4b02153ee75f3c9dc4fc128ab041962\"\n\nname\nString\nThe Marketer's name\n\"my marketer\"\n\nenabled\nBoolean\ntrue when the Marketer is enabled\ntrue\n\nlastModified\nTime\nThe time when the Marketer was last modified.\n\"2013-03-16 10:32:31\"\n\ncreationTime\nTime\nThe time when the Marketer was created.\n\"2013-01-14 07:19:16\"\n\nblockedSites\nMarketer Blocked Sites\nA property containing lists of blocked publi"
+        },
+        {
+          "info": {
+            "name": "Update a Single Marketer",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.outbrain.com/amplify/v0.1/marketers/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "00f4b02153ee75f3c9dc4fc128ab041962",
+                "type": "path",
+                "description": "the Marketer's id"
+              },
+              {
+                "name": "extraFields",
+                "value": "Account",
+                "type": "query",
+                "description": "the additional marketer fields you want to include in the response"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "The Marketer object has the following attributes:\n\nProperty\nType\nSemantic\nExample\n\nid\nString\nThe Marketer's id\n\"00f4b02153ee75f3c9dc4fc128ab041962\"\n\nname\nString\nThe Marketer's name\n\"my marketer\"\n\nenabled\nBoolean\ntrue when the Marketer is enabled\ntrue\n\nlastModified\nTime\nThe time when the Marketer was last modified.\n\"2013-03-16 10:32:31\"\n\ncreationTime\nTime\nThe time when the Marketer was created.\n\"2013-01-14 07:19:16\"\n\nblockedSites\nMarketer Blocked Sites\nA property containing lists of blocked publi"
+        },
+        {
+          "info": {
+            "name": "List Marketers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/marketers"
+          },
+          "docs": "Retrieve all Marketers associated with the current user (as identified by the token in the OB-TOKEN-V1 HTTP header)."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Multiple Conversions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve a Single Conversion Event",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/conversionEvents/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "00f4b02153ee75f3c9dc4fc128ab041962",
+                "type": "path",
+                "description": "the Conversion Event's id"
+              }
+            ]
+          },
+          "docs": "The Conversion Event object has the following attributes:\n\nProperty\nType\nSemantic\nExample\n\nid\nString\nThe id of this Conversion Event. read-only\n\"00f4b02153ee75f3c9dc4fc128ab041962\"\n\nname\nString\nThe name of this Conversion Event.\n\"My Conversion Event\"\n\ntype\nConversionEventType\nThe type of this Conversion Event\nURL_BASED\n\nurl\nString\nThe url configured for this Conversion Event\n\"/thank-you\"\n\nmarketerId\nString\nThe marketer Id of this Conversion Event\n\"00f4b02153ee75f3c9dc4fc128ab041962\"\n\nenabled\nBoo"
+        },
+        {
+          "info": {
+            "name": "Update a Conversion Event",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.outbrain.com/amplify/v0.1/conversionEvents/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "00f4b02153ee75f3c9dc4fc128ab041962",
+                "type": "path",
+                "description": "the Conversion Event's id"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "The Conversion Event object has the following attributes:\n\nProperty\nType\nSemantic\nExample\n\nid\nString\nThe id of this Conversion Event. read-only\n\"00f4b02153ee75f3c9dc4fc128ab041962\"\n\nname\nString\nThe name of this Conversion Event.\n\"My Conversion Event\"\n\ntype\nConversionEventType\nThe type of this Conversion Event\nURL_BASED\n\nurl\nString\nThe url configured for this Conversion Event\n\"/thank-you\"\n\nmarketerId\nString\nThe marketer Id of this Conversion Event\n\"00f4b02153ee75f3c9dc4fc128ab041962\"\n\nenabled\nBoo"
+        },
+        {
+          "info": {
+            "name": "Create a Conversion Event",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.outbrain.com/amplify/v0.1/marketers/:marketerId/conversionEvents",
+            "params": [
+              {
+                "name": "marketerId",
+                "value": "00f4b02153ee75f3c9dc4fc128ab041962",
+                "type": "path",
+                "description": "the marketer's id"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "The Conversion Event object has the following attributes:\n\nProperty\nType\nSemantic\nExample\n\nid\nString\nThe id of this Conversion Event. read-only\n\"00f4b02153ee75f3c9dc4fc128ab041962\"\n\nname\nString\nThe name of this Conversion Event.\n\"My Conversion Event\"\n\ntype\nConversionEventType\nThe type of this Conversion Event\nURL_BASED\n\nurl\nString\nThe url configured for this Conversion Event\n\"/thank-you\"\n\nmarketerId\nString\nThe marketer Id of this Conversion Event\n\"00f4b02153ee75f3c9dc4fc128ab041962\"\n\nenabled\nBoo"
+        },
+        {
+          "info": {
+            "name": "Retrieve all Marketer's Conversion Events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/marketers/:id/conversionEvents",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve all Conversion Events associated with the current Marketer."
+        },
+        {
+          "info": {
+            "name": "Retrieve Marketer's Engagement Metrics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/marketers/:id/engagementMetrics",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve all Engagement Metrics avaialable for optimization associated with the current Marketer.\nRelevant only for Marketers with a successful Google Analytics integration for Engagement Bid Strategy (EBS)."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Budgets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve a single Budget",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/budgets/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "00f4b02153ee75f3c9dc4fc128ab041962",
+                "type": "path",
+                "description": "the Budget id"
+              }
+            ]
+          },
+          "docs": "The Budget object has the following attributes:\n\nProperty\nType\nSemantic\nExample\n\nid\nString\nThe id of this Budget. read-only\n\"00f4b02153ee75f3c9dc4fc128ab041962\"\n\nname\nString\nThe name of this Budget.\n\"First  quarter budget\"\n\nshared\nBoolean\nWhether the Budget is shared between Campaigns, provided for convenience based on the number of Campaigns associated to this Budget. read-only\ntrue\n\namount\nMoney\nThe monetary amount of this Budget\n2000.00\n\ncurrency\nString\nThe currency denomination applied to th"
+        },
+        {
+          "info": {
+            "name": "Update an existing Budget",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.outbrain.com/amplify/v0.1/budgets/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "00f4b02153ee75f3c9dc4fc128ab041962",
+                "type": "path",
+                "description": "the Budget id"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "To update a Budget send a JSON with the updated value for one or more of the updatable Budget attributes.\n\nAll attribute values left unset in this PUT will remain unchanged.\n\nOnly the following Budget properties are updatable:\n\n- \namount - The amount must be lower than the maximumAmount.\nA budget's minimum amount limit is determined by its type:\n\nDAILY - more than 25\n\nMONTHLY - more than 750\n\nCAMPAIGN - The campaign's days amount multiplied by 25\n\n- \nstartDate - The start date cannot be in the p"
+        },
+        {
+          "info": {
+            "name": "Delete an existing Budget",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.outbrain.com/amplify/v0.1/budgets/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "00f4b02153ee75f3c9dc4fc128ab041962",
+                "type": "path",
+                "description": "the Budget id"
+              }
+            ]
+          },
+          "docs": "Only a detached budget (a budget that is not attached to any campaign) and no traffic was made on it, can be deleted."
+        },
+        {
+          "info": {
+            "name": "List Budgets for a Marketer",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/marketers/:id/budgets",
+            "params": [
+              {
+                "name": "id",
+                "value": "00f4b02153ee75f3c9dc4fc128ab041962",
+                "type": "path",
+                "description": "the id of the Marketer"
+              },
+              {
+                "name": "detachedOnly",
+                "value": "true",
+                "type": "query",
+                "description": "return only budgets that are not attached to any campaign"
+              }
+            ]
+          },
+          "docs": "Retrieve a collection of all Budgets for the specified Marketer.\n\nThe Budgets Collection resource has the following attributes:\n\n- \ncount - Number of Budgets found for this Marketer\n\n- \nbudgets - Array of budget objects"
+        },
+        {
+          "info": {
+            "name": "Create a Budget for a Marketer",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.outbrain.com/amplify/v0.1/marketers/:id/budgets",
+            "params": [
+              {
+                "name": "id",
+                "value": "00f4b02153ee75f3c9dc4fc128ab041962",
+                "type": "path",
+                "description": "the id of the Marketer"
+              },
+              {
+                "name": "detachedOnly",
+                "value": "true",
+                "type": "query",
+                "description": "return only budgets that are not attached to any campaign"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "To create a new budget use the following properties\n\nProperty\nType\nSemantic\nExample\n\nname\nString\nThe name of this Budget. Must be unique per each marketer. Maximum length is 100 characters.\n\"First  quarter budget\"\n\namount\nMoney\nThe monetary amount of this Budget\n2000.00\n\nstartDate\nDate\nThe date this Budget is scheduled to begin spending.\n\"2014-01-15\"\n\nendDate\nDate\nThe date this Budget is scheduled to stop spending. If runForever is true this will not be used.\n\"2014-01-17\"\n\nrunForever\nBoolean\nDes"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Geo Locations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search GeoLocations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/locations/search",
+            "params": [
+              {
+                "name": "term",
+                "value": "United States",
+                "type": "query",
+                "description": "The search term"
+              },
+              {
+                "name": "limit",
+                "value": "6",
+                "type": "query",
+                "description": "The limit of the search query. Default is 300"
+              },
+              {
+                "name": "include",
+                "value": "Region",
+                "type": "query",
+                "description": "which geoTypes to return"
+              },
+              {
+                "name": "exclude",
+                "value": "Country",
+                "type": "query",
+                "description": "which geoTypes to filter out of the results"
+              },
+              {
+                "name": "exactMatch",
+                "value": "true",
+                "type": "query",
+                "description": "search the exact term when true. The default is false"
+              },
+              {
+                "name": "country",
+                "value": "United States",
+                "type": "query",
+                "description": "return results from this country only"
+              },
+              {
+                "name": "locationsVersion",
+                "value": "V2",
+                "type": "query",
+                "description": "The regions inventory to search in. V1 for FIPS and V2 for ISO-3166. The default is V1"
+              }
+            ]
+          },
+          "docs": "This endpoint allows to search a single geo location term.\nResults can be filtered by supplying additional query parameters."
+        },
+        {
+          "info": {
+            "name": "Search Multiple GeoLocation Terms",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.outbrain.com/amplify/v0.1/locations/search/multiple",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint allows to search multiple geo locations terms."
+        },
+        {
+          "info": {
+            "name": "Retrieve all supported language",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/metadata/supportedLanguages"
+          },
+          "docs": "Returns all supported languages"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Interest Targeting",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search Interests by term",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/interests/search",
+            "params": [
+              {
+                "name": "term",
+                "value": "",
+                "type": "query",
+                "description": "The search term"
+              },
+              {
+                "name": "limit",
+                "value": "100",
+                "type": "query",
+                "description": "The limit of the search query."
+              }
+            ]
+          },
+          "docs": "Returns all interests which complies to a given search term.\nResults can be filtered by supplying additional query parameters."
+        },
+        {
+          "info": {
+            "name": "Retrieve all available interests",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/interests/all"
+          },
+          "docs": "Returns all available interests."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "IAB category Targeting",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve all available IAB categories",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/iabcategories/all"
+          },
+          "docs": "Returns all available IAB categories."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Campaigns",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve a Single Campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/campaigns/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "00f4b02153ee75f3c9dc4fc128ab0411ab",
+                "type": "path",
+                "description": "the id of the Campaign"
+              },
+              {
+                "name": "extraFields",
+                "value": "CustomAudience,Locations,InterestsTargeting,BidBySections,BlockedSites,PlatformTargeting,CampaignOptimization,Scheduling,IABCategories,CampaignPixels,VolumeControl",
+                "type": "query",
+                "description": "the additional campaign fields you want to include in the response"
+              }
+            ]
+          },
+          "docs": "Note: some campaign properties require using the Extra Field notion"
+        },
+        {
+          "info": {
+            "name": "Update an Existing Campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.outbrain.com/amplify/v0.1/campaigns/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "00f4b02153ee75f3c9dc4fc128ab0411ab",
+                "type": "path",
+                "description": "the id of the Campaign"
+              },
+              {
+                "name": "extraFields",
+                "value": "CustomAudience,Locations,InterestsTargeting,BidBySections,BlockedSites,PlatformTargeting,CampaignOptimization,Scheduling,IABCategories,CampaignPixels,VolumeControl",
+                "type": "query",
+                "description": "the additional campaign fields you want to include in the response"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "To update a campaign send a JSON with the updated value for one or more of the updatable campaign attributes.\n\nAll attribute values left unset in this PUT will remain unchanged.\n\nOnly the following Campaign properties are updatable:\n\n- \nname - Maximum length is 100 characters\n\n- \nenabled\n\n- \ncpc - The cpc must be higher than the minimumCpc\n\n- \ntargeting.platform - See Targeting object\n\n- \ntargeting.locations - See Targeting object\n\n- \ntargeting.excludedLocations - See Targeting object\n\n- \ntarget"
+        },
+        {
+          "info": {
+            "name": "Create a new Campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.outbrain.com/amplify/v0.1/campaigns",
+            "params": [
+              {
+                "name": "extraFields",
+                "value": "CustomAudience,Locations,InterestsTargeting,BidBySections,BlockedSites,PlatformTargeting,CampaignOptimization,Scheduling,IABCategories,CampaignPixels",
+                "type": "query",
+                "description": "the additional campaign fields you want to include in the response"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Property\nType\nSemantic\nExample\n\nname\nString\nThe name of this Campaign. Must be unique per each marketer. Maximum length is 100 characters.\n\"My Campaign\"\n\nbudgetId\nString\nThe id of the budget to associate the new campaign with.\n\"00f4b02153ee75f3c9dc4fc128ab041962\"\n\nenabled\nBoolean\nIs the campaign enabled\ntrue\n\ncpc\nMoney\nCost per click. See Currencies for valid cpc values.\n0.58\n\ntargeting\nTargeting Object\nSee Targeting object\n\nfeeds\nString array\nAn array of strings where each element contains the "
+        },
+        {
+          "info": {
+            "name": "Update Multiple Campaigns",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.outbrain.com/amplify/v0.1/campaigns",
+            "params": [
+              {
+                "name": "extraFields",
+                "value": "CustomAudience,Locations,InterestsTargeting,BidBySections,BlockedSites,PlatformTargeting,CampaignOptimization,Scheduling,IABCategories,CampaignPixels",
+                "type": "query",
+                "description": "the additional campaign fields you want to include in the response"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "- \nYou can update as much as 25 multiple campaigns at once\n\n- \nsome campaign properties require using the Extra Field notion\n\nNotes regarding the request:\n\nThe request should be an array of objects that includes:\n\n- \nid - the campaign's id you want to update\n\n- \nthe properties you want to update, same as for a single campaign\n\nNotes regarding the response:\n\nSince some campaigns update may succeed and some may fail, the response is constructed as follows:\n\n- \noperationStatus - OperationStatus\n\n- "
+        },
+        {
+          "info": {
+            "name": "Retrieve Multiple Campaigns",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/campaigns/:campaignIds/multiple",
+            "params": [
+              {
+                "name": "campaignIds",
+                "value": "00f4b02153ee75f3c9dc4fc128ab0411ab,00f863c5674af5c5f63415500f699a04e5",
+                "type": "path",
+                "description": "the ids of the Campaigns"
+              },
+              {
+                "name": "extraFields",
+                "value": "CustomAudience,Locations,InterestsTargeting,BidBySections,BlockedSites,PlatformTargeting,CampaignOptimization,Scheduling,IABCategories,CampaignPixels",
+                "type": "query",
+                "description": "the additional campaign fields you want to include in the response"
+              }
+            ]
+          },
+          "docs": "- \nYou can retrieve as much as 50 multiple campaigns at once.\n\n- \nsome campaign properties require using the Extra Field notion"
+        },
+        {
+          "info": {
+            "name": "List all Campaigns associated with a Budget",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/budgets/:id/campaigns",
+            "params": [
+              {
+                "name": "id",
+                "value": "00f4b02153ee75f3c9dc4fc128ab041962",
+                "type": "path",
+                "description": "the Budget id"
+              }
+            ]
+          },
+          "docs": "Note: some campaign properties require using the Extra Field notion"
+        },
+        {
+          "info": {
+            "name": "List all Campaigns associated with a Marketer",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/marketers/:id/campaigns",
+            "params": [
+              {
+                "name": "id",
+                "value": "00f4b02153ee75f3c9dc4fc128ab0411ab",
+                "type": "path",
+                "description": "the id of the Marketer."
+              },
+              {
+                "name": "extraFields",
+                "value": "CustomAudience,Locations,InterestsTargeting,BidBySections,BlockedSites,PlatformTargeting,CampaignOptimization,Scheduling,IABCategories,CampaignPixels",
+                "type": "query",
+                "description": "the additional campaign fields you want to include in the response."
+              },
+              {
+                "name": "includeArchived",
+                "value": "true",
+                "type": "query",
+                "description": "filter based on autoArchived property of the campaign object."
+              },
+              {
+                "name": "fromBudgetStartDate",
+                "value": "2020-10-01",
+                "type": "query",
+                "description": "filter based on budget startDate property. If provided, toBudgetEndDate parameter must be provided as well."
+              },
+              {
+                "name": "toBudgetEndDate",
+                "value": "2020-11-01",
+                "type": "query",
+                "description": "filter based on budget endDate property. If provided, fromBudgetStartDate parameter must be provided as well."
+              },
+              {
+                "name": "fetch",
+                "value": "basic",
+                "type": "query",
+                "description": "Fetch Type is one of [basic,all]. in basic fetch mode only the campaign id and name will be retrieved. This fetch type is optimised for low response time and smaller response payload. When fetch is basic, paging is ignored."
+              },
+              {
+                "name": "limit",
+                "value": "10",
+                "type": "query",
+                "description": "number of Campaigns to retrieve. default is 25, maximum is 50. When fetch is basic, paging is ignored."
+              },
+              {
+                "name": "offset",
+                "value": "3",
+                "type": "query",
+                "description": "index of the first Campaign in the result, zero based. default is 0 When fetch is basic, paging is ignored."
+              },
+              {
+                "name": "daysToLookBackForChanges",
+                "value": "5",
+                "type": "query",
+                "description": "filter based on campaigns that were modified in the last days."
+              }
+            ]
+          },
+          "docs": "Note: some campaign properties require using the Extra Field notion"
+        },
+        {
+          "info": {
+            "name": "Retrieve Campaign GeoLocations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/campaigns/:campaignId/locations",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "A new endpoint has been added which returns all targeted and excluded locations of a given campaign. It can be called in order to retrieve a campaign's geotargeting."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Segments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve a Single Segment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/segments/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "00f4b02153ee75f3c9dc4fc128ab041963",
+                "type": "path",
+                "description": "the Segment id"
+              }
+            ]
+          },
+          "docs": "The Segment object has the following attributes:\n\nProperty\nType\nSemantic\nExample\nComments\n\nid\nString\nsegment id. read-only\n\"00f4b02153ee75f3c9dc4fc128ab041962\"\n\nname\nString\nsegment name.\n\"My Segment\"\n\ndescription\nString\nsegment description.\n\"all clicks which originated from...\"\n\nmarketerId\nString\nmarketer id. read-only\n\"00f4b02153ee75f3c9dc4fc128ab041971\"\n\nsegmentType\nSegmentType\nthe type of the segment. read-only\n\npixelTypeRules\nPixelTypeRules\nan object describing rules defining membership to P"
+        },
+        {
+          "info": {
+            "name": "Update an Existing Segment",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.outbrain.com/amplify/v0.1/segments/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "00f4b02153ee75f3c9dc4fc128ab041963",
+                "type": "path",
+                "description": "the Segment id"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "To update a segment send a JSON with the updated value for one or more of the updatable segment attributes.\n\nAll attribute values left unset in this PUT will remain unchanged.\n\nOnly the following Segment properties are updatable:\n\n- \nname - Maximum length is 100 characters\n\n- \ndescription - Maximum length is 500 characters\n\n- \nenabled - Use value enabled to enable (true)/disable (false) segment\n\n- \npixelTypeRules - Set new rules for segment membership definition. Applicable only to segment of ty"
+        },
+        {
+          "info": {
+            "name": "List all Segments of a Marketer",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/marketers/:marketerId/segments",
+            "params": [
+              {
+                "name": "marketerId",
+                "value": "008f7b0d8a5c8cb24ba3011be372bfb232",
+                "type": "path",
+                "description": "the marketer id"
+              },
+              {
+                "name": "name",
+                "value": "segment name",
+                "type": "query",
+                "description": "the segment name"
+              },
+              {
+                "name": "matchExactNAme",
+                "value": "true",
+                "type": "query",
+                "description": "should the name search use exact matching"
+              },
+              {
+                "name": "includeArchived",
+                "value": "false",
+                "type": "query",
+                "description": "should the search results include archived segments"
+              }
+            ]
+          },
+          "docs": "The Segments object has the following attributes:\n\nProperty\nType\nSemantic\nExample\n\nsegments\nArray of Segment\na collection of returned segments. read-only\n\ncount\nInteger\nnumber of segments returned.\n1"
+        },
+        {
+          "info": {
+            "name": "Create a new Segment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.outbrain.com/amplify/v0.1/marketers/:marketerId/segments",
+            "params": [
+              {
+                "name": "marketerId",
+                "value": "008f7b0d8a5c8cb24ba3011be372bfb232",
+                "type": "path",
+                "description": "the marketer id"
+              },
+              {
+                "name": "name",
+                "value": "segment name",
+                "type": "query",
+                "description": "the segment name"
+              },
+              {
+                "name": "matchExactNAme",
+                "value": "true",
+                "type": "query",
+                "description": "should the name search use exact matching"
+              },
+              {
+                "name": "includeArchived",
+                "value": "false",
+                "type": "query",
+                "description": "should the search results include archived segments"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Property\nType\nSemantic\nExample\nComments\n\nname\nString\nsegment name.\n\"My Segment\"\n\ndescription\nString\nsegment description.\n\"all clicks which originated from...\"\n\nenabled\nBoolean\nIs the segment enabled\ntrue\n\nsegmentType\nSegmentType\nthe type of the segment.\n\npixelTypeRules\nPixelTypeRules\nan object describing rules defining membership to PIXEL segment.\n\nonly applicable to segments of type PIXEL\n\nclickersCampaigns\nArray of String\na collection of campaign ids defining membership to CLICKERS segment\n\non"
+        },
+        {
+          "info": {
+            "name": "Retrieve Global Segments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/audienceIntelSegments/all"
+          },
+          "docs": "Global Segments object is an array of SegmentGroup objects.\n\nProperty\nType\nSemantic\n\naudienceIntelGroups\nArray of [SegmentGroup]\nAn array of segment groups read-only\n\nSegmentGroup object is a logical segments group that has the following attributes:\n\nProperty\nType\nSemantic\n\nname\nString\ngroup name. read-only\n\nsubGroups\nArray of [SegmentGroup]\nAn array of sub segment groups read-only\n\nsegments\n[BasicGlobalSegment]\nAn array of global segments read-only\n\nBasicGlobalSegment is a global segment that h"
+        },
+        {
+          "info": {
+            "name": "List all Targeting Campaigns for Segments IDs",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.outbrain.com/amplify/v0.1/segments/targetingCampaigns",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This section allows the ability to obtain a full list of campaigns targeted by given segment ids.   Returns a Targeting Campaigns Response object"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Sections",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all metadata for section IDs",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.outbrain.com/amplify/v0.1/sections",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This request allows to obtain a full list of sections' metadata, given by sections' ids. Returns a Sections Collection Response object"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "PromotedLinks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve a Single PromotedLink",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/promotedLinks/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "00f4b02153ee75f3c9dc4fc128ab041962",
+                "type": "path",
+                "description": "the PromotedLink id"
+              },
+              {
+                "name": "promotedLinkImageWidth",
+                "value": "100",
+                "type": "query",
+                "description": "the width of the image (in pixels) as retrived in imageMetadata.url property, default value: 60"
+              },
+              {
+                "name": "promotedLinkImageHeight",
+                "value": "100",
+                "type": "query",
+                "description": "the height of the image (in pixels) as retrived in imageMetadata.url property, default value: 60"
+              }
+            ]
+          },
+          "docs": "Note: some promoted link properties require using the Extra Field notion, e.g. logoMetadata needs extraFields=LogoMetaData."
+        },
+        {
+          "info": {
+            "name": "Update an Existing PromotedLinks Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.outbrain.com/amplify/v0.1/promotedLinks/:ids",
+            "params": [
+              {
+                "name": "ids",
+                "value": "00f4b02153ee75f3c9dc4fc128ab041962,00f4b02153ee75f3c9dc4fc128ab041963",
+                "type": "path",
+                "description": "the PromotedLink ids"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "To update a PromotedLink status send a JSON with the updated enabled value for one or more PromotedLinks.\n\nOnly the following PromotedLink attributes are updatable via this endpoint:\n\n- enabled"
+        },
+        {
+          "info": {
+            "name": "Create a PromotedLink",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.outbrain.com/amplify/v0.1/campaigns/:campaignId/promotedLinks",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "campaignId",
+                "type": "path",
+                "description": "The Id of the Campaign"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "You can create a new promoted link and associate it with an existing campaign.\nAmplifyAPi allows you to add your own headline, image and section name for the newly created promoted link.\nIf you'd like to set your own image, then you can do so by providing an http link for the hosted image or by uploadig an image file.\nif the image is not provided, it will be set via our backend crawler.\n\nPOST a JSON hash with the following attributes:\n\n- \ntext - optional, if not provided, the title will be set v"
+        },
+        {
+          "info": {
+            "name": "Update Existing PromotedLinks CPC Value",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.outbrain.com/amplify/v0.1/campaigns/:campaignId/promotedLinks",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "00f4b02153ee75f3c9dc4fc128ab041962",
+                "type": "path",
+                "description": "the Campaign id"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "To update a PromotedLink send a JSON with the updated value for one or more of the allowed PromotedLink attributes.\n\nAll attribute values left unset in this PUT will remain unchanged.\n\nOnly the following PromotedLink attributes are updatable:\n\n- \ncpc\n\n- \nenabled"
+        },
+        {
+          "info": {
+            "name": "Create multiple PromotedLinks",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.outbrain.com/amplify/v0.1/campaigns/:campaignId/multiplePromotedLinks",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "campaignId",
+                "type": "path",
+                "description": "The Id of the Campaign"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "You can create multiple new promoted links and associate them with an existing campaign.\nAmplifyAPi allows you to add your own headline and image for the newly created promoted link.\nIf you'd like to set your own image, then you can do so by providing an http link for the hosted image or by uploadig an image file.\nif the image is not provided, it will be set via our backend crawler.\n\nlinking to a hosted image\n\nPOST a JSON hash with the following attributes:\n\n- \ntext - optional, if not provided, "
+        },
+        {
+          "info": {
+            "name": "Update multiple PromotedLinks",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.outbrain.com/amplify/v0.1/campaigns/:campaignId/promotedLinks/",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "campaignId",
+                "type": "path",
+                "description": "The Id of the Campaign"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "You can update as much as 500 multiple promoted links at once that belong to an existing campaign.\n\nPUT a JSON with the following attributes:\n\n- \nenabled\n\n- \ncpc\n\n- \ntitle - only if ApprovalStatus::isEditable is true\n\n- \nsectionName - only if ApprovalStatus::isEditable is true\n\n- \ndescription - only if ApprovalStatus::isEditable is true\n\n- \nimageMetadata:\n\n- url - only if ApprovalStatus::isEditable is true\n\n- \nlogoMetadata - optional, this PromotedLink's own brand logo\n\n- id - optional, Outbrain"
+        },
+        {
+          "info": {
+            "name": "List PromotedLinks for Campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/campaigns/:id/promotedLinks",
+            "params": [
+              {
+                "name": "id",
+                "value": "abf4b02153ee75f3cadc4fc128ab0419ab",
+                "type": "path",
+                "description": "The Id of the Campaign"
+              },
+              {
+                "name": "enabled",
+                "value": "true",
+                "type": "query",
+                "description": "filter based on enabled property of the PromotedLinks object"
+              },
+              {
+                "name": "statuses",
+                "value": "APPROVED,PENDING,REJECTED",
+                "type": "query",
+                "description": "filter based on statuses - comma separated list of status"
+              },
+              {
+                "name": "limit",
+                "value": "200",
+                "type": "query",
+                "description": "num of PromotedLinks to retrieve. default is 100. Maximum is 500"
+              },
+              {
+                "name": "offset",
+                "value": "3",
+                "type": "query",
+                "description": "index of the first PromotedLink in the result, zero based. default is 0"
+              },
+              {
+                "name": "sort",
+                "value": "-creationTime",
+                "type": "query",
+                "description": "SortField supports only the 'creationTime' value"
+              },
+              {
+                "name": "promotedLinkImageWidth",
+                "value": "100",
+                "type": "query",
+                "description": "the width of the image (in pixels) as retrived in imageMetadata.url property, default value: 60"
+              },
+              {
+                "name": "promotedLinkImageHeight",
+                "value": "100",
+                "type": "query",
+                "description": "the height of the image (in pixels) as retrived in imageMetadata.url property, default value: 60"
+              }
+            ]
+          },
+          "docs": "Note: some promoted link properties require using the Extra Field notion"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "PromotedLinksSequences",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve a Single PromotedLinkSequence",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/promotedLinksSequences/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "0022310af9cb6398828bf2abd1445aa9fe",
+                "type": "path",
+                "description": "the id of the PromotedLinksSequence"
+              }
+            ]
+          },
+          "docs": "Retrieve a Single PromotedLinkSequence"
+        },
+        {
+          "info": {
+            "name": "List PromotedLinksSequences for Campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/campaigns/:campaignId/promotedLinksSequences",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "abf4b02153ee75f3cadc4fc128ab0419ab",
+                "type": "path",
+                "description": "The Id of the Campaign"
+              },
+              {
+                "name": "onAir",
+                "value": "true",
+                "type": "query",
+                "description": "filter only on air sequences"
+              },
+              {
+                "name": "limit",
+                "value": "200",
+                "type": "query",
+                "description": "num of PromotedLinksSequence to retrieve. default is 25. Maximum is 50"
+              },
+              {
+                "name": "offset",
+                "value": "3",
+                "type": "query",
+                "description": "index of the first PromotedLink in the result, zero based. default is 0"
+              }
+            ]
+          },
+          "docs": "Collection of all PromotedLinksSequences for the specified Campaign.\nResults can be filtered by supplying additional query parameters.\n\nThe PromotedLinksSequences collection resource has the following attributes:\n\n- \nsequences - Array of Promoted Links Sequence.\n\n- \ncount - Number of PromotedLinksSequences returned in the sequences array included in this response.\n\n- \ntotalCount - Total number of PromotedLinksSequence regardless of 'limit' and 'offset' parameters, used for pagination."
+        },
+        {
+          "info": {
+            "name": "Create a PromotedLinkSequence",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.outbrain.com/amplify/v0.1/campaigns/:campaignId/promotedLinksSequences",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "campaignId",
+                "type": "path",
+                "description": "The Id of the Campaign"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "You can create a new promoted links sequence and associate it with an existing campaign.\n\nPOST a JSON hash with the following attributes:\n\n- \ntitle - Optional for carousels only\n\n- \nenabled - mandatory\n\n- \nlogoUrl - mandatory\n\n- \nsponsor - mandatory\n\n- \npromotedLinks - mandatory, See Sub Promoted Link Object\n\n- \nratingEnabled - optional for app install only, false by default"
+        },
+        {
+          "info": {
+            "name": "Update a PromotedLinkSequence",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.outbrain.com/amplify/v0.1/promotedLinksSequences/:promotedLinksSequenceId",
+            "params": [
+              {
+                "name": "promotedLinksSequenceId",
+                "value": "promotedLinksSequenceId",
+                "type": "path",
+                "description": "The Id of the PromotedLinkSequence"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "To update a promotedLinkSequence send a JSON with the updated value for one or more of the updatable promotedLinkSequence attributes.\n\nAll attribute values left unset in this PUT will remain unchanged.\n\nOnly the following PromotedLinkSequence properties are updatable:\n\n- \ntitle - For carousels only, Maximum length is 150 characters\n\n- \nenabled\n\n- \nlogoUrl\n\n- \nsponsor\n\n- \npromotedLinks - See Sub Promoted Link Object\n\n- \nratingEnabled - for app install only"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Performance Reporting",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve last day of full data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/reports/fullDay"
+          },
+          "docs": "Return the last day for which the data in perfromance reports is complete. Result fields:\n\nProperty\nType\nSemantic\n\nfullDayDate\nDate\nDate of the last day with full performance data.\n\nmodificationTime\nTime\nModification time of the last day of full data."
+        },
+        {
+          "info": {
+            "name": "Retrieve data freshness",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/reports/dataFreshness"
+          },
+          "docs": "Return the last timestamps for which the data in performance reports is available. Result fields:\n\nProperty\nType\nSemantic\n\nfinalDataDate\nTime\nThe last timestamp for which the data is complete, usually 0.5 - 1 hour delay.\n\nrealTimeDataDate\nTime\nThe last timestamp for which the data is in realtime and not yet finalized, usually 10-20 minutes delay."
+        },
+        {
+          "info": {
+            "name": "Retrieve marketers with performance statistics for a Primary Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/reports/accounts/:primaryAccountId/marketers",
+            "params": [
+              {
+                "name": "primaryAccountId",
+                "value": "abf4b02153ee75f3cadc4fc128ab0419ab",
+                "type": "path",
+                "description": "Primary Account id. account.salesForceAccountId from Marketer Entity."
+              },
+              {
+                "name": "from",
+                "value": "2015-12-22",
+                "type": "query",
+                "description": "Start day Date"
+              },
+              {
+                "name": "to",
+                "value": "2016-01-20",
+                "type": "query",
+                "description": "End day Date"
+              },
+              {
+                "name": "limit",
+                "value": "10",
+                "type": "query",
+                "description": "Number of results to return in this request. Used with offset for pagination. default is 10."
+              },
+              {
+                "name": "offset",
+                "value": "3",
+                "type": "query",
+                "description": "Result number to start this response at. zero based. Used with limit for pagination. default is 0."
+              },
+              {
+                "name": "sort",
+                "value": "-ctr",
+                "type": "query",
+                "description": "Can have one of the following values impressions, clicks, ctr, spend, ecpc, conversions, conversionRate, cpa, name, enabled, creativeFormat, budgetStartDate, budgetEndDate and budgetAmount . For more details about reports filtering read this."
+              },
+              {
+                "name": "filter",
+                "value": "clicks+gt+99",
+                "type": "query",
+                "description": "Can have the following values impressions, clicks, ctr, spend, ecpc, conversions, conversionRate, cpa, name, enabled, creativeFormat, budgetStartDate, budgetEndDate, budgetAmount, budgetType, budgetShared and pacingType. For more details about reports filtering read this."
+              },
+              {
+                "name": "conversionsByClickDate",
+                "value": "true",
+                "type": "query",
+                "description": "Report conversion metrics by click or conversion date, default false (report by conversion date)."
+              }
+            ]
+          },
+          "docs": "The API in this sub-section allows retrieving primary account marketers data with performance statistics.\n\nResult fields\nMetrics in metrics, metadata in a metadata object containing the following fields:\n\nProperty\nType\nSemantic\n\nid\nString\nMarketer ID.\n\nname\nString\nMarketer name.\n\nstatus\nString\nThe marketer's delivery status: ACTIVE, DISABLED, INACTIVE (no spent in the last 30 days), PARTIALLY_ACTIVE (inactive campaign on air status)"
+        },
+        {
+          "info": {
+            "name": "Retrieve campaigns with performance statistics for a Marketer",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/reports/marketers/:id/campaigns",
+            "params": [
+              {
+                "name": "id",
+                "value": "abf4b02153ee75f3cadc4fc128ab0419ab",
+                "type": "path",
+                "description": "Marketer id"
+              },
+              {
+                "name": "from",
+                "value": "2015-12-22",
+                "type": "query",
+                "description": "Start day Date"
+              },
+              {
+                "name": "to",
+                "value": "2016-01-20",
+                "type": "query",
+                "description": "End day Date"
+              },
+              {
+                "name": "limit",
+                "value": "10",
+                "type": "query",
+                "description": "Number of results to return in this request. Used with offset for pagination. default is 10."
+              },
+              {
+                "name": "offset",
+                "value": "3",
+                "type": "query",
+                "description": "Result number to start this response at. zero based. Used with limit for pagination. default is 0."
+              },
+              {
+                "name": "sort",
+                "value": "-ctr",
+                "type": "query",
+                "description": "Can have one of the following values impressions, clicks, ctr, spend, ecpc, conversions, conversionRate, cpa, name, enabled, creativeFormat, budgetStartDate, budgetEndDate and budgetAmount . For more details about reports filtering read this."
+              },
+              {
+                "name": "filter",
+                "value": "clicks+gt+99",
+                "type": "query",
+                "description": "Can have the following values impressions, clicks, ctr, spend, ecpc, conversions, conversionRate, cpa, name, enabled, creativeFormat, budgetStartDate, budgetEndDate, budgetAmount, budgetType, budgetShared and pacingType. For more details about reports filtering read this."
+              },
+              {
+                "name": "includeArchivedCampaigns",
+                "value": "true",
+                "type": "query",
+                "description": "Include data of archived campaigns, default false."
+              },
+              {
+                "name": "budgetId",
+                "value": "adc4fc128ab0419ababf4b02153ee75f3c",
+                "type": "query",
+                "description": "Limit to data of the budget with the given ID."
+              },
+              {
+                "name": "campaignId",
+                "value": "e75f3cadc4fc128ab0419ababf4b02153e, 0069fc0fe9598f99b4c528f0881cd74b4b",
+                "type": "query",
+                "description": "Limit to data of the campaign with the given IDs (takes precedence over budgetId)."
+              },
+              {
+                "name": "includeConversionDetails",
+                "value": "true",
+                "type": "query",
+                "description": "Include metrics of conversion pixels, default false."
+              },
+              {
+                "name": "conversionsByClickDate",
+                "value": "true",
+                "type": "query",
+                "description": "Report conversion metrics by click or conversion date, default false (report by conversion date)."
+              },
+              {
+                "name": "includeViewedImpressions",
+                "value": "false",
+                "type": "query",
+                "description": "When true, includes viewableImpressions in the response metrics. Default false."
+              }
+            ]
+          },
+          "docs": "The API in this sub-section allows retrieving marketer campaigns data with performance statistics.\n\nResult fields\nMetrics in metrics, metadata in a metadata object containing the following fields:\n\nProperty\nType\nSemantic\n\nid\nString\nCampaign ID.\n\nname\nString\nCampaign name.\n\ncampaignOnAir\nBoolean\nIs the campaign on air, same as campaignOnAir in Live Status.\n\nonAirReason\nCampaign On Air Reason\nThe reason for the campaign on air status, same as onAirReason in Live Status.\n\nenabled\nBoolean\nIs the cam"
+        },
+        {
+          "info": {
+            "name": "Retrieve promoted content links performance statistics for a Marketer",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/reports/marketers/:id/promotedContent",
+            "params": [
+              {
+                "name": "id",
+                "value": "abf4b02153ee75f3cadc4fc128ab0419ab",
+                "type": "path",
+                "description": "Marketer id"
+              },
+              {
+                "name": "from",
+                "value": "2015-12-22",
+                "type": "query",
+                "description": "Start day Date"
+              },
+              {
+                "name": "to",
+                "value": "2016-01-20",
+                "type": "query",
+                "description": "End day Date"
+              },
+              {
+                "name": "limit",
+                "value": "10",
+                "type": "query",
+                "description": "Number of results to return in this request. Used with offset for pagination. default is 10."
+              },
+              {
+                "name": "offset",
+                "value": "3",
+                "type": "query",
+                "description": "Result number to start this response at. zero based. Used with limit for pagination. default is 0."
+              },
+              {
+                "name": "sort",
+                "value": "-ctr",
+                "type": "query",
+                "description": "Can have one of the following values impressions, clicks, ctr, spend, ecpc, conversions, conversionRate, cpa, text, creationTime, lastModified, url, status, approvalStatus, enabled, campaignName, cpcAdjustment, creativeFormat. For more details about reports filtering read this."
+              },
+              {
+                "name": "filter",
+                "value": "clicks+gt+99",
+                "type": "query",
+                "description": "Can have the following values impressions, clicks, ctr, spend, ecpc, conversions, conversionRate, cpa, text, creationTime, lastModified, url, status, approvalStatus, enabled, campaignName, cpcAdjustment, creativeFormat. For more details about reports filtering read this."
+              },
+              {
+                "name": "includeArchivedCampaigns",
+                "value": "true",
+                "type": "query",
+                "description": "Include data of archived campaigns, default false."
+              },
+              {
+                "name": "budgetId",
+                "value": "adc4fc128ab0419ababf4b02153ee75f3c",
+                "type": "query",
+                "description": "Limit to data of the budget with the given ID."
+              },
+              {
+                "name": "campaignId",
+                "value": "e75f3cadc4fc128ab0419ababf4b02153e, 0069fc0fe9598f99b4c528f0881cd74b4b",
+                "type": "query",
+                "description": "Limit to data of the campaign with the given IDs (takes precedence over budgetId)."
+              },
+              {
+                "name": "promotedLinkId",
+                "value": "19ababf4b02153ee75f3cadc4fc128ab04",
+                "type": "query",
+                "description": "Limit to data of the promoted link with the given ID (takes precedence over budgetId and campaignId)."
+              },
+              {
+                "name": "includeConversionDetails",
+                "value": "false",
+                "type": "query",
+                "description": "Include metrics of conversion pixels, default false."
+              },
+              {
+                "name": "conversionsByClickDate",
+                "value": "true",
+                "type": "query",
+                "description": "Report conversion metrics by click or conversion date, default false (report by conversion date)."
+              }
+            ]
+          },
+          "docs": "The API in this sub-section allows retrieving performance statistics by promoted link at different levels: marketer, budget, campaign and promoted link.\n\nThis new endpoint also supports promoted links that are creative format: CAROUSEL and APP_INSTALL, these were previously excluded from the original Content endpoint. Please note that this endpoint is replacing the previous Content endpoint which will be removed by October 2022.\n\nResult fields\nMetrics in metrics, metadata in a metadata object co"
+        },
+        {
+          "info": {
+            "name": "Retrieve periodic performance statistics for a Marketer",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/reports/marketers/:id/periodic",
+            "params": [
+              {
+                "name": "id",
+                "value": "abf4b02153ee75f3cadc4fc128ab0419ab",
+                "type": "path",
+                "description": "Marketer id"
+              },
+              {
+                "name": "from",
+                "value": "2015-12-22",
+                "type": "query",
+                "description": "Start day Date"
+              },
+              {
+                "name": "to",
+                "value": "2016-01-20",
+                "type": "query",
+                "description": "End day Date"
+              },
+              {
+                "name": "limit",
+                "value": "10",
+                "type": "query",
+                "description": "Number of results to return in this request. Used with offset for pagination. default is 10."
+              },
+              {
+                "name": "offset",
+                "value": "3",
+                "type": "query",
+                "description": "Result number to start this response at. zero based. Used with limit for pagination. default is 0."
+              },
+              {
+                "name": "sort",
+                "value": "-ctr",
+                "type": "query",
+                "description": "Can have one of the following values impressions, clicks, ctr, spend, ecpc, conversions, conversionRate, cpa, id, fromDate and toDate. For more details about reports filtering read this."
+              },
+              {
+                "name": "filter",
+                "value": "clicks+gt+99",
+                "type": "query",
+                "description": "Can have the following values impressions, clicks, ctr, spend, ecpc, conversions, conversionRate, cpa, id, fromDate and toDate. For more details about reports filtering read this."
+              },
+              {
+                "name": "includeArchivedCampaigns",
+                "value": "true",
+                "type": "query",
+                "description": "Include data of archived campaigns, default false."
+              },
+              {
+                "name": "budgetId",
+                "value": "adc4fc128ab0419ababf4b02153ee75f3c",
+                "type": "query",
+                "description": "Limit to data of the budget with the given ID."
+              },
+              {
+                "name": "campaignId",
+                "value": "e75f3cadc4fc128ab0419ababf4b02153e, 0069fc0fe9598f99b4c528f0881cd74b4b",
+                "type": "query",
+                "description": "Limit to data of the campaign with the given IDs (takes precedence over budgetId)."
+              },
+              {
+                "name": "promotedLinkId",
+                "value": "19ababf4b02153ee75f3cadc4fc128ab04",
+                "type": "query",
+                "description": "Limit to data of the promoted link with the given ID (takes precedence over budgetId and campaignId)."
+              },
+              {
+                "name": "breakdown",
+                "value": "monthly",
+                "type": "query",
+                "description": "Defines the periodic breakdown of data, either daily, weekly, monthly, hourOfDay, dayOfWeek or dayOfWeekByHour. Default is daily."
+              },
+              {
+                "name": "includeConversionDetails",
+                "value": "false",
+                "type": "query",
+                "description": "Include metrics of conversion pixels, default false."
+              },
+              {
+                "name": "conversionsByClickDate",
+                "value": "true",
+                "type": "query",
+                "description": "Report conversion metrics by click or conversion date, default false (report by conversion date)."
+              },
+              {
+                "name": "includeViewedImpressions",
+                "value": "false",
+                "type": "query",
+                "description": "When true, includes viewableImpressions in the response metrics."
+              }
+            ]
+          },
+          "docs": "The API in this sub-section allows retrieving performance statistics by periodic breakdown at different levels: marketer, budget, campaign and promoted link.\n\nSpecial request parameters\n\nParameter\nType\nSemantic\nDetails\n\nbreakdown\nString\nDefines the periodic breakdown of data, either daily, weekly, monthly, hourOfDay, dayOfWeek or dayOfWeekByHour.\nOptional, default value daily.\n\npromotedLinkId\nString\nLimit to data of the promoted link with given ID.\nOptional, takes precedence over budgetId and ca"
+        },
+        {
+          "info": {
+            "name": "Retrieve performance statistics for all marketer campaigns by periodic breakdown",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/reports/marketers/:id/campaigns/periodic",
+            "params": [
+              {
+                "name": "id",
+                "value": "abf4b02153ee75f3cadc4fc128ab0419ab",
+                "type": "path",
+                "description": "Marketer id"
+              },
+              {
+                "name": "from",
+                "value": "2015-12-22",
+                "type": "query",
+                "description": "Start day Date"
+              },
+              {
+                "name": "to",
+                "value": "2016-01-20",
+                "type": "query",
+                "description": "End day Date"
+              },
+              {
+                "name": "limit",
+                "value": "10",
+                "type": "query",
+                "description": "Number of results to return in this request for each campaign. default is 10."
+              },
+              {
+                "name": "offset",
+                "value": "3",
+                "type": "query",
+                "description": "Result number to start this response at. zero based. Used with limit for pagination. default is 0."
+              },
+              {
+                "name": "includeArchivedCampaigns",
+                "value": "true",
+                "type": "query",
+                "description": "Include data of archived campaigns, default false."
+              },
+              {
+                "name": "breakdown",
+                "value": "monthly",
+                "type": "query",
+                "description": "Defines the periodic breakdown of data, either daily, weekly, monthly, hourOfDay, dayOfWeek or dayOfWeekByHour. Default is daily."
+              },
+              {
+                "name": "includeConversionDetails",
+                "value": "false",
+                "type": "query",
+                "description": "Include metrics of conversion pixels, default false."
+              },
+              {
+                "name": "conversionsByClickDate",
+                "value": "true",
+                "type": "query",
+                "description": "Report conversion metrics by click or conversion date, default false (report by conversion date)."
+              },
+              {
+                "name": "includeViewedImpressions",
+                "value": "false",
+                "type": "query",
+                "description": "When true, includes viewableImpressions in the response metrics."
+              }
+            ]
+          },
+          "docs": "A special endpoint for retrieving periodic data by campaign breakdown. Now supports all breakdowns: daily, weekly, monthly, hourOfDay, dayOfWeek and dayOfWeekByHour.\n\nNote: The response structure defers from other performance responses.\n\nThe reponse contains only campaigns that have periodic results given the offset and limit, in the following two objects:\n\nProperty\nType\nSemantic\n\ncampaignResults\nArray\nResults for the marketer campaigns. Each object in the array contains results and totalResults"
+        },
+        {
+          "info": {
+            "name": "Retrieve performance statistics for all marketer campaigns by periodic hourly breakdown",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/reports/marketers/:id/campaigns/periodicHourly",
+            "params": [
+              {
+                "name": "id",
+                "value": "abf4b02153ee75f3cadc4fc128ab0419ab",
+                "type": "path",
+                "description": "Marketer id"
+              },
+              {
+                "name": "hours",
+                "value": "24",
+                "type": "query",
+                "description": "Number of hours to return from now. Default is 24, Maximum is 48 hours."
+              },
+              {
+                "name": "limit",
+                "value": "10",
+                "type": "query",
+                "description": "Number of results to return in this request for each campaign. default is 10."
+              },
+              {
+                "name": "offset",
+                "value": "3",
+                "type": "query",
+                "description": "Result number to start this response at. zero based. Used with limit for pagination. default is 0."
+              },
+              {
+                "name": "includeArchivedCampaigns",
+                "value": "true",
+                "type": "query",
+                "description": "Include data of archived campaigns, default false."
+              },
+              {
+                "name": "breakdown",
+                "value": "monthly",
+                "type": "query",
+                "description": "Defines the periodic breakdown of data, either daily, weekly, monthly, hourOfDay, dayOfWeek or dayOfWeekByHour. Default is daily."
+              },
+              {
+                "name": "includeConversionDetails",
+                "value": "false",
+                "type": "query",
+                "description": "Include metrics of conversion pixels, default false."
+              },
+              {
+                "name": "conversionsByClickDate",
+                "value": "true",
+                "type": "query",
+                "description": "Report conversion metrics by click or conversion date, default false (report by conversion date)."
+              }
+            ]
+          },
+          "docs": "A special endpoint for retrieving periodic data by campaign in hourly breakdown.\n\nNote: The response structure defers from other performance responses.\n\nThe reponse contains only campaigns that have periodic results given the offset and limit, in the following two objects:\n\nProperty\nType\nSemantic\n\ncampaignResults\nArray\nResults for the marketer campaigns. Each object in the array contains results and totalResults field similar to the response of the Periodic request, and an additional campaignId "
+        },
+        {
+          "info": {
+            "name": "Retrieve performance statistics for all marketer campaigns by periodic minutely breakdown",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/reports/marketers/:id/campaigns/periodicMinutely",
+            "params": [
+              {
+                "name": "id",
+                "value": "abf4b02153ee75f3cadc4fc128ab0419ab",
+                "type": "path",
+                "description": "Marketer id"
+              },
+              {
+                "name": "minutes",
+                "value": "60",
+                "type": "query",
+                "description": "Number of minutes to return from now, default is 60, Max is 120."
+              },
+              {
+                "name": "limit",
+                "value": "10",
+                "type": "query",
+                "description": "Number of results to return in this request for each campaign, default is 10."
+              },
+              {
+                "name": "offset",
+                "value": "3",
+                "type": "query",
+                "description": "Result number to start this response at. zero based. Used with limit for pagination. default is 0."
+              },
+              {
+                "name": "includeArchivedCampaigns",
+                "value": "true",
+                "type": "query",
+                "description": "Include data of archived campaigns, default false."
+              },
+              {
+                "name": "breakdown",
+                "value": "monthly",
+                "type": "query",
+                "description": "Defines the periodic breakdown of data, either daily, weekly, monthly, hourOfDay, dayOfWeek or dayOfWeekByHour. Default is daily."
+              },
+              {
+                "name": "includeConversionDetails",
+                "value": "false",
+                "type": "query",
+                "description": "Include metrics of conversion pixels, default false."
+              },
+              {
+                "name": "conversionsByClickDate",
+                "value": "true",
+                "type": "query",
+                "description": "Report conversion metrics by click or conversion date, default false (report by conversion date)."
+              }
+            ]
+          },
+          "docs": "A special endpoint for retrieving periodic data by campaign in minutely breakdown.\n\nNote: The response structure defers from other performance responses.\n\nThe reponse contains only campaigns that have periodic results given the offset and limit, in the following two objects:\n\nProperty\nType\nSemantic\n\ncampaignResults\nArray\nResults for the marketer campaigns. Each object in the array contains results and totalResults field similar to the response of the Periodic request, and an additional campaignI"
+        },
+        {
+          "info": {
+            "name": "Retrieve periodic performance statistics by promoted link for a campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/reports/marketers/:id/campaigns/:campaignId/periodicContent",
+            "params": [
+              {
+                "name": "id",
+                "value": "abf4b02153ee75f3cadc4fc128ab0419ab",
+                "type": "path",
+                "description": "Marketer id"
+              },
+              {
+                "name": "campaignId",
+                "value": "e75f3cadc4fc128ab0419ababf4b02153e, 0069fc0fe9598f99b4c528f0881cd74b4b",
+                "type": "path",
+                "description": "Limit to data of the campaign with the given IDs."
+              },
+              {
+                "name": "from",
+                "value": "2015-12-22",
+                "type": "query",
+                "description": "Start day Date"
+              },
+              {
+                "name": "to",
+                "value": "2016-01-20",
+                "type": "query",
+                "description": "End day Date"
+              },
+              {
+                "name": "limit",
+                "value": "10",
+                "type": "query",
+                "description": "Number of results to return in this request for each campaign. default is 10."
+              },
+              {
+                "name": "offset",
+                "value": "3",
+                "type": "query",
+                "description": "Result number to start this response at. zero based. Used with limit for pagination. Default is 0."
+              },
+              {
+                "name": "breakdown",
+                "value": "monthly",
+                "type": "query",
+                "description": "Defines the periodic breakdown of data, either daily, weekly or monthly. Default is daily."
+              },
+              {
+                "name": "includeConversionDetails",
+                "value": "false",
+                "type": "query",
+                "description": "Include metrics of conversion pixels, default false."
+              },
+              {
+                "name": "conversionsByClickDate",
+                "value": "true",
+                "type": "query",
+                "description": "Report conversion metrics by click or conversion date, default false (report by conversion date)."
+              }
+            ]
+          },
+          "docs": "A special endpoint for retrieving periodic data by promoted link breakdown for a given campaign.\n\nNote: The response structure defers from other performance responses.\n\nThe reponse contains only promoted links that have periodic results given the offset and limit, in the following two objects:\n\nProperty\nType\nSemantic\n\npromotedLinkResults\nArray\nResults for the campaign promoted links. Each object in the array contains results and totalResults field similar to the response of the Periodic request,"
+        },
+        {
+          "info": {
+            "name": "Retrieve hourly periodic performance statistics by promoted link for a campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/reports/marketers/:id/campaigns/:campaignId/periodicContentHourly",
+            "params": [
+              {
+                "name": "id",
+                "value": "abf4b02153ee75f3cadc4fc128ab0419ab",
+                "type": "path",
+                "description": "Marketer id"
+              },
+              {
+                "name": "campaignId",
+                "value": "e75f3cadc4fc128ab0419ababf4b02153e, 0069fc0fe9598f99b4c528f0881cd74b4b",
+                "type": "path",
+                "description": "Limit to data of the campaign with the given IDs."
+              },
+              {
+                "name": "hours",
+                "value": "24",
+                "type": "query",
+                "description": "Number of hours to return from now. Default is 24, Maximum is 48 hours."
+              },
+              {
+                "name": "limit",
+                "value": "10",
+                "type": "query",
+                "description": "Number of results to return in this request for each campaign. Default is 10."
+              },
+              {
+                "name": "offset",
+                "value": "3",
+                "type": "query",
+                "description": "Result number to start this response at. zero based. Used with limit for pagination. Default is 0."
+              },
+              {
+                "name": "includeConversionDetails",
+                "value": "false",
+                "type": "query",
+                "description": "Include metrics of conversion pixels, default false."
+              },
+              {
+                "name": "conversionsByClickDate",
+                "value": "true",
+                "type": "query",
+                "description": "Report conversion metrics by click or conversion date, default false (report by conversion date)."
+              }
+            ]
+          },
+          "docs": "An endpoint for retrieving periodic data by promoted link for a given campaign in an hourly breakdown - limited to last 48 hours.\n\nNote: The response structure defers from other performance responses.\n\nThe reponse contains only promoted links that have periodic results given the offset and limit, in the following two objects:\n\nProperty\nType\nSemantic\n\npromotedLinkResults\nArray\nResults for the campaign promoted links. Each object in the array contains results and totalResults field similar to the "
+        },
+        {
+          "info": {
+            "name": "Retrieve performance statistics for a Marketer by publisher",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/reports/marketers/:id/publishers",
+            "params": [
+              {
+                "name": "id",
+                "value": "abf4b02153ee75f3cadc4fc128ab0419ab",
+                "type": "path",
+                "description": "Marketer id"
+              },
+              {
+                "name": "from",
+                "value": "2015-12-22",
+                "type": "query",
+                "description": "Start day Date"
+              },
+              {
+                "name": "to",
+                "value": "2016-01-20",
+                "type": "query",
+                "description": "End day Date"
+              },
+              {
+                "name": "limit",
+                "value": "10",
+                "type": "query",
+                "description": "Number of results to return in this request. Used with offset for pagination. default is 10."
+              },
+              {
+                "name": "offset",
+                "value": "3",
+                "type": "query",
+                "description": "Result number to start this response at. zero based. Used with limit for pagination. default is 0."
+              },
+              {
+                "name": "sort",
+                "value": "-ctr",
+                "type": "query",
+                "description": "Can have one of the following values impressions, clicks, ctr, spend, ecpc, conversions, conversionRate, cpa, name. For more details about reports filtering read this."
+              },
+              {
+                "name": "filter",
+                "value": "clicks+gt+99",
+                "type": "query",
+                "description": "Can have the following values impressions, clicks, ctr, spend, ecpc, conversions, conversionRate, cpa, name. For more details about reports filtering read this."
+              },
+              {
+                "name": "includeArchivedCampaigns",
+                "value": "true",
+                "type": "query",
+                "description": "Include data of archived campaigns, default false."
+              },
+              {
+                "name": "budgetId",
+                "value": "adc4fc128ab0419ababf4b02153ee75f3c",
+                "type": "query",
+                "description": "Limit to data of the budget with the given ID."
+              },
+              {
+                "name": "campaignId",
+                "value": "e75f3cadc4fc128ab0419ababf4b02153e, 0069fc0fe9598f99b4c528f0881cd74b4b",
+                "type": "query",
+                "description": "Limit to data of the campaign with the given IDs (takes precedence over budgetId)."
+              },
+              {
+                "name": "includeConversionDetails",
+                "value": "false",
+                "type": "query",
+                "description": "Include metrics of conversion pixels, default false."
+              },
+              {
+                "name": "conversionsByClickDate",
+                "value": "true",
+                "type": "query",
+                "description": "Report conversion metrics by click or conversion date, default false (report by conversion date)."
+              }
+            ]
+          },
+          "docs": "Publisher: A content site that displays Outbrain recommendations on which your promoted content appeared.\n\nThe API in this sub-section allows retrieving marketer performance statistics with breakdown by publisher with publishers that are already blocked at the marketer or campaign level.\n\nResult Fields\nMetrics in metrics, metadata in a metadata object containing the following fields:\n\nProperty\nType\nSemantic\n\nid\nString\nPublisher Identifier.\n\nname\nString\nPublisher Name.\n\nblockStatus\nBlock status\nB"
+        },
+        {
+          "info": {
+            "name": "Retrieve performance statistics for all marketer campaigns by publisher",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/reports/marketers/:id/campaigns/publishers",
+            "params": [
+              {
+                "name": "id",
+                "value": "abf4b02153ee75f3cadc4fc128ab0419ab",
+                "type": "path",
+                "description": "Marketer id"
+              },
+              {
+                "name": "from",
+                "value": "2015-12-22",
+                "type": "query",
+                "description": "Start day Date"
+              },
+              {
+                "name": "to",
+                "value": "2016-01-20",
+                "type": "query",
+                "description": "End day Date"
+              },
+              {
+                "name": "limit",
+                "value": "10",
+                "type": "query",
+                "description": "Number of results to return in this request for each campaign. default is 10."
+              },
+              {
+                "name": "offset",
+                "value": "3",
+                "type": "query",
+                "description": "Result number to start this response at. zero based. Used with limit for pagination. default is 0."
+              },
+              {
+                "name": "includeArchivedCampaigns",
+                "value": "true",
+                "type": "query",
+                "description": "Include data of archived campaigns, default false."
+              },
+              {
+                "name": "includeConversionDetails",
+                "value": "false",
+                "type": "query",
+                "description": "Include metrics of conversion pixels, default false."
+              },
+              {
+                "name": "conversionsByClickDate",
+                "value": "true",
+                "type": "query",
+                "description": "Report conversion metrics by click or conversion date, default false (report by conversion date)."
+              }
+            ]
+          },
+          "docs": "A special endpoint for retrieving publishers data by campaign breakdown.\n\nNote: The response structure defers from other performance responses.\n\nThe reponse contains only campaigns that have publishers results given the offset and limit, in the following two objects:\n\nProperty\nType\nSemantic\n\ncampaignResults\nArray\nResults for the marketer campaigns. Each object in the array contains results and totalResults field similar to the response of the Publishers request (except for the blockStatus and bl"
+        },
+        {
+          "info": {
+            "name": "Retrieve performance statistics for a Marketer by section",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/reports/marketers/:id/sections",
+            "params": [
+              {
+                "name": "id",
+                "value": "abf4b02153ee75f3cadc4fc128ab0419ab",
+                "type": "path",
+                "description": "Marketer id"
+              },
+              {
+                "name": "from",
+                "value": "2015-12-22",
+                "type": "query",
+                "description": "Start day Date"
+              },
+              {
+                "name": "to",
+                "value": "2016-01-20",
+                "type": "query",
+                "description": "End day Date"
+              },
+              {
+                "name": "limit",
+                "value": "10",
+                "type": "query",
+                "description": "Number of results to return in this request. Used with offset for pagination. default is 10."
+              },
+              {
+                "name": "offset",
+                "value": "3",
+                "type": "query",
+                "description": "Result number to start this response at. zero based. Used with limit for pagination. default is 0."
+              },
+              {
+                "name": "sort",
+                "value": "-ctr",
+                "type": "query",
+                "description": "Can have one of the following values impressions, clicks, ctr, spend, ecpc, conversions, conversionRate, cpa, publisherName, name. For more details about reports filtering read this."
+              },
+              {
+                "name": "filter",
+                "value": "clicks+gt+99",
+                "type": "query",
+                "description": "Can have the following values impressions, clicks, ctr, spend, ecpc, conversions, conversionRate, cpa, publisherId, publisherName, name. For more details about reports filtering read this."
+              },
+              {
+                "name": "includeArchivedCampaigns",
+                "value": "true",
+                "type": "query",
+                "description": "Include data of archived campaigns, default false."
+              },
+              {
+                "name": "budgetId",
+                "value": "adc4fc128ab0419ababf4b02153ee75f3c",
+                "type": "query",
+                "description": "Limit to data of the budget with the given ID."
+              },
+              {
+                "name": "campaignId",
+                "value": "e75f3cadc4fc128ab0419ababf4b02153e, 0069fc0fe9598f99b4c528f0881cd74b4b",
+                "type": "query",
+                "description": "Limit to data of the campaign with the given IDs (takes precedence over budgetId)."
+              },
+              {
+                "name": "includeConversionDetails",
+                "value": "false",
+                "type": "query",
+                "description": "Include metrics of conversion pixels, default false."
+              },
+              {
+                "name": "conversionsByClickDate",
+                "value": "true",
+                "type": "query",
+                "description": "Report conversion metrics by click or conversion date, default false (report by conversion date)."
+              },
+              {
+                "name": "includeViewedImpressions",
+                "value": "false",
+                "type": "query",
+                "description": "When true, includes viewableImpressions in the response metrics."
+              }
+            ]
+          },
+          "docs": "Section: A specific content section within the publisher's site such as sports, business etc.\n\nThe API in this sub-section allows retrieving marketer performance statistics with breakdown by section with sections that are already blocked at the marketer or campaign level.\n\nNote: Sections with less than 1 click or less than 10 impressions will not show up in the results.\n\nResult Fields\nMetrics in metrics, metadata in a metadata object containing the following fields:\n\nProperty\nType\nSemantic\n\nid\nS"
+        },
+        {
+          "info": {
+            "name": "Retrieve performance statistics for all marketer campaigns by section",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/reports/marketers/:id/campaigns/sections",
+            "params": [
+              {
+                "name": "id",
+                "value": "abf4b02153ee75f3cadc4fc128ab0419ab",
+                "type": "path",
+                "description": "Marketer id"
+              },
+              {
+                "name": "from",
+                "value": "2015-12-22",
+                "type": "query",
+                "description": "Start day Date"
+              },
+              {
+                "name": "to",
+                "value": "2016-01-20",
+                "type": "query",
+                "description": "End day Date"
+              },
+              {
+                "name": "limit",
+                "value": "10",
+                "type": "query",
+                "description": "Number of results to return in this request for each campaign. default is 10."
+              },
+              {
+                "name": "offset",
+                "value": "3",
+                "type": "query",
+                "description": "Result number to start this response at. zero based. Used with limit for pagination. default is 0."
+              },
+              {
+                "name": "includeArchivedCampaigns",
+                "value": "true",
+                "type": "query",
+                "description": "Include data of archived campaigns, default false."
+              },
+              {
+                "name": "includeConversionDetails",
+                "value": "false",
+                "type": "query",
+                "description": "Include metrics of conversion pixels, default false."
+              },
+              {
+                "name": "conversionsByClickDate",
+                "value": "true",
+                "type": "query",
+                "description": "Report conversion metrics by click or conversion date, default false (report by conversion date)."
+              }
+            ]
+          },
+          "docs": "A special endpoint for retrieving sections data by campaign breakdown.\n\nNote: The response structure defers from other performance responses.\n\nNote 2: Sections with less than 1 click or less than 10 impressions will not show up in the results.\n\nThe reponse contains only campaigns that have sections results given the offset and limit, in the following two objects:\n\nProperty\nType\nSemantic\n\ncampaignResults\nArray\nResults for the marketer campaigns. Each object in the array contains results and total"
+        },
+        {
+          "info": {
+            "name": "Retrieve performance statistics for all marketer sections by dates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/reports/marketers/:id/sections/date",
+            "params": [
+              {
+                "name": "id",
+                "value": "abf4b02153ee75f3cadc4fc128ab0419ab",
+                "type": "path",
+                "description": "Marketer id"
+              },
+              {
+                "name": "from",
+                "value": "2015-12-22",
+                "type": "query",
+                "description": "Start day Date"
+              },
+              {
+                "name": "to",
+                "value": "2016-01-20",
+                "type": "query",
+                "description": "End day Date"
+              },
+              {
+                "name": "limit",
+                "value": "10",
+                "type": "query",
+                "description": "Number of results to return in this request for each date. default is 10."
+              },
+              {
+                "name": "offset",
+                "value": "3",
+                "type": "query",
+                "description": "Result number to start this response at. zero based. Used with limit for pagination. default is 0."
+              },
+              {
+                "name": "includeArchivedCampaigns",
+                "value": "true",
+                "type": "query",
+                "description": "Include data of archived campaigns, default false."
+              },
+              {
+                "name": "includeConversionDetails",
+                "value": "false",
+                "type": "query",
+                "description": "Include metrics of conversion pixels, default false."
+              },
+              {
+                "name": "conversionsByClickDate",
+                "value": "true",
+                "type": "query",
+                "description": "Report conversion metrics by click or conversion date, default false (report by conversion date)."
+              }
+            ]
+          },
+          "docs": "Endpoint for retrieving sections data by date in a daily breakdown.\n\nNote: The response structure defers from other performance responses.\n\nNote2: Sections with less than 1 click or less than 10 impressions will not show up in the results.\n\nProperty\nType\nSemantic\n\nresults\nArray\nResults for the daily breakdown. Each object in the array contains date, sections and totalResults field similar to the response of the Sections request (except for the cpcAdjustment, blockStatus and blockTypes fields in "
+        },
+        {
+          "info": {
+            "name": "Retrieve performance statistics for all marketer sections by dates hourly",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/reports/marketers/:id/sections/dateHourly",
+            "params": [
+              {
+                "name": "id",
+                "value": "abf4b02153ee75f3cadc4fc128ab0419ab",
+                "type": "path",
+                "description": "Marketer id"
+              },
+              {
+                "name": "hours",
+                "value": "24",
+                "type": "query",
+                "description": "Number of hours, default is 24. Max allowed - 24."
+              },
+              {
+                "name": "limit",
+                "value": "10",
+                "type": "query",
+                "description": "Number of results to return in this request for each date. default is 10."
+              },
+              {
+                "name": "offset",
+                "value": "3",
+                "type": "query",
+                "description": "Result number to start this response at. zero based. Used with limit for pagination. default is 0."
+              },
+              {
+                "name": "includeArchivedCampaigns",
+                "value": "true",
+                "type": "query",
+                "description": "Include data of archived campaigns, default false."
+              },
+              {
+                "name": "includeConversionDetails",
+                "value": "false",
+                "type": "query",
+                "description": "Include metrics of conversion pixels, default false."
+              },
+              {
+                "name": "conversionsByClickDate",
+                "value": "true",
+                "type": "query",
+                "description": "Report conversion metrics by click or conversion date, default false (report by conversion date)."
+              }
+            ]
+          },
+          "docs": "Endpoint for retrieving sections data by date in a hourly breakdown (last 48 hours).\n\nNote: The response structure defers from other performance responses.\n\nNote2: Sections with less than 1 click or less than 10 impressions will not show up in the results.\n\nProperty\nType\nSemantic\n\nresults\nArray\nResults for the daily breakdown. Each object in the array contains date, sections and totalResults field similar to the response of the Sections request (except for the cpcAdjustment, blockStatus and bloc"
+        },
+        {
+          "info": {
+            "name": "Retrieve performance statistics for all marketer sections by dates minutely",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/reports/marketers/:id/sections/dateMinutely",
+            "params": [
+              {
+                "name": "id",
+                "value": "abf4b02153ee75f3cadc4fc128ab0419ab",
+                "type": "path",
+                "description": "Marketer id"
+              },
+              {
+                "name": "minutes",
+                "value": "60",
+                "type": "query",
+                "description": "Number of minutes, default is 60 (Max 120)"
+              },
+              {
+                "name": "limit",
+                "value": "10",
+                "type": "query",
+                "description": "Number of results to return in this request for each date. default is 10."
+              },
+              {
+                "name": "offset",
+                "value": "3",
+                "type": "query",
+                "description": "Result number to start this response at. zero based. Used with limit for pagination. default is 0."
+              },
+              {
+                "name": "includeArchivedCampaigns",
+                "value": "true",
+                "type": "query",
+                "description": "Include data of archived campaigns, default false."
+              },
+              {
+                "name": "includeConversionDetails",
+                "value": "false",
+                "type": "query",
+                "description": "Include metrics of conversion pixels, default false."
+              },
+              {
+                "name": "conversionsByClickDate",
+                "value": "true",
+                "type": "query",
+                "description": "Report conversion metrics by click or conversion date, default false (report by conversion date)."
+              }
+            ]
+          },
+          "docs": "Endpoint for retrieving sections data by date in a minutely breakdown (last 360 minutes).\n\nNote: The response structure defers from other performance responses.\n\nNote2: Sections with less than 1 click or less than 10 impressions will not show up in the results.\n\nProperty\nType\nSemantic\n\nresults\nArray\nResults for the daily breakdown. Each object in the array contains date, sections and totalResults field similar to the response of the Sections request (except for the cpcAdjustment, blockStatus and"
+        },
+        {
+          "info": {
+            "name": "Retrieve performance statistics for a Marketer by platform",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/reports/marketers/:id/platforms",
+            "params": [
+              {
+                "name": "id",
+                "value": "abf4b02153ee75f3cadc4fc128ab0419ab",
+                "type": "path",
+                "description": "Marketer id"
+              },
+              {
+                "name": "from",
+                "value": "2015-12-22",
+                "type": "query",
+                "description": "Start day Date"
+              },
+              {
+                "name": "to",
+                "value": "2016-01-20",
+                "type": "query",
+                "description": "End day Date"
+              },
+              {
+                "name": "limit",
+                "value": "10",
+                "type": "query",
+                "description": "Number of results to return in this request. Used with offset for pagination. default is 10."
+              },
+              {
+                "name": "offset",
+                "value": "3",
+                "type": "query",
+                "description": "Result number to start this response at. zero based. Used with limit for pagination. default is 0."
+              },
+              {
+                "name": "sort",
+                "value": "-ctr",
+                "type": "query",
+                "description": "Can have one of the following values impressions, clicks, ctr, spend, ecpc, conversions, conversionRate, cpa, name, enabled, budgetStartDate, budgetEndDate and budgetAmount . For more details about reports filtering read this."
+              },
+              {
+                "name": "filter",
+                "value": "clicks+gt+99",
+                "type": "query",
+                "description": "Can have the following values impressions, clicks, ctr, spend, ecpc, conversions, conversionRate, cpa, name, enabled, budgetStartDate, budgetEndDate, budgetAmount, budgetType, budgetShared and pacingType. For more details about reports filtering read this."
+              },
+              {
+                "name": "includeArchivedCampaigns",
+                "value": "true",
+                "type": "query",
+                "description": "Include data of archived campaigns, default false."
+              },
+              {
+                "name": "budgetId",
+                "value": "adc4fc128ab0419ababf4b02153ee75f3c",
+                "type": "query",
+                "description": "Limit to data of the budget with the given ID."
+              },
+              {
+                "name": "campaignId",
+                "value": "e75f3cadc4fc128ab0419ababf4b02153e, 0069fc0fe9598f99b4c528f0881cd74b4b",
+                "type": "query",
+                "description": "Limit to data of the campaign with the given IDs (takes precedence over budgetId)."
+              },
+              {
+                "name": "includeConversionDetails",
+                "value": "true",
+                "type": "query",
+                "description": "Include metrics of conversion pixels, default false."
+              },
+              {
+                "name": "conversionsByClickDate",
+                "value": "true",
+                "type": "query",
+                "description": "Report conversion metrics by click or conversion date, default false (report by conversion date)."
+              },
+              {
+                "name": "breakdown",
+                "value": "os",
+                "type": "query",
+                "description": "Breakdown to apply, default platform. Allowed values are os, browser or platform for no breakdown."
+              },
+              {
+                "name": "includeViewedImpressions",
+                "value": "false",
+                "type": "query",
+                "description": "When true, includes viewableImpressions in the response metrics."
+              }
+            ]
+          },
+          "docs": "The API in this sub-section allows retrieving performance statistics by platform at different levels: marketer, budget, and campaign.\n\nResult fields\nMetrics in metrics, metadata in a metadata object containing the following fields:\n\nProperty\nType\nSemantic\n\nplatform\nString\nThe result platform, one of DESKTOP, TABLET or MOBILE.\n\nbreakdown\nString\nThe result breakdown, one of os, browser or platform for no breakdown.\n\nname\nString\nThe result breakdown name when breakdown was requested. For example: C"
+        },
+        {
+          "info": {
+            "name": "Retrieve performance statistics for all marketer campaigns by platform",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/reports/marketers/:id/campaigns/platforms",
+            "params": [
+              {
+                "name": "id",
+                "value": "abf4b02153ee75f3cadc4fc128ab0419ab",
+                "type": "path",
+                "description": "Marketer id"
+              },
+              {
+                "name": "from",
+                "value": "2015-12-22",
+                "type": "query",
+                "description": "Start day Date"
+              },
+              {
+                "name": "to",
+                "value": "2016-01-20",
+                "type": "query",
+                "description": "End day Date"
+              },
+              {
+                "name": "limit",
+                "value": "10",
+                "type": "query",
+                "description": "Number of results to return in this request for each campaign. default is 10."
+              },
+              {
+                "name": "offset",
+                "value": "3",
+                "type": "query",
+                "description": "Result number to start this response at. zero based. Used with limit for pagination. default is 0."
+              },
+              {
+                "name": "includeArchivedCampaigns",
+                "value": "true",
+                "type": "query",
+                "description": "Include data of archived campaigns, default false."
+              },
+              {
+                "name": "includeConversionDetails",
+                "value": "false",
+                "type": "query",
+                "description": "Include metrics of conversion pixels, default false."
+              },
+              {
+                "name": "conversionsByClickDate",
+                "value": "true",
+                "type": "query",
+                "description": "Report conversion metrics by click or conversion date, default false (report by conversion date)."
+              }
+            ]
+          },
+          "docs": "A special endpoint for retrieving platforms data by campaign breakdown.\n\nNote: The response structure defers from other performance responses.\n\nThe reponse contains only campaigns that have platforms results given the offset and limit, in the following two objects:\n\nProperty\nType\nSemantic\n\ncampaignResults\nArray\nResults for the marketer campaigns. Each object in the array contains results and totalResults field similar to the response of the Platforms request, and an additional campaignId field w"
+        },
+        {
+          "info": {
+            "name": "Retrieve geo performance statistics for a Marketer",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/reports/marketers/:id/geo",
+            "params": [
+              {
+                "name": "id",
+                "value": "abf4b02153ee75f3cadc4fc128ab0419ab",
+                "type": "path",
+                "description": "Marketer id"
+              },
+              {
+                "name": "from",
+                "value": "2015-12-22",
+                "type": "query",
+                "description": "Start day Date"
+              },
+              {
+                "name": "to",
+                "value": "2016-01-20",
+                "type": "query",
+                "description": "End day Date"
+              },
+              {
+                "name": "limit",
+                "value": "10",
+                "type": "query",
+                "description": "Number of results to return in this request. Used with offset for pagination. default is 10."
+              },
+              {
+                "name": "offset",
+                "value": "3",
+                "type": "query",
+                "description": "Result number to start this response at. zero based. Used with limit for pagination. default is 0."
+              },
+              {
+                "name": "sort",
+                "value": "-ctr",
+                "type": "query",
+                "description": "Can have one of the following values impressions, clicks, ctr, spend, ecpc, conversions, conversionRate, cpa, name, code, countryName, countryCode, regionName and regionCode. For more details about reports sorting read this."
+              },
+              {
+                "name": "filter",
+                "value": "clicks+gt+99",
+                "type": "query",
+                "description": "Can have the following values impressions, clicks, ctr, spend, ecpc, conversions, conversionRate, cpa, id, name, code, countryId, countryName countryCode, regionName and regionCode. For more details about reports filtering read this."
+              },
+              {
+                "name": "includeArchivedCampaigns",
+                "value": "true",
+                "type": "query",
+                "description": "Include data of archived campaigns, default false."
+              },
+              {
+                "name": "budgetId",
+                "value": "adc4fc128ab0419ababf4b02153ee75f3c",
+                "type": "query",
+                "description": "Limit to data of the budget with the given ID."
+              },
+              {
+                "name": "campaignId",
+                "value": "e75f3cadc4fc128ab0419ababf4b02153e, 0069fc0fe9598f99b4c528f0881cd74b4b",
+                "type": "query",
+                "description": "Limit to data of the campaign with the given IDs (takes precedence over budgetId)."
+              },
+              {
+                "name": "promotedLinkId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "breakdown",
+                "value": "region",
+                "type": "query",
+                "description": "Defines the geo breakdown of data, either country, region, DMA, or subregion."
+              },
+              {
+                "name": "includeConversionDetails",
+                "value": "false",
+                "type": "query",
+                "description": "Include metrics of conversion pixels, default false."
+              },
+              {
+                "name": "conversionsByClickDate",
+                "value": "true",
+                "type": "query",
+                "description": "Report conversion metrics by click or conversion date, default false (report by conversion date)."
+              },
+              {
+                "name": "includeViewedImpressions",
+                "value": "false",
+                "type": "query",
+                "description": "When true, includes viewableImpressions in the response metrics."
+              }
+            ]
+          },
+          "docs": "The API in this sub-section allows retrieving performance statistics by geographic breakdown at different levels: country, region, and DMA.\n\nResult fields\nMetrics in metrics, metadata in a metadata object containing the following fields:\n\nProperty\nType\nSemantic\n\nid\nString\nGeo entity ID.\n\nname\nString\nGeo entity name.\n\ncode\nString\nGeo entity code.\n\nlocationsVersion\nString\n(Optional for region) The region's inventory. V1 for FIPS and V2 for ISO-3166.\n\ncountryId\nString\n(Optional for region, DMA or s"
+        },
+        {
+          "info": {
+            "name": "Retrieve performance statistics for all marketer campaigns by geo",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/reports/marketers/:id/campaigns/geo",
+            "params": [
+              {
+                "name": "id",
+                "value": "abf4b02153ee75f3cadc4fc128ab0419ab",
+                "type": "path",
+                "description": "Marketer id"
+              },
+              {
+                "name": "from",
+                "value": "2015-12-22",
+                "type": "query",
+                "description": "Start day Date"
+              },
+              {
+                "name": "to",
+                "value": "2016-01-20",
+                "type": "query",
+                "description": "End day Date"
+              },
+              {
+                "name": "limit",
+                "value": "10",
+                "type": "query",
+                "description": "Number of results to return in this request for each campaign. default is 10."
+              },
+              {
+                "name": "offset",
+                "value": "3",
+                "type": "query",
+                "description": "Result number to start this response at. zero based. Used with limit for pagination. default is 0."
+              },
+              {
+                "name": "includeArchivedCampaigns",
+                "value": "true",
+                "type": "query",
+                "description": "Include data of archived campaigns, default false."
+              },
+              {
+                "name": "includeConversionDetails",
+                "value": "false",
+                "type": "query",
+                "description": "Include metrics of conversion pixels, default false."
+              },
+              {
+                "name": "conversionsByClickDate",
+                "value": "true",
+                "type": "query",
+                "description": "Report conversion metrics by click or conversion date, default false (report by conversion date)."
+              },
+              {
+                "name": "breakdown",
+                "value": "region",
+                "type": "query",
+                "description": "Defines the geo breakdown of data, either country, region or DMA."
+              }
+            ]
+          },
+          "docs": "A special endpoint for retrieving geo data by campaign breakdown.\n\nNote: The response structure defers from other performance responses.\n\nThe reponse contains only campaigns that have geo results given the offset and limit, in the following two objects:\n\nProperty\nType\nSemantic\n\ncampaignResults\nArray\nResults for the marketer campaigns. Each object in the array contains results and totalResults field similar to the response of the Geo request, and an additional campaignId field with the campaign I"
+        },
+        {
+          "info": {
+            "name": "Retrieve performance statistics for a Marketer by interest",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/reports/marketers/:id/interests",
+            "params": [
+              {
+                "name": "id",
+                "value": "abf4b02153ee75f3cadc4fc128ab0419ab",
+                "type": "path",
+                "description": "Marketer id"
+              },
+              {
+                "name": "from",
+                "value": "2015-12-22",
+                "type": "query",
+                "description": "Start day Date"
+              },
+              {
+                "name": "to",
+                "value": "2016-01-20",
+                "type": "query",
+                "description": "End day Date"
+              },
+              {
+                "name": "limit",
+                "value": "10",
+                "type": "query",
+                "description": "Number of results to return in this request. Used with offset for pagination. default is 10."
+              },
+              {
+                "name": "offset",
+                "value": "3",
+                "type": "query",
+                "description": "Result number to start this response at. zero based. Used with limit for pagination. default is 0."
+              },
+              {
+                "name": "sort",
+                "value": "-ctr",
+                "type": "query",
+                "description": "Can have one of the following values impressions, clicks, ctr, spend, ecpc, conversions, conversionRate, cpa, name, enabled, budgetStartDate, budgetEndDate and budgetAmount . For more details about reports filtering read this."
+              },
+              {
+                "name": "filter",
+                "value": "clicks+gt+99",
+                "type": "query",
+                "description": "Can have the following values impressions, clicks, ctr, spend, ecpc, conversions, conversionRate, cpa, name, enabled, budgetStartDate, budgetEndDate, budgetAmount, budgetType, budgetShared and pacingType. For more details about reports filtering read this."
+              },
+              {
+                "name": "includeArchivedCampaigns",
+                "value": "true",
+                "type": "query",
+                "description": "Include data of archived campaigns, default false."
+              },
+              {
+                "name": "campaignId",
+                "value": "e75f3cadc4fc128ab0419ababf4b02153e, 0069fc0fe9598f99b4c528f0881cd74b4b",
+                "type": "query",
+                "description": "Limit to data of the campaign with the given IDs (takes precedence over budgetId)."
+              },
+              {
+                "name": "includeConversionDetails",
+                "value": "true",
+                "type": "query",
+                "description": "Include metrics of conversion pixels, default false."
+              },
+              {
+                "name": "conversionsByClickDate",
+                "value": "true",
+                "type": "query",
+                "description": "Report conversion metrics by click or conversion date, default false (report by conversion date)."
+              },
+              {
+                "name": "includeViewedImpressions",
+                "value": "false",
+                "type": "query",
+                "description": "When true, includes viewableImpressions in the response metrics."
+              }
+            ]
+          },
+          "docs": "The API in this sub-section allows retrieving performance statistics by interest at different levels: marketer and campaign.\n\nIn all other performance reporting endpoints each user action (impression, click or conversion) is\nattributed to a single entity, for example campaign, section or region.\n\nInterests behave differently, since users can have multiple interests in their Outbrain Interest\nProfile and therefore data repeats between interests. For example, a user may be interested in\nboth healt"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Currencies",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Currencies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/currencies"
+          },
+          "docs": "The Currencies is a collection of currency objects with the following attributes\n\nProperty\nType\nSemantic\nExample\n\ncode\nString\n3 letters ISO 4217 currency code\nUSD\n\nname\nString\nCurrency name\nUnited States dollar\n\nminimumCpc\nMoney\nThe minimal CPC value for thic currency, relevant for creating or updating campaign\n0.03\n\nmaximumCpc\nMoney\nThe maximal CPC value for thic currency, relevant for creating or updating campaign\n2.0\n\nminimumCampaignBudget\nMoney\nThe minimum daily campaign budget\n25"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Meta Data",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Browsers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/metadata/browsers"
+          },
+          "docs": "List Browsers"
+        },
+        {
+          "info": {
+            "name": "List Operating Systems",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.outbrain.com/amplify/v0.1/metadata/operatingSystems"
+          },
+          "docs": "List Operating Systems"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

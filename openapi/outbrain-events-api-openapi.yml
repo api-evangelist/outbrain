@@ -12,8 +12,8 @@ info:
     name: Outbrain Amplify API Terms and Conditions
     url: https://www.outbrain.com/legal/
 servers:
-- url: https://api.outbrain.com/amplify/v0.1
-  description: Production Server
+- url: https://odb.outbrain.com
+  description: Production Engage / recommendations endpoint
 security:
 - OBTokenAuth: []
 tags:

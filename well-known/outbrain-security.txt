@@ -1,0 +1,2 @@
+Contact: https://www.outbrain.com/security/bug-bounty/ 
+Policy: https://www.outbrain.com/security/bug-bounty/

@@ -1,0 +1,56 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Outbrain Amplify Authentication Events API",
+    "version": "0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "OB-TOKEN-V1",
+      "value": "{{OB-TOKEN-V1}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Events",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Report A Widget Impression",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://odb.outbrain.com/report/impression",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Report that an Outbrain widget rendered impressions for one or more recommendations."
+        },
+        {
+          "info": {
+            "name": "Report A Recommendation Click",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://odb.outbrain.com/report/click",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Report a user click on a recommendation served by an Outbrain widget."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

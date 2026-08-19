@@ -1,0 +1,403 @@
+{
+  "item": [
+    {
+      "id": "2680a43e-10c9-4fc3-807a-b68837cd9a82",
+      "name": "Reporting",
+      "description": {
+        "content": "Performance reporting",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f284c2b2-1655-41ef-89fc-d03adf60586f",
+          "name": "Performance Report By Campaign",
+          "request": {
+            "name": "Performance Report By Campaign",
+            "description": {
+              "content": "Retrieve performance metrics (impressions, clicks, spend, conversions, CPA, CTR) aggregated by campaign for the given marketer and date range. Limited to 10 requests per minute per marketer.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "reports",
+                "marketers",
+                ":marketerId",
+                "campaigns"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "from",
+                  "value": "<date>",
+                  "description": "(Required) Start date of the report range (YYYY-MM-DD)."
+                },
+                {
+                  "disabled": false,
+                  "key": "to",
+                  "value": "<date>",
+                  "description": "(Required) End date of the report range (YYYY-MM-DD)."
+                },
+                {
+                  "disabled": false,
+                  "key": "breakdown",
+                  "value": "<string>",
+                  "description": "Breakdown dimension for the report."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "marketerId",
+                  "description": "(Required) Marketer (customer account) identifier."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8f4a64d1-ad21-492c-87a2-f1ae91eb33ad",
+              "name": "Performance report.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "reports",
+                    "marketers",
+                    ":marketerId",
+                    "campaigns"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "breakdown",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "marketerId",
+                      "description": "(Required) Marketer (customer account) identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "OB-TOKEN-V1",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"marketerId\": \"string\",\n  \"from\": \"1984-10-06\",\n  \"to\": \"1979-05-24\",\n  \"results\": [\n    {\n      \"key\": \"string\",\n      \"impressions\": 3285,\n      \"clicks\": 5159,\n      \"spend\": 5321.960479318589,\n      \"conversions\": 9655,\n      \"ctr\": 5677.358387800693,\n      \"cpc\": 4483.117049503185,\n      \"cpa\": 9080.152639161677\n    },\n    {\n      \"key\": \"string\",\n      \"impressions\": 9426,\n      \"clicks\": 2300,\n      \"spend\": 932.4799023979901,\n      \"conversions\": 4185,\n      \"ctr\": 2657.5796802995333,\n      \"cpc\": 4447.752699801265,\n      \"cpa\": 7100.822568462657\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "27667ff3-b15e-4e6a-9221-4bdd03254eeb",
+          "name": "Performance Report By Periodic Content",
+          "request": {
+            "name": "Performance Report By Periodic Content",
+            "description": {
+              "content": "Retrieve performance by promoted link over a period.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "reports",
+                "marketers",
+                ":marketerId",
+                "periodicContent"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "from",
+                  "value": "<date>",
+                  "description": "(Required) Start date of the report range (YYYY-MM-DD)."
+                },
+                {
+                  "disabled": false,
+                  "key": "to",
+                  "value": "<date>",
+                  "description": "(Required) End date of the report range (YYYY-MM-DD)."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "marketerId",
+                  "description": "(Required) Marketer (customer account) identifier."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "910cd953-7082-4f1d-b70d-bb93351ef144",
+              "name": "Performance report.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "reports",
+                    "marketers",
+                    ":marketerId",
+                    "periodicContent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "marketerId",
+                      "description": "(Required) Marketer (customer account) identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "OB-TOKEN-V1",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"marketerId\": \"string\",\n  \"from\": \"1984-10-06\",\n  \"to\": \"1979-05-24\",\n  \"results\": [\n    {\n      \"key\": \"string\",\n      \"impressions\": 3285,\n      \"clicks\": 5159,\n      \"spend\": 5321.960479318589,\n      \"conversions\": 9655,\n      \"ctr\": 5677.358387800693,\n      \"cpc\": 4483.117049503185,\n      \"cpa\": 9080.152639161677\n    },\n    {\n      \"key\": \"string\",\n      \"impressions\": 9426,\n      \"clicks\": 2300,\n      \"spend\": 932.4799023979901,\n      \"conversions\": 4185,\n      \"ctr\": 2657.5796802995333,\n      \"cpc\": 4447.752699801265,\n      \"cpa\": 7100.822568462657\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d5ed0b82-0ebf-464e-8cfd-7d728f9dbb96",
+          "name": "Real Time Performance Report",
+          "request": {
+            "name": "Real Time Performance Report",
+            "description": {
+              "content": "Retrieve real-time performance metrics for a marketer. Limited to 50 requests per minute per marketer.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "reports",
+                "marketers",
+                ":marketerId",
+                "realtime"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "marketerId",
+                  "description": "(Required) Marketer (customer account) identifier."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "09a2395c-f442-4fac-9b38-a8bf8c552d23",
+              "name": "Real-time performance report.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "reports",
+                    "marketers",
+                    ":marketerId",
+                    "realtime"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "marketerId",
+                      "description": "(Required) Marketer (customer account) identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "OB-TOKEN-V1",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"marketerId\": \"string\",\n  \"from\": \"1984-10-06\",\n  \"to\": \"1979-05-24\",\n  \"results\": [\n    {\n      \"key\": \"string\",\n      \"impressions\": 3285,\n      \"clicks\": 5159,\n      \"spend\": 5321.960479318589,\n      \"conversions\": 9655,\n      \"ctr\": 5677.358387800693,\n      \"cpc\": 4483.117049503185,\n      \"cpa\": 9080.152639161677\n    },\n    {\n      \"key\": \"string\",\n      \"impressions\": 9426,\n      \"clicks\": 2300,\n      \"spend\": 932.4799023979901,\n      \"conversions\": 4185,\n      \"ctr\": 2657.5796802995333,\n      \"cpc\": 4447.752699801265,\n      \"cpa\": 7100.822568462657\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.outbrain.com/amplify/v0.1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "OB-TOKEN-V1"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "db775e73-bebc-434a-a085-0d1096be816e",
+    "name": "Outbrain Amplify Authentication Reporting API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Outbrain Amplify API enables advertisers, agencies, and technology partners to integrate Amplify campaign management and reporting into their own tools and platforms. The API is organized around core entities: Marketer (a customer account), Campaign (a collection of promoted links), PromotedLink (a single piece of promoted content), Budget, AudienceTargeting, and PerformanceBy* analytics resources for retrieving performance metrics.\n\n\nContact Support:\n Name: Outbrain Developer Center",
+      "type": "text/plain"
+    }
+  }
+}

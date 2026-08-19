@@ -1,0 +1,262 @@
+{
+  "item": [
+    {
+      "id": "7bd91e1b-452d-4e98-8cf3-3747eecc3b04",
+      "name": "Targeting",
+      "description": {
+        "content": "Audience and contextual targeting",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1a3e96dc-6eaa-464b-ba19-6f2495a81804",
+          "name": "Get Audience Targeting For A Campaign",
+          "request": {
+            "name": "Get Audience Targeting For A Campaign",
+            "description": {
+              "content": "Retrieve audience targeting (segments, geo, devices, OS, browsers) for a campaign.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "campaigns",
+                ":campaignId",
+                "targeting",
+                "audience"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "campaignId",
+                  "description": "(Required) Campaign identifier."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ce8fb11b-02e6-417a-8328-21f0c311c17b",
+              "name": "Audience targeting object.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "campaigns",
+                    ":campaignId",
+                    "targeting",
+                    "audience"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "campaignId",
+                      "description": "(Required) Campaign identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "OB-TOKEN-V1",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"geoTargeting\": [\n    \"string\",\n    \"string\"\n  ],\n  \"platformTargeting\": [\n    \"DESKTOP\",\n    \"DESKTOP\"\n  ],\n  \"operatingSystems\": [\n    \"string\",\n    \"string\"\n  ],\n  \"browsers\": [\n    \"string\",\n    \"string\"\n  ],\n  \"interestSegments\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f6b4cd0e-d5c2-4c3a-8382-8e1232fc8c7b",
+          "name": "Update Audience Targeting For A Campaign",
+          "request": {
+            "name": "Update Audience Targeting For A Campaign",
+            "description": {
+              "content": "Update the audience targeting configuration for a campaign.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "campaigns",
+                ":campaignId",
+                "targeting",
+                "audience"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "campaignId",
+                  "description": "(Required) Campaign identifier."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"geoTargeting\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"platformTargeting\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"operatingSystems\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"browsers\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"interestSegments\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9d004b2a-fb9f-4373-aa85-e6d56db647c5",
+              "name": "Audience targeting updated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "campaigns",
+                    ":campaignId",
+                    "targeting",
+                    "audience"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "campaignId",
+                      "description": "(Required) Campaign identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "OB-TOKEN-V1",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"geoTargeting\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"platformTargeting\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"operatingSystems\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"browsers\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"interestSegments\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.outbrain.com/amplify/v0.1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "OB-TOKEN-V1"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "8a18d813-5665-4cff-91fb-45c6dac01c1f",
+    "name": "Outbrain Amplify Authentication Targeting API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Outbrain Amplify API enables advertisers, agencies, and technology partners to integrate Amplify campaign management and reporting into their own tools and platforms. The API is organized around core entities: Marketer (a customer account), Campaign (a collection of promoted links), PromotedLink (a single piece of promoted content), Budget, AudienceTargeting, and PerformanceBy* analytics resources for retrieving performance metrics.\n\n\nContact Support:\n Name: Outbrain Developer Center",
+      "type": "text/plain"
+    }
+  }
+}

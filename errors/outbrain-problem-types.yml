@@ -1,0 +1,100 @@
+generated: '2026-08-13'
+method: searched
+source: >
+  Derived from the 4xx responses in openapi/outbrain-amplify-api-full-openapi.yml and
+  openapi/outbrain-teads-report-api-openapi.yml, enriched from the published error reference in the
+  Outbrain-owned Apiary blueprint (https://amplifyv01.docs.apiary.io/, "HTTP Status Code Replies" +
+  "Error Handling") and the Teads Report API blueprint (https://teadsapi.docs.apiary.io/).
+format: proprietary
+rfc9457: false
+description: >
+  Neither Outbrain API uses RFC 9457 application/problem+json. Both return a proprietary JSON error
+  object on 4xx, and the two objects have different shapes — an agent must branch on which API it is
+  calling. Recorded verbatim rather than normalised.
+envelopes:
+  - api: Outbrain Amplify API
+    media_type: application/json
+    fields:
+      moreInfo: Short machine-readable hint naming the failing operation.
+      errorMessage: Human-readable message.
+    example:
+      moreInfo: get-budget
+      errorMessage: access denied
+  - api: Teads Report API
+    media_type: application/json
+    fields:
+      status: HTTP status echoed into the body.
+      msg: Dotted REPORTING.ERROR.* code — see errors/outbrain-error-codes.yml.
+    example:
+      status: 400
+      msg: REPORTING.ERROR.APPLICATION_NOT_FOUND
+    validation_shape: >
+      Field-level validation failures instead return a map keyed by the JSON path of the offending
+      field, each value an array of {msg, args} objects.
+problems:
+  - status: 400
+    api: Outbrain Amplify API
+    title: Bad Request
+    detail: The request could not be understood or was missing required parameters.
+    envelope: '{moreInfo, errorMessage}'
+    remediation: >
+      Check required query parameters and, for POST/PUT, that Content-Type is application/json and
+      the entity body matches the documented shape. Budget creates are validated against the minimum
+      daily budget (25 USD daily / 750 USD monthly since 2025-11-03).
+  - status: 401
+    api: Outbrain Amplify API
+    title: Unauthorized
+    detail: Authentication failed or the user does not have permissions for the requested operation.
+    envelope: '{moreInfo, errorMessage}'
+    remediation: >
+      OB-TOKEN-V1 tokens expire after 30 days and are revoked when the account password or email
+      changes. Re-issue via GET /login (HTTP Basic) or https://my.outbrain.com/create-token — but
+      note /login is capped at 2 requests per hour per user, so cache the token.
+  - status: 403
+    api: Outbrain Amplify API
+    title: Forbidden
+    detail: Access denied.
+    envelope: '{moreInfo, errorMessage}'
+    remediation: >
+      The token authenticated but the marketer/campaign is outside its permission set. Confirm the
+      marketer id with GET /marketers.
+  - status: 404
+    api: Outbrain Amplify API
+    title: Not Found
+    detail: Resource was not found.
+    envelope: '{moreInfo, errorMessage}'
+  - status: 429
+    api: Outbrain Amplify API
+    title: Too Many Requests
+    detail: Request exceeded rate limits.
+    envelope: '{moreInfo, errorMessage}'
+    response_header: rate-limit-msec-left
+    remediation: >
+      The rate-limit-msec-left response header carries the milliseconds remaining before the limit
+      lifts. Sleep that long rather than retrying immediately — every request inside the window
+      returns 429. See rate-limits/outbrain-rate-limits.yml.
+  - status: 400
+    api: Teads Report API
+    title: Invalid report definition
+    detail: The report request failed validation, or a documented quota/period rule was violated.
+    envelope: '{status, msg}'
+    codes_ref: errors/outbrain-error-codes.yml
+  - status: 401
+    api: Teads Report API
+    title: Unauthorized
+    detail: Missing or invalid OAuth bearer token.
+    envelope: '{status, msg}'
+  - status: 404
+    api: Teads Report API
+    title: Not Found
+    detail: The requested report id could not be found but may be available again in the future.
+    envelope: text/plain
+    source_operation: openapi/outbrain-teads-report-api-openapi.yml#getReportStatus
+  - status: 429
+    api: Teads Report API
+    title: Too Many Requests
+    detail: The API-wide rate limit was hit.
+    response_header: Retry-After
+    remediation: >
+      Retry-After states the wait in seconds; the documented gap between two reports may be up to
+      30 minutes.
