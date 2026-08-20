@@ -151,6 +151,8 @@ apis:
   humanURL: https://developer.outbrain.com/apis/
   baseURL: https://odb.outbrain.com
   tags:
+  - Event
+  tags_raw:
   - Events
   properties:
   - type: OpenAPI
@@ -423,6 +425,10 @@ apis:
   humanURL: https://developers.teads.com/docs/Chatbot-AI-SDK/Getting-Started/integration-guide
   baseURL: https://mv.outbrain.com/Multivac/api/in-chat-recs
   tags:
+  - Advertising
+  - Artificial Intelligence
+  - Recommendations
+  tags_raw:
   - Advertising
   - AI
   - Recommendations
