@@ -363,65 +363,14 @@ apis:
     url: https://www.teads.com
   - type: SourceCode
     url: https://github.com/teads/teads-advertiser-conversion-api-gtm-template
-- aid: outbrain:outbrain-amplify-api
-  name: Outbrain Amplify API
-  description: >
-    The complete Outbrain Amplify API surface — 77 operations across marketers, budgets, campaigns,
-    promoted links and promoted-link sequences, audience segments, conversion events, user and
-    invitation management, geo / interest / IAB-category targeting, section and currency metadata,
-    and 23 performance-reporting projections. Transcribed faithfully from Outbrain's own Apiary
-    blueprint, which Outbrain last updated 2026-08-13.
-  humanURL: https://amplifyv01.docs.apiary.io/
-  baseURL: https://api.outbrain.com/amplify/v0.1
-  tags:
-  - Advertising
-  - Campaign Management
-  - Reporting
-  - Native Advertising
-  properties:
-  - type: OpenAPI
-    url: openapi/outbrain-amplify-api-full-openapi.yml
-  - type: Overlay
-    url: overlays/outbrain-amplify-api-full-overlay.yaml
-  - type: APIReference
-    url: https://amplifyv01.docs.apiary.io/
-  - type: Documentation
-    url: https://developer.outbrain.com/home-page/amplify-api/documentation/
-  - type: SignUp
-    url: https://www.outbrain.com/partner-api/
-- aid: outbrain:outbrain-teads-report-api
-  name: Teads Report API
-  description: >
-    Asynchronous analytics reporting for the Teads platform. A POST triggers a report that is
-    computed in the background; a GET polls its status and returns a download URL for the finished
-    CSV, JSON or XLSX. Covers publisher, programmatic, campaign, temporal and audience dimensions
-    with integration, tracking, interaction, programmatic and finance metric families. OAuth bearer
-    authentication, two concurrent reports, fifty reports per rolling 24 hours.
-  humanURL: https://teadsapi.docs.apiary.io/
-  baseURL: https://api.teads.tv/v1/analytics
-  tags:
-  - Reporting
-  - Analytics
-  - Advertising
-  properties:
-  - type: OpenAPI
-    url: openapi/outbrain-teads-report-api-openapi.yml
-  - type: Overlay
-    url: overlays/outbrain-teads-report-api-overlay.yaml
-  - type: APIReference
-    url: https://teadsapi.docs.apiary.io/
-  - type: ErrorCodes
-    url: errors/outbrain-error-codes.yml
-  - type: Support
-    url: mailto:api@teads.tv
 - aid: outbrain:outbrain-teads-in-chat-api
   name: Teads In-Chat API
   description: >
-    Contextual sponsored-recommendation API for chatbot and LLM publishers, backing the Teads
-    Conversational AI Ads SDK (public beta since 2025-11-12). Takes a partner key plus one of
-    contentUrl / bundleUrl / portalUrl, a widgetJSId placement identifier and optional keywords,
-    IAB categories or free-text chat context, and returns recommendation sets grouped by engine
-    with tracking pixels and optional display creative.
+    Contextual sponsored-recommendation API for chatbot and LLM publishers, backing the Teads Conversational
+    AI Ads SDK (public beta since 2025-11-12). Takes a partner key plus one of contentUrl / bundleUrl
+    / portalUrl, a widgetJSId placement identifier and optional keywords, IAB categories or free-text
+    chat context, and returns recommendation sets grouped by engine with tracking pixels and optional
+    display creative.
   humanURL: https://developers.teads.com/docs/Chatbot-AI-SDK/Getting-Started/integration-guide
   baseURL: https://mv.outbrain.com/Multivac/api/in-chat-recs
   tags:
@@ -441,6 +390,558 @@ apis:
     url: https://developers.teads.com/docs/Chatbot-AI-SDK/News/release-notes
   - type: Components
     url: components/outbrain-components.yml
+- aid: outbrain:outbrain-authentications-api
+  name: Outbrain Authentications API
+  description: >-
+    Token
+
+    Obtaining a token should be your 1st step toward using Amplify API. You need to include it in all
+    further requests using the HTTP Header OB-TOKEN-V1.
+
+    In order to protect your privacy, the tokens are valid for a period of 30 days. You will not be able
+    to access Amplify API using an expired token.
+
+    You can generate as many tokens as you wish. Generating a new token does not invalidate older tokens.
+
+    When a user password or email are changed in the Create Token Page all tokens
+
+    generated prior to the change are revoked and a new token must be generated.
+
+
+    How to obtain a token ?
+
+    There are 2 ways to obtain a token
+
+
+    via web interface
+
+    Simply go to your Amplify API Token Page, fill in your password, hit generate, and you will get your
+    token.
+
+    If you can't see Amplify API Token form, this means that your username doesn't have access to the
+    Amplify API. To register for the Amplify API please fil
+  humanURL: https://developer.outbrain.com/home-page/amplify-api/
+  baseURL: https://api.outbrain.com/amplify/v0.1
+  tags:
+  - Authentications
+  properties:
+  - type: OpenAPI
+    url: openapi/outbrain-authentications-api-openapi.yml
+  - type: APIReference
+    url: https://amplifyv01.docs.apiary.io/
+  - type: Documentation
+    url: https://developer.outbrain.com/home-page/amplify-api/documentation/
+  - type: SignUp
+    url: https://www.outbrain.com/partner-api/
+  - type: APIReference
+    url: https://teadsapi.docs.apiary.io/
+  - type: ErrorCodes
+    url: errors/outbrain-error-codes.yml
+  - type: Support
+    url: mailto:api@teads.tv
+- aid: outbrain:outbrain-currencies-api
+  name: Outbrain Currencies API
+  description: Metadata about the available currencies
+  humanURL: https://developer.outbrain.com/home-page/amplify-api/
+  baseURL: https://api.outbrain.com/amplify/v0.1
+  tags:
+  - Currencies
+  properties:
+  - type: OpenAPI
+    url: openapi/outbrain-currencies-api-openapi.yml
+  - type: APIReference
+    url: https://amplifyv01.docs.apiary.io/
+  - type: Documentation
+    url: https://developer.outbrain.com/home-page/amplify-api/documentation/
+  - type: SignUp
+    url: https://www.outbrain.com/partner-api/
+  - type: APIReference
+    url: https://teadsapi.docs.apiary.io/
+  - type: ErrorCodes
+    url: errors/outbrain-error-codes.yml
+  - type: Support
+    url: mailto:api@teads.tv
+- aid: outbrain:outbrain-geo-locations-api
+  name: Outbrain Geo Locations API
+  description: >-
+    GeoLocations are representatives of Outbrain Geographic Locations.
+
+    GeoLocations are being used for campaigns to be targeted (or excluded) by geography.
+
+
+    The GeoLocation object has the following attributes:
+
+
+    Property
+
+    Type
+
+    Semantic
+
+    Example
+
+
+    id
+
+    String
+
+    geoLocation id
+
+    aa4ab4c893b9fb5618476cb27f264ef8
+
+
+    geoType
+
+    Geo Location Type
+
+    geoLocation type
+
+    Region
+
+
+    name
+
+    String
+
+    geoLocation name
+
+    Prince Edward Island
+
+
+    canonicalName
+
+    String
+
+    detailed name
+
+    Prince Edward Island, Canada
+
+
+    parent
+
+    GeoLocation
+
+    The parent of the geoLocation if exists (always a country)
+
+    A GeoLocation object
+  humanURL: https://developer.outbrain.com/home-page/amplify-api/
+  baseURL: https://api.outbrain.com/amplify/v0.1
+  tags:
+  - Geo Locations
+  properties:
+  - type: OpenAPI
+    url: openapi/outbrain-geo-locations-api-openapi.yml
+  - type: APIReference
+    url: https://amplifyv01.docs.apiary.io/
+  - type: Documentation
+    url: https://developer.outbrain.com/home-page/amplify-api/documentation/
+  - type: SignUp
+    url: https://www.outbrain.com/partner-api/
+  - type: APIReference
+    url: https://teadsapi.docs.apiary.io/
+  - type: ErrorCodes
+    url: errors/outbrain-error-codes.yml
+  - type: Support
+    url: mailto:api@teads.tv
+- aid: outbrain:outbrain-iab-category-targeting-api
+  name: Outbrain IAB category Targeting API
+  description: >-
+    IAB category Targeting gives you the abillity to select your preferred IAB categories in your campaign
+    setup.
+
+    The IAB category Targeting object has the following attributes:
+
+
+    Property
+
+    Type
+
+    Semantic
+
+    Example
+
+
+    categoryId
+
+    String
+
+    IAB category id
+
+    IAB1-1
+
+
+    categoryName
+
+    String
+
+    IAB category name
+
+    Books & Literature
+
+
+    parentId
+
+    String
+
+    Parent IAB Category (if exists)
+
+    IAB1
+
+
+    pageViews
+
+    Number
+
+    The number of page views for this category
+
+    55115277
+
+
+    children
+
+    Array of IAB category
+
+    Will appear if this category has more specific sub categories
+  humanURL: https://developer.outbrain.com/home-page/amplify-api/
+  baseURL: https://api.outbrain.com/amplify/v0.1
+  tags:
+  - IAB category Targeting
+  properties:
+  - type: OpenAPI
+    url: openapi/outbrain-iab-category-targeting-api-openapi.yml
+  - type: APIReference
+    url: https://amplifyv01.docs.apiary.io/
+  - type: Documentation
+    url: https://developer.outbrain.com/home-page/amplify-api/documentation/
+  - type: SignUp
+    url: https://www.outbrain.com/partner-api/
+  - type: APIReference
+    url: https://teadsapi.docs.apiary.io/
+  - type: ErrorCodes
+    url: errors/outbrain-error-codes.yml
+  - type: Support
+    url: mailto:api@teads.tv
+- aid: outbrain:outbrain-interest-targeting-api
+  name: Outbrain Interest Targeting API
+  description: >-
+    Interest Targeting gives you the abillity to select your preferred interests categories in your campaign
+    setup.
+
+    Then, using our powerful interest insights and predictive technology, we’ll match you with audiences
+    we know are interested in your desired categories and will surface your content to the people who
+    are most likely to take action.
+
+
+    The Interest Targeting object has the following attributes:
+
+
+    Property
+
+    Type
+
+    Semantic
+
+    Example
+
+
+    id
+
+    String
+
+    interest id
+
+    00b56c21f2ca684e42908474d4bbfe9bf0
+
+
+    name
+
+    String
+
+    interest name
+
+    Animals
+
+
+    canBeTargeted
+
+    Boolean
+
+    determines whether this interest can be targeted or not (some interests exist just to provide the
+    context / hirarchy of other interests from the same concept)
+
+    true
+
+
+    reachEstimationCount
+
+    Number
+
+    The estimated daily impressions within this interest for the last 7 days
+
+    4173698
+
+
+    subConcepts
+
+    Array of Interest Targeting
+
+    Will appear if the interest has m
+  humanURL: https://developer.outbrain.com/home-page/amplify-api/
+  baseURL: https://api.outbrain.com/amplify/v0.1
+  tags:
+  - Interest Targeting
+  properties:
+  - type: OpenAPI
+    url: openapi/outbrain-interest-targeting-api-openapi.yml
+  - type: APIReference
+    url: https://amplifyv01.docs.apiary.io/
+  - type: Documentation
+    url: https://developer.outbrain.com/home-page/amplify-api/documentation/
+  - type: SignUp
+    url: https://www.outbrain.com/partner-api/
+  - type: APIReference
+    url: https://teadsapi.docs.apiary.io/
+  - type: ErrorCodes
+    url: errors/outbrain-error-codes.yml
+  - type: Support
+    url: mailto:api@teads.tv
+- aid: outbrain:outbrain-meta-data-api
+  name: Outbrain Meta Data API
+  description: >-
+    The Meta Data section represents the various values (Enumarations) that can be provided as part of
+    the different API end-points
+  humanURL: https://developer.outbrain.com/home-page/amplify-api/
+  baseURL: https://api.outbrain.com/amplify/v0.1
+  tags:
+  - Meta Data
+  properties:
+  - type: OpenAPI
+    url: openapi/outbrain-meta-data-api-openapi.yml
+  - type: APIReference
+    url: https://amplifyv01.docs.apiary.io/
+  - type: Documentation
+    url: https://developer.outbrain.com/home-page/amplify-api/documentation/
+  - type: SignUp
+    url: https://www.outbrain.com/partner-api/
+  - type: APIReference
+    url: https://teadsapi.docs.apiary.io/
+  - type: ErrorCodes
+    url: errors/outbrain-error-codes.yml
+  - type: Support
+    url: mailto:api@teads.tv
+- aid: outbrain:outbrain-multiple-conversions-api
+  name: Outbrain Multiple Conversions API
+  description: >-
+    Multiple Conversions gives the ability to track any of the actions a user takes after clicking through
+    to your content.
+
+    You can track everything from top of funnel (page landings and time on site) to bottom of funnel (e-book
+    downloads and product purchases).
+
+
+    Please note: This new feature requires the installation of the new multiple conversion pixel which
+    can be retrieved from your account on Outbrain.com.  If you have the old conversion pixel placed you
+    will need to remove that before installing the Multiple Conversion Pixel.  If both pixels are installed
+    there will be overcounting of data and results will be inaccurate.
+  humanURL: https://developer.outbrain.com/home-page/amplify-api/
+  baseURL: https://api.outbrain.com/amplify/v0.1
+  tags:
+  - Multiple Conversions
+  properties:
+  - type: OpenAPI
+    url: openapi/outbrain-multiple-conversions-api-openapi.yml
+  - type: APIReference
+    url: https://amplifyv01.docs.apiary.io/
+  - type: Documentation
+    url: https://developer.outbrain.com/home-page/amplify-api/documentation/
+  - type: SignUp
+    url: https://www.outbrain.com/partner-api/
+  - type: APIReference
+    url: https://teadsapi.docs.apiary.io/
+  - type: ErrorCodes
+    url: errors/outbrain-error-codes.yml
+  - type: Support
+    url: mailto:api@teads.tv
+- aid: outbrain:outbrain-performance-reporting-api
+  name: Outbrain Performance Reporting API
+  description: >-
+    There are a multitude of reporting endpoints that allow you to retrieve metrics at various levels
+    of granularity.
+
+
+    Note: All performance reports have a 10-30 minutes delay, therefore performance metrics that include
+    the current day are partial.
+
+
+    Rate Limits
+
+    Each marketer is limited to 30 requests per minute for the entire performance reporting API. In case
+    of rate limit violation the response status will be 429 (Too Many Requests).
+
+
+    As of April 12, 2021 performance reporting is limited to a history of 3 years per data request.
+
+
+    Response structure
+
+    All reporting endpoints share a common response structure, defined below:
+
+
+    Property
+
+    Type
+
+    Semantic
+
+    Comments
+
+
+    results
+
+    Array
+
+    Metadata and Metrics of the entities returned.
+
+    Metadata is an object containing contextual properties of the report entity. The set of properties
+    is specific for each end-point.
+
+
+    totalResults
+
+    Number
+
+    Count of the total results
+  humanURL: https://developer.outbrain.com/home-page/amplify-api/
+  baseURL: https://api.outbrain.com/amplify/v0.1
+  tags:
+  - Performance Reporting
+  properties:
+  - type: OpenAPI
+    url: openapi/outbrain-performance-reporting-api-openapi.yml
+  - type: APIReference
+    url: https://amplifyv01.docs.apiary.io/
+  - type: Documentation
+    url: https://developer.outbrain.com/home-page/amplify-api/documentation/
+  - type: SignUp
+    url: https://www.outbrain.com/partner-api/
+  - type: APIReference
+    url: https://teadsapi.docs.apiary.io/
+  - type: ErrorCodes
+    url: errors/outbrain-error-codes.yml
+  - type: Support
+    url: mailto:api@teads.tv
+- aid: outbrain:outbrain-promotedlinkssequences-api
+  name: Outbrain Promoted Links Sequences API
+  description: "Sequences comes in 2 formats:\n\n- \nCarousel - multi-promotedLink format that features\
+    \ CTA buttons, brand logo, and more. You can use Carousel to tell your brand story, showcase multiple\
+    \ products, and build a sequential message — with up to 10 images for consumers to swipe through.\n\
+    \n- In order to create sequences of this type your campaign’s creative format must be Carousel (see\
+    \ Campaign creative format)\n- A carousel must have at least 3 promoted links and up to 10 promoted\
+    \ links in it\n- A campaign can have only 1 carousel\n- Promoted links can’t be duplicated in the\
+    \ same carousel\n- All promoted links must be in the same language\n- App rating us supported only\
+    \ for sequences of type AppInstall\n\n- \nApp Install - gives you the ability to present your promoted\
+    \ link with logo, sponsor, app rating and direct redirect to google/apple store to download and install\
+    \ the app.\n\n- In order to create seq"
+  humanURL: https://developer.outbrain.com/home-page/amplify-api/
+  baseURL: https://api.outbrain.com/amplify/v0.1
+  tags:
+  - PromotedLinksSequences
+  properties:
+  - type: OpenAPI
+    url: openapi/outbrain-promotedlinkssequences-api-openapi.yml
+  - type: APIReference
+    url: https://amplifyv01.docs.apiary.io/
+  - type: Documentation
+    url: https://developer.outbrain.com/home-page/amplify-api/documentation/
+  - type: SignUp
+    url: https://www.outbrain.com/partner-api/
+  - type: APIReference
+    url: https://teadsapi.docs.apiary.io/
+  - type: ErrorCodes
+    url: errors/outbrain-error-codes.yml
+  - type: Support
+    url: mailto:api@teads.tv
+- aid: outbrain:outbrain-sections-api
+  name: Outbrain Sections API
+  description: >-
+    A Section is a specific content within the publisher's site such as sports, business etc.
+  humanURL: https://developer.outbrain.com/home-page/amplify-api/
+  baseURL: https://api.outbrain.com/amplify/v0.1
+  tags:
+  - Sections
+  properties:
+  - type: OpenAPI
+    url: openapi/outbrain-sections-api-openapi.yml
+  - type: APIReference
+    url: https://amplifyv01.docs.apiary.io/
+  - type: Documentation
+    url: https://developer.outbrain.com/home-page/amplify-api/documentation/
+  - type: SignUp
+    url: https://www.outbrain.com/partner-api/
+  - type: APIReference
+    url: https://teadsapi.docs.apiary.io/
+  - type: ErrorCodes
+    url: errors/outbrain-error-codes.yml
+  - type: Support
+    url: mailto:api@teads.tv
+- aid: outbrain:outbrain-segments-api
+  name: Outbrain Segments API
+  description: >-
+    Segments give the ability to segment customers based on their actions, and retarget them with new
+    or existing campaigns. This translates into your campaigns reaching a highly engaged audience that
+    is more likely to convert and fulfill your brand's goals. With this functionality you'll be able to
+    segment customers in two ways: Audience Retargeting (Type: PIXEL) and Story Sequencing (Type: CLICKERS).
+
+
+    Please note: The PIXEL feature requires the installation of the Outbrain Custom Audience pixel, which
+    can be retrieved from your account on Outbrain.com.  If you have the old audience pixel installed,
+    you will need to remove that before installing the new pixel.  For additional information regarding
+    obtaining and installing the pixel properly, please visit our help center here: http://help.outbrain.com/customer/en/portal/articles/2809479-how-can-i-create-custom-audiences
+  humanURL: https://developer.outbrain.com/home-page/amplify-api/
+  baseURL: https://api.outbrain.com/amplify/v0.1
+  tags:
+  - Segments
+  properties:
+  - type: OpenAPI
+    url: openapi/outbrain-segments-api-openapi.yml
+  - type: APIReference
+    url: https://amplifyv01.docs.apiary.io/
+  - type: Documentation
+    url: https://developer.outbrain.com/home-page/amplify-api/documentation/
+  - type: SignUp
+    url: https://www.outbrain.com/partner-api/
+  - type: APIReference
+    url: https://teadsapi.docs.apiary.io/
+  - type: ErrorCodes
+    url: errors/outbrain-error-codes.yml
+  - type: Support
+    url: mailto:api@teads.tv
+- aid: outbrain:outbrain-users-api
+  name: Outbrain Users API
+  description: >-
+    User represents a single person's access to Outbrain services and to the site my.outbrain.com.
+
+    A User is permitted to one or more Marketer accounts, each marketer with a role that specifies the
+    user permissions.
+  humanURL: https://developer.outbrain.com/home-page/amplify-api/
+  baseURL: https://api.outbrain.com/amplify/v0.1
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/outbrain-users-api-openapi.yml
+  - type: APIReference
+    url: https://amplifyv01.docs.apiary.io/
+  - type: Documentation
+    url: https://developer.outbrain.com/home-page/amplify-api/documentation/
+  - type: SignUp
+    url: https://www.outbrain.com/partner-api/
+  - type: APIReference
+    url: https://teadsapi.docs.apiary.io/
+  - type: ErrorCodes
+    url: errors/outbrain-error-codes.yml
+  - type: Support
+    url: mailto:api@teads.tv
 name: Outbrain
 tags:
   - Advertising
