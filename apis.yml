@@ -445,6 +445,8 @@ apis:
   humanURL: https://developer.outbrain.com/home-page/amplify-api/
   baseURL: https://api.outbrain.com/amplify/v0.1
   tags:
+  - Currency
+  tags_raw:
   - Currencies
   properties:
   - type: OpenAPI
@@ -713,6 +715,8 @@ apis:
   humanURL: https://developer.outbrain.com/home-page/amplify-api/
   baseURL: https://api.outbrain.com/amplify/v0.1
   tags:
+  - Metadata
+  tags_raw:
   - Meta Data
   properties:
   - type: OpenAPI
@@ -926,6 +930,8 @@ apis:
   humanURL: https://developer.outbrain.com/home-page/amplify-api/
   baseURL: https://api.outbrain.com/amplify/v0.1
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
