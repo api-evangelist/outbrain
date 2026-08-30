@@ -1,0 +1,158 @@
+openapi: 3.2.0
+info:
+  title: Outbrain Amplify Meta Data API
+  version: '0.1'
+  description: "This API describes the interfaces for interacting with the Outbrain Amplify product. More information about Amplify can be found on our website: http://www.outbrain.com/amplify.\n\nAt this time we are working with a select number of partners to integrate the Amplify API. To be considered for the Amplify API private beta please register for the beta plan.\n\nIf you have any questions, issues, feature requests as well as if you're interested in announcments of new features, please join our Google group:\n\nhttps://groups.google.com/forum/#!forum/outbrain-amplifyapi\n\nAPI Url\nThe base url for all API end-points is https://api.outbrain.com/amplify/v0.1/\n\nTroubleshooting\nIf you're experiencing any issues or any other difficulties, please post a new topic in our Google group: https://groups.google.com/forum/#!forum/outbrain-amplifyapi\n\nPlease attach to your post the AMPLIFY-REQUEST-ID header from the returned response.\nThis header allows us to identify your unique request and helps us to reply quicker and more efficiently.\n\nUpdates\nAug 13, 2026\nNew: Brand Logo\n\nYou can now read and set a brand logo via the API. A new logoMetadata field has been added to the Marketer entity, and to the PromotedLink entity (available via extraFields=LogoMetaData) so an individual ad can carry its own logo.\n\nFeb 1, 2026\nNew: Section Volume Control for CBS Campaigns\n\nYou can now provide feedback on individual section performance for your CBS Auto mode campaigns (tROAS, tCPA, Max Conversion). This allows you to increase or decrease traffic volume from specific sections based on your own external data, such as LTV or ROAS. A new volumeControl object has been added to the Campaign entity to manage these adjustments.\n\nJan 4, 2026\nEnhanced Publisher and Section Exclusion Experience\n\nWe are introducing a new publisher and section exclusion experience that allows advertisers to apply temporary or permanent blocks, either individually or in bulk. This update provides clearer visibility, predictable behavior, and the ability to easily undo or adjust exclusions via the API.\n\nWhy This Matters\nPublisher traffic can spike temporarily due to breaking news or viral events, attracting audiences that may not align with advertiser intent. During these periods, campaigns often generate clicks with few conversions, inflating costs.\n\nTemporary exclusions allow you to pause this inventory while the news cycle is active. The system then automatically reintroduces the inventory once traffic normalizes—avoiding the need for unnecessary permanent blocks.\n\nTechnical Implementation: New expiration Field under blockedSites\nTo enable temporary blocking, we have added a new optional field named expiration to both the blockedPublishers and blockedSections objects under blockedSites.\n\nKey Functionalities\n\n- \nAuto-Expiration: Temporary exclusions automatically expire and reintroduce inventory without alerts.\n\n- \nRe-activation: You can now update settings for sections that were previously Permanently blocked, overriding the original exclusion state.\n\n- \nInheritance: Duplicated campaigns will inherit the existing exclusion states (Temporary or Permanent) of the original campaign.\n\nImportant Notes\n\n- \nReporting: History changes will now track the distinction between permanent and temporary exclusions.\n\n- \nCSV Limitation: Exclusions uploaded via CSV files remain Permanent by default at this time (the expiration field is not yet supported in CSV uploads).\n\nAction Required\nReview your current blocking logic. If you wish to utilize temporary blocking for viral events, update your integration to populate the expiration field in your blockedPublishers and blockedSections payloads.\n\nOct 16, 2025\nUpcoming Change to Minimum Campaign Budget Effective November 3rd 2025\n\nTo help increase campaign performance and ensure new campaigns can generate results in a timely fashion, we are adjusting the minimum required budget. This change will ensure campaigns have sufficient daily spend for our optimization systems to function effectively\n\nSummary of the Change\n\n- \nWhat: The minimum daily budget for a new campaign will be increased from $20.00 to $25.00 USD.\n\n- \nEffective Date: This change will take effect on November 3rd 2025\n\n- \nScope: This change applies only to newly created campaigns. Existing campaigns with budgets under $25.00 will continue to run without any interruption or required changes.\n\nHow This Affects You\nStarting November 3rd, 2025, any API call to the POST /budgets endpoint will enforce the following rules:\n\n- \nIf type = \"DAILY\", then amount must be greater than or equal to 25.\n\n- \nIf type = \"MONTHLY\", then amount must be greater than or equal to 750.\n\n- \nIf type = \"CAMPAIGN\", then amount must be greater than or equal to 25 x number of campaign days.\n\nAdditionally:\n\n- Any API call to the PUT /budgets endpoint to update campaigns created after November 3rd, 2025, will have the same enforcement rules outlined above.\n\nImportant Note:\nDaily limits for other currencies are exposed via the GET /currencies endpoint.\n\nAction Required\nPlease review your budget and campaign creation and update logic and ensure that any new campaigns are created with a daily budget of at least $25.00. We recommend making this update in your integration before the effective date to ensure a smooth transition.\n\nJul 8, 2025\nNew Performance Report Endpoint - Marketers Report\n\nYou can now retrieve performance reporting aggregated by Marketers aggregation,  using your primary account ID.\n\nTo obtain your primary account ID, use the Marketer Entity with the extraFields=Account param.\n\nDec 22, 2024\nNew Filter Added to reporting endpoints: enabledCampaignsOnly\n\nYou can now filter data to include only active campaigns by using the enabledCampaignsOnly field when using our reporting endpoints (promoted content, Periodic, publishers, sections etc).\n\n- \nCurrent Default Value: false\n\n- \nFuture Default Value: true (effective end of January 2025)\n\nPlease note that while the current default value for en"
+  contact:
+    name: Outbrain Developer Center
+    url: https://developer.outbrain.com
+servers:
+- url: https://api.outbrain.com/amplify/v0.1
+  description: Production Server
+security:
+- OBTokenAuth: []
+tags:
+- name: Meta Data
+  description: The Meta Data section represents the various values (Enumarations) that can be provided as part of the different API end-points
+paths:
+  /metadata/browsers:
+    get:
+      operationId: getMetadataBrowsers
+      summary: List Browsers
+      tags:
+      - Meta Data
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+              example:
+              - Safari
+              - Opera
+              - Chrome
+              - UCBrowser
+              - InApp
+              - Samsung
+              - Firefox
+              - InternetExplorer
+              - Edge
+              - Other
+          headers:
+            AMPLIFY-REQUEST-ID:
+              description: Request correlation / rate-limit signal
+              schema:
+                type: string
+        '400':
+          description: Bad Request - the request could not be understood or was missing required parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - authentication failed or the user lacks permission for the requested operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden - access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests - request exceeded rate limits; see the rate-limit-msec-left header
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /metadata/operatingSystems:
+    get:
+      operationId: getMetadataOperatingSystems
+      summary: List Operating Systems
+      tags:
+      - Meta Data
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+              example:
+              - Ios
+              - MacOs
+              - Android
+              - Windows
+          headers:
+            AMPLIFY-REQUEST-ID:
+              description: Request correlation / rate-limit signal
+              schema:
+                type: string
+        '400':
+          description: Bad Request - the request could not be understood or was missing required parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - authentication failed or the user lacks permission for the requested operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden - access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests - request exceeded rate limits; see the rate-limit-msec-left header
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      description: Error envelope returned on 400/401/403/404/429 responses.
+      properties:
+        moreInfo:
+          type: string
+          description: Short machine-readable hint identifying the failing operation.
+        errorMessage:
+          type: string
+          description: Human-readable error message.
+      examples:
+      - moreInfo: get-budget
+        errorMessage: access denied
+  securitySchemes:
+    OBTokenAuth:
+      type: apiKey
+      in: header
+      name: OB-TOKEN-V1
+      description: Token obtained from GET /login (HTTP Basic) or from https://my.outbrain.com/create-token. Valid for 30 days.
+    BasicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic credentials used only on GET /login to obtain an OB-TOKEN-V1 token.

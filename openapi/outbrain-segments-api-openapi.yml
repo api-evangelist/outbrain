@@ -1,0 +1,856 @@
+openapi: 3.2.0
+info:
+  title: Outbrain Amplify Segments API
+  version: '0.1'
+  description: "This API describes the interfaces for interacting with the Outbrain Amplify product. More information about Amplify can be found on our website: http://www.outbrain.com/amplify.\n\nAt this time we are working with a select number of partners to integrate the Amplify API. To be considered for the Amplify API private beta please register for the beta plan.\n\nIf you have any questions, issues, feature requests as well as if you're interested in announcments of new features, please join our Google group:\n\nhttps://groups.google.com/forum/#!forum/outbrain-amplifyapi\n\nAPI Url\nThe base url for all API end-points is https://api.outbrain.com/amplify/v0.1/\n\nTroubleshooting\nIf you're experiencing any issues or any other difficulties, please post a new topic in our Google group: https://groups.google.com/forum/#!forum/outbrain-amplifyapi\n\nPlease attach to your post the AMPLIFY-REQUEST-ID header from the returned response.\nThis header allows us to identify your unique request and helps us to reply quicker and more efficiently.\n\nUpdates\nAug 13, 2026\nNew: Brand Logo\n\nYou can now read and set a brand logo via the API. A new logoMetadata field has been added to the Marketer entity, and to the PromotedLink entity (available via extraFields=LogoMetaData) so an individual ad can carry its own logo.\n\nFeb 1, 2026\nNew: Section Volume Control for CBS Campaigns\n\nYou can now provide feedback on individual section performance for your CBS Auto mode campaigns (tROAS, tCPA, Max Conversion). This allows you to increase or decrease traffic volume from specific sections based on your own external data, such as LTV or ROAS. A new volumeControl object has been added to the Campaign entity to manage these adjustments.\n\nJan 4, 2026\nEnhanced Publisher and Section Exclusion Experience\n\nWe are introducing a new publisher and section exclusion experience that allows advertisers to apply temporary or permanent blocks, either individually or in bulk. This update provides clearer visibility, predictable behavior, and the ability to easily undo or adjust exclusions via the API.\n\nWhy This Matters\nPublisher traffic can spike temporarily due to breaking news or viral events, attracting audiences that may not align with advertiser intent. During these periods, campaigns often generate clicks with few conversions, inflating costs.\n\nTemporary exclusions allow you to pause this inventory while the news cycle is active. The system then automatically reintroduces the inventory once traffic normalizes—avoiding the need for unnecessary permanent blocks.\n\nTechnical Implementation: New expiration Field under blockedSites\nTo enable temporary blocking, we have added a new optional field named expiration to both the blockedPublishers and blockedSections objects under blockedSites.\n\nKey Functionalities\n\n- \nAuto-Expiration: Temporary exclusions automatically expire and reintroduce inventory without alerts.\n\n- \nRe-activation: You can now update settings for sections that were previously Permanently blocked, overriding the original exclusion state.\n\n- \nInheritance: Duplicated campaigns will inherit the existing exclusion states (Temporary or Permanent) of the original campaign.\n\nImportant Notes\n\n- \nReporting: History changes will now track the distinction between permanent and temporary exclusions.\n\n- \nCSV Limitation: Exclusions uploaded via CSV files remain Permanent by default at this time (the expiration field is not yet supported in CSV uploads).\n\nAction Required\nReview your current blocking logic. If you wish to utilize temporary blocking for viral events, update your integration to populate the expiration field in your blockedPublishers and blockedSections payloads.\n\nOct 16, 2025\nUpcoming Change to Minimum Campaign Budget Effective November 3rd 2025\n\nTo help increase campaign performance and ensure new campaigns can generate results in a timely fashion, we are adjusting the minimum required budget. This change will ensure campaigns have sufficient daily spend for our optimization systems to function effectively\n\nSummary of the Change\n\n- \nWhat: The minimum daily budget for a new campaign will be increased from $20.00 to $25.00 USD.\n\n- \nEffective Date: This change will take effect on November 3rd 2025\n\n- \nScope: This change applies only to newly created campaigns. Existing campaigns with budgets under $25.00 will continue to run without any interruption or required changes.\n\nHow This Affects You\nStarting November 3rd, 2025, any API call to the POST /budgets endpoint will enforce the following rules:\n\n- \nIf type = \"DAILY\", then amount must be greater than or equal to 25.\n\n- \nIf type = \"MONTHLY\", then amount must be greater than or equal to 750.\n\n- \nIf type = \"CAMPAIGN\", then amount must be greater than or equal to 25 x number of campaign days.\n\nAdditionally:\n\n- Any API call to the PUT /budgets endpoint to update campaigns created after November 3rd, 2025, will have the same enforcement rules outlined above.\n\nImportant Note:\nDaily limits for other currencies are exposed via the GET /currencies endpoint.\n\nAction Required\nPlease review your budget and campaign creation and update logic and ensure that any new campaigns are created with a daily budget of at least $25.00. We recommend making this update in your integration before the effective date to ensure a smooth transition.\n\nJul 8, 2025\nNew Performance Report Endpoint - Marketers Report\n\nYou can now retrieve performance reporting aggregated by Marketers aggregation,  using your primary account ID.\n\nTo obtain your primary account ID, use the Marketer Entity with the extraFields=Account param.\n\nDec 22, 2024\nNew Filter Added to reporting endpoints: enabledCampaignsOnly\n\nYou can now filter data to include only active campaigns by using the enabledCampaignsOnly field when using our reporting endpoints (promoted content, Periodic, publishers, sections etc).\n\n- \nCurrent Default Value: false\n\n- \nFuture Default Value: true (effective end of January 2025)\n\nPlease note that while the current default value for en"
+  contact:
+    name: Outbrain Developer Center
+    url: https://developer.outbrain.com
+servers:
+- url: https://api.outbrain.com/amplify/v0.1
+  description: Production Server
+security:
+- OBTokenAuth: []
+tags:
+- name: Segments
+  description: 'Segments give the ability to segment customers based on their actions, and retarget them with new or existing campaigns. This translates into your campaigns reaching a highly engaged audience that is more likely to convert and fulfill your brand''s goals. With this functionality you''ll be able to segment customers in two ways: Audience Retargeting (Type: PIXEL) and Story Sequencing (Type: CLICKERS).
+
+
+    Please note: The PIXEL feature requires the installation of the Outbrain Custom Audience pixel, which can be retrieved from your account on Outbrain.com.  If you have the old audience pixel installed, you will need to remove that before installing the new pixel.  For additional information regarding obtaining and installing the pixel properly, please visit our help center here: http://help.outbrain.com/customer/en/portal/articles/2809479-how-can-i-create-custom-audiences'
+paths:
+  /segments/{id}:
+    get:
+      operationId: getSegmentsId
+      summary: Retrieve a Single Segment
+      description: 'The Segment object has the following attributes:
+
+
+        Property
+
+        Type
+
+        Semantic
+
+        Example
+
+        Comments
+
+
+        id
+
+        String
+
+        segment id. read-only
+
+        "00f4b02153ee75f3c9dc4fc128ab041962"
+
+
+        name
+
+        String
+
+        segment name.
+
+        "My Segment"
+
+
+        description
+
+        String
+
+        segment description.
+
+        "all clicks which originated from..."
+
+
+        marketerId
+
+        String
+
+        marketer id. read-only
+
+        "00f4b02153ee75f3c9dc4fc128ab041971"
+
+
+        segmentType
+
+        SegmentType
+
+        the type of the segment. read-only
+
+
+        pixelTypeRules
+
+        PixelTypeRules
+
+        an object describing rules defining membership to PIXEL segment.
+
+
+        only applicable to segments of type PIXEL
+
+
+        conversion
+
+        SegmentConversion
+
+        an object describing the conversion the segment is based on. For segment type VALUABLE_CONVERSION contains also the rule that defines membership to Value Based Converters segment.
+
+
+        only applicable to segments of type CONVERSION or VALUABLE_CONVERSION
+
+
+        clickersCampaigns
+
+        Array of String
+
+        a collection of campaign ids defining membership to CLICKERS segment
+
+
+        only applicable to segments of type CLICKERS
+
+
+        enabled
+
+        Boolean
+
+        is the segment enabled.
+
+
+        membershipDuration
+
+        Integer
+
+        number of days a user should be attributed to a segment.
+
+
+        trackingStatus
+
+        TrackingStatus
+
+        indicates if the segment is active/inactive. The status will be "inactive" until the first user has been added to the cookie pool, once a user has been added the status will be “active” indicating the pixel is firing and collecting new users.  read-only
+
+        "INACTIVE"
+
+        only applicable to segments of type PIXEL. Can only receive the value "true".
+
+
+        archived
+
+        Boolean
+
+        indicates if the segment is archived/un-archived.
+
+
+        size
+
+        Integer
+
+        number of distinct users that are part of the segment. read-only
+
+
+        subSegmentsSettings
+
+        Sub Segments Metadata
+
+        an object defining the sub segments in case it is a supported Lookalike seed segment read-only
+
+
+        lookalikeSettings
+
+        Lookalike Settings
+
+        an object describing the settings of a LOOK_A_LIKES segment
+
+
+        dmpInfo
+
+        DMP Info
+
+        an object describing the DMP segment
+
+
+        lastModified
+
+        Time
+
+        The time when the segment was last modified. read-only
+
+        "2013-03-16 10:32:31"
+
+
+        creationTime
+
+        Time
+
+        The time when the segment was created. read-only
+
+        "2013-01-14 07:19:16"
+
+
+        availability
+
+        Segment Availability
+
+        indicates the availability of the segment. read-only
+
+        [ACTIVE]
+
+        [INACTIVE, "Segment size exceeded"]
+
+        [DISABLED]'
+      tags:
+      - Segments
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: the Segment id
+        example: 00f4b02153ee75f3c9dc4fc128ab041963
+      responses:
+        '200':
+          description: JSON representation of Segment Resource
+          content:
+            application/json:
+              schema:
+                type: string
+              example: " {\n    \"id\" : \"00f4b02153ee75f3c9dc4fc128ab041963\",\n    \"name\" : \"segment name\",\n    \"description\" : \"segment description\",\n    \"marketerId\" : \"008f7b0d8a5c8cb24ba3011be372bfb232\",\n    \"segmentType\" : \"PIXEL or CLICKERS or LOOK_A_LIKES or CONVERSION\",\n    \"pixelTypeRules\" : { //present only for PIXEL type segments\n        \"ruleGroups\" : [\n            {\n                \"rules\" :  [\n                    {\n                        \"ruleType\" : \"UrlContains\",\n                        \"pattern\" : \"reggtre\"\n                    }\n                ]\n            }\n        ]\n    },\n    \"clickersCampaigns\": [ //present only for CLICKERS type segments\n        {\n            \"id\": \"00e75410d0ba7a4ab16cb5f70037e9a519\",\n            \"name\": \"campaign name\"\n        }\n    ],\n    \"lookalikeSettings\": { //valid only for LOOK_A_LIKES type segments\n        \"seedSegment\":\n            {\n                \"segmentId\": \"00f56110d0bd7a4ab16cb5f30037e9a519\",\n                \"segmentType\": PIXEL\n            }\n        \"similarity\": 5,\n        \"status\": ACTIVE,\n        \"subSegments\": [\n            {\n                \"country\": \"US\",\n                \"platform\": \"mobile\",\n                \"potentialReach\": 15000,\n                \"status\": ACTIVE,\n                \"affinity\": HIGH,\n                \"lastUpdate\": \"2018-01-01 13:00:00\"\n            },\n            {\n                \"country\": \"FR\",\n                \"platform\": \"desktop\",\n                \"potentialReach\": 25000,\n                \"status\": ACTIVE,\n                \"affinity\": LOW,\n                \"lastUpdate\": \"2018-01-01 13:00:00\"\n            }\n        ]\n    },\n    \"subSegmentsSettings\": //valid only for non LOOK_A_LIKES type segments\n        {\n            \"subSegments\":\n            [\n                {\n                    \"country\": \"US\",\n                    \"platform\": \"mobile\",\n                    \"size\": 15000,\n                    \"sizeInNetwork\": 1000000,\n                    \"eligibleForLookalikeSubSegment\": true\n                },\n               "
+          headers:
+            AMPLIFY-REQUEST-ID:
+              description: Request correlation / rate-limit signal
+              schema:
+                type: string
+        '400':
+          description: Bad Request - the request could not be understood or was missing required parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - authentication failed or the user lacks permission for the requested operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden - access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests - request exceeded rate limits; see the rate-limit-msec-left header
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      operationId: updateSegmentsId
+      summary: Update an Existing Segment
+      description: "To update a segment send a JSON with the updated value for one or more of the updatable segment attributes.\n\nAll attribute values left unset in this PUT will remain unchanged.\n\nOnly the following Segment properties are updatable:\n\n- \nname - Maximum length is 100 characters\n\n- \ndescription - Maximum length is 500 characters\n\n- \nenabled - Use value enabled to enable (true)/disable (false) segment\n\n- \npixelTypeRules - Set new rules for segment membership definition. Applicable only to segment of type \"PIXEL\"\n\n- \nclickersCampaigns - Set a new list of campaign ids for segment membership definition. Applicable only to segment of type \"CLICKERS\"\n\n- \nmembershipDuration - Set a new membership duration\n\n- \nclearTrackingStatus - Reset segment tracking\n\n- \narchived - Use value archived to archive (true) segment. Archived segments are returned by the segments APIs only where request parameter \"includeArchived\" is permitted and set to \"true\"\n\n- \nlookalikeSettings - Set new settings of a LOOK_A_LIKES segment                                        |"
+      tags:
+      - Segments
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: the Segment id
+        example: 00f4b02153ee75f3c9dc4fc128ab041963
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: string
+              example: "{\n    \"id\": \"00f4b02153ee75f3c9dc4fc128ab041963\",\n    \"name\": \"new name\",\n    \"description\": \"new description\",\n    \"marketerId\": \"0099e97171f3d4f8115dfa6bf547c68775\",\n    \"segmentType\": \"PIXEL\",\n    \"enabled\": false,\n    \"pixelTypeRules\": { //present only for PIXEL type segments\n        \"ruleGroups\": [\n            {\n                \"rules\": [\n                    {\n                        \"pattern\": \"www.fofos.com/\",\n                        \"ruleType\": \"UrlContains\"\n                    }\n                ]\n            }\n        ]\n    },\n    \"clickersCampaigns\": [ //present only for CLICKERS type segments\n        {\n            \"id\": \"00f56110d0ba7a4ab16cb5f70037e9a519\",\n            \"name\": \"campaign name\"\n        }\n    ],\n    \"trackingStatus\": \"INACTIVE\",\n    \"creationTime\": \"2017-07-19 10:53:32.0\",\n    \"lastModified\": \"2017-07-19 10:53:32.0\",\n    \"membershipDuration\": 45,\n    \"size\": 0,\n    \"archived\": true\n}"
+          headers:
+            AMPLIFY-REQUEST-ID:
+              description: Request correlation / rate-limit signal
+              schema:
+                type: string
+        '400':
+          description: Bad Request - the request could not be understood or was missing required parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - authentication failed or the user lacks permission for the requested operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden - access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests - request exceeded rate limits; see the rate-limit-msec-left header
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /marketers/{marketerId}/segments:
+    get:
+      operationId: getMarketersMarketerIdSegments
+      summary: List all Segments of a Marketer
+      description: 'The Segments object has the following attributes:
+
+
+        Property
+
+        Type
+
+        Semantic
+
+        Example
+
+
+        segments
+
+        Array of Segment
+
+        a collection of returned segments. read-only
+
+
+        count
+
+        Integer
+
+        number of segments returned.
+
+        1'
+      tags:
+      - Segments
+      parameters:
+      - name: marketerId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: the marketer id
+        example: 008f7b0d8a5c8cb24ba3011be372bfb232
+      - name: name
+        in: query
+        required: false
+        schema:
+          type: string
+        description: the segment name
+        example: segment name
+      - name: matchExactNAme
+        in: query
+        required: false
+        schema:
+          type: boolean
+        description: should the name search use exact matching
+        example: 'true'
+      - name: includeArchived
+        in: query
+        required: false
+        schema:
+          type: boolean
+        description: should the search results include archived segments
+        example: 'false'
+      responses:
+        '200':
+          description: JSON representation of Segments Resource
+          content:
+            application/json:
+              schema:
+                type: string
+              example: "{\n    \"segments\": [\n        {\n            \"id\" : \"00f4b02153ee75f3c9dc4fc128ab041963\",\n            \"name\" : \"segment name\",\n            \"description\" : \"segment description\",\n            \"marketerId\" : \"008f7b0d8a5c8cb24ba3011be372bfb232\",\n            \"segmentType\" : \"PIXEL xor CLICKERS\",\n            \"pixelTypeRules\" : { //present only for PIXEL type segments\n                \"ruleGroups\" : [\n                    {\n                        \"rules\" :  [\n                            {\n                                \"ruleType\" : \"UrlContains\",\n                                \"pattern\" : \"reggtre\"\n                            }\n                        ]\n                    }\n                ]\n            },\n            \"clickersCampaigns\": [ //present only for CLICKERS type segments\n                {\n                    \"id\": \"00e75410d0ba7a4ab16cb5f70037e9a519\",\n                    \"name\": \"campaign name\"\n                }\n            ],\n            \"enabled\" : true,\n            \"archived\" : false,\n            \"membershipDuration\" : 35,\n            \"trackingStatus\" : \"INACTIVE\",\n            \"size\" : 0\n            \"lastModified\" : \"2017-05-28 10:43:43.0\",\n            \"creationTime\" : \"2017-05-28 10:43:43.0\"\n        }\n    ],\n    \"count\": 1"
+          headers:
+            AMPLIFY-REQUEST-ID:
+              description: Request correlation / rate-limit signal
+              schema:
+                type: string
+        '400':
+          description: Bad Request - the request could not be understood or was missing required parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - authentication failed or the user lacks permission for the requested operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden - access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests - request exceeded rate limits; see the rate-limit-msec-left header
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: createMarketersMarketerIdSegments
+      summary: Create a new Segment
+      description: 'Property
+
+        Type
+
+        Semantic
+
+        Example
+
+        Comments
+
+
+        name
+
+        String
+
+        segment name.
+
+        "My Segment"
+
+
+        description
+
+        String
+
+        segment description.
+
+        "all clicks which originated from..."
+
+
+        enabled
+
+        Boolean
+
+        Is the segment enabled
+
+        true
+
+
+        segmentType
+
+        SegmentType
+
+        the type of the segment.
+
+
+        pixelTypeRules
+
+        PixelTypeRules
+
+        an object describing rules defining membership to PIXEL segment.
+
+
+        only applicable to segments of type PIXEL
+
+
+        clickersCampaigns
+
+        Array of String
+
+        a collection of campaign ids defining membership to CLICKERS segment
+
+
+        only applicable to segments of type CLICKERS
+
+
+        membershipDuration
+
+        Integer
+
+        number of days a user should be attributed to a segment.
+
+
+        lookalikeSettings
+
+        Create Lookalike Metadata
+
+        an object describing the settings of a LOOK_A_LIKES segment
+
+
+        conversion
+
+        SegmentConversion
+
+        an object describing the conversion the segment is based on. For segment type CONVERSION only one segment is allowed for each conversion. For segment type VALUABLE_CONVERSION contains also the rule that defines membership to Value Based Converters segment.
+
+
+        only applicable to segments of type CONVERSION or VALUABLE_CONVERSION'
+      tags:
+      - Segments
+      parameters:
+      - name: marketerId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: the marketer id
+        example: 008f7b0d8a5c8cb24ba3011be372bfb232
+      - name: name
+        in: query
+        required: false
+        schema:
+          type: string
+        description: the segment name
+        example: segment name
+      - name: matchExactNAme
+        in: query
+        required: false
+        schema:
+          type: boolean
+        description: should the name search use exact matching
+        example: 'true'
+      - name: includeArchived
+        in: query
+        required: false
+        schema:
+          type: boolean
+        description: should the search results include archived segments
+        example: 'false'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: JSON representation of Segment Resource
+          content:
+            application/json:
+              schema:
+                type: string
+              example: " {\n    \"id\" : \"00f4b02153ee75f3c9dc4fc128ab041963\",\n    \"name\" : \"segment name\",\n    \"description\" : \"segment description\",\n    \"marketerId\" : \"008f7b0d8a5c8cb24ba3011be372bfb232\",\n    \"segmentType\" : \"PIXEL or CLICKERS or LOOK_A_LIKES or CONVERSION\",\n    \"pixelTypeRules\" : { //present only for PIXEL type segments\n        \"ruleGroups\" : [\n            {\n                \"rules\" :  [\n                    {\n                        \"ruleType\" : \"UrlContains\",\n                        \"pattern\" : \"reggtre\"\n                    }\n                ]\n            }\n        ]\n    },\n    \"clickersCampaigns\": [ //present only for CLICKERS type segments\n        {\n            \"id\": \"00e75410d0ba7a4ab16cb5f70037e9a519\",\n            \"name\": \"campaign name\"\n        }\n    ],\n    \"lookalikeSettings\": { //valid only for LOOK_A_LIKES type segments\n        \"seedSegment\":\n            {\n                \"segmentId\": \"00f56110d0bd7a4ab16cb5f30037e9a519\",\n                \"segmentType\": PIXEL\n            }\n        \"similarity\": 5,\n        \"status\": ACTIVE,\n        \"subSegments\": [\n            {\n                \"country\": \"US\",\n                \"platform\": \"mobile\",\n                \"potentialReach\": 15000,\n                \"status\": ACTIVE,\n                \"affinity\": HIGH,\n                \"lastUpdate\": \"2018-01-01 13:00:00\"\n            },\n            {\n                \"country\": \"FR\",\n                \"platform\": \"desktop\",\n                \"potentialReach\": 25000,\n                \"status\": ACTIVE,\n                \"affinity\": LOW,\n                \"lastUpdate\": \"2018-01-01 13:00:00\"\n            }\n        ]\n    },\n    \"subSegmentsSettings\": //valid only for non LOOK_A_LIKES type segments\n        {\n            \"subSegments\":\n            [\n                {\n                    \"country\": \"US\",\n                    \"platform\": \"mobile\",\n                    \"size\": 15000,\n                    \"sizeInNetwork\": 1000000,\n                    \"eligibleForLookalikeSubSegment\": true\n                },\n               "
+          headers:
+            AMPLIFY-REQUEST-ID:
+              description: Request correlation / rate-limit signal
+              schema:
+                type: string
+        '400':
+          description: Bad Request - the request could not be understood or was missing required parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - authentication failed or the user lacks permission for the requested operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden - access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests - request exceeded rate limits; see the rate-limit-msec-left header
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /audienceIntelSegments/all:
+    get:
+      operationId: getAudienceIntelSegmentsAll
+      summary: Retrieve Global Segments
+      description: 'Global Segments object is an array of SegmentGroup objects.
+
+
+        Property
+
+        Type
+
+        Semantic
+
+
+        audienceIntelGroups
+
+        Array of [SegmentGroup]
+
+        An array of segment groups read-only
+
+
+        SegmentGroup object is a logical segments group that has the following attributes:
+
+
+        Property
+
+        Type
+
+        Semantic
+
+
+        name
+
+        String
+
+        group name. read-only
+
+
+        subGroups
+
+        Array of [SegmentGroup]
+
+        An array of sub segment groups read-only
+
+
+        segments
+
+        [BasicGlobalSegment]
+
+        An array of global segments read-only
+
+
+        BasicGlobalSegment is a global segment that has the following attributes:
+
+
+        Property
+
+        Type
+
+        Semantic
+
+
+        id
+
+        String
+
+        segment id. read-only
+
+
+        name
+
+        String
+
+        segment name.  read-only
+
+
+        description
+
+        String
+
+        segment description.  read-only
+
+
+        size
+
+        Integer
+
+        number of distinct users that are part of the segment. read-only
+
+
+        effectiveSize
+
+        Integer
+
+        number of distinct active users that are part of the segment. read-only
+
+
+        dataVendorCost
+
+        Number
+
+        additional cost per click in dollar   read-only
+
+
+        provider
+
+        String
+
+        The 3rd party provider of this segment. read-only
+
+
+        marketerAvailability
+
+        String
+
+        The country of this segment. read-only'
+      tags:
+      - Segments
+      responses:
+        '200':
+          description: JSON representation of Targeting Campaigns Resource
+          content:
+            application/json:
+              schema:
+                type: string
+              example: "{\n  \"audienceIntelGroups\": [\n    {\n      \"name\": \"Amazon Computers & Electronics Shoppers\",\n      \"subGroups\": [],\n      \"segments\": []\n    },\n    {\n      \"name\": \"Automotive\",\n      \"subGroups\": [\n        {\n          \"name\": \"Car Rental\",\n          \"subGroups\": [],\n          \"segments\": [\n            {\n              \"id\": \"00d4a4d361220099819ef58e22bc426eaa\",\n              \"name\": \"Automotive > Car Rental > Personal Use\",\n              \"description\": \"People who have rented a car for personal use in the last 12 months\",\n              \"size\": 34772481,\n              \"effectiveSize\": 7871188,\n              \"dataVendorCost\": 0.05,\n              \"provider\": \"Acxiom\",\n              \"marketAvailability\": \"US\"\n            }\n          ]\n        },\n        {\n          \"name\": \"Intent\",\n          \"subGroups\": [\n            {\n              \"name\": \"Body Style\",\n              \"subGroups\": [],\n              \"segments\": [\n                {\n                  \"id\": \"00f00d35df22431ec4a4e6c525bc2ba923\",\n                  \"name\": \"Automotive > Intent > Body Style > Convertible\",\n                  \"description\": \"Users who have demonstrated an intent to buy through actions such searches, car configurations and quote requests for convertible cars\",\n                  \"size\": 25181037,\n                  \"effectiveSize\": 7927184,\n                  \"dataVendorCost\": 0.05,\n                  \"provider\": \"Eyeota\",\n                  \"marketAvailability\": \"Global\"\n\n                }\n              ]\n            }\n          }\n      ]\n    }\n  ]\n}"
+          headers:
+            AMPLIFY-REQUEST-ID:
+              description: Request correlation / rate-limit signal
+              schema:
+                type: string
+        '400':
+          description: Bad Request - the request could not be understood or was missing required parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - authentication failed or the user lacks permission for the requested operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden - access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests - request exceeded rate limits; see the rate-limit-msec-left header
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /segments/targetingCampaigns:
+    post:
+      operationId: createSegmentsTargetingCampaigns
+      summary: List all Targeting Campaigns for Segments IDs
+      description: This section allows the ability to obtain a full list of campaigns targeted by given segment ids.   Returns a Targeting Campaigns Response object
+      tags:
+      - Segments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              segmentsIds:
+              - 00e5543e39c46037d22e0b710d4b6e3837
+              - 00571390394853f05667d7a7ac294183d5
+              - 00ef0ad39fad1120b424205bc355ff9341
+      responses:
+        '200':
+          description: JSON representation of Targeting Campaigns Resource
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                targetingCampaignsPerSegment:
+                - segmentId: 00e5543e39c46037d22e0b710d4b6e3837
+                  includedCampaigns:
+                  - id: 009e3727e1ebfbf4d22a83bd812a07c92a
+                    name: campaign name
+                  excludedCampaigns:
+                  - id: 00eea60a248d481f04138449ee3a22ec8c
+                    name: campaign name
+                - segmentId: 00571390394853f05667d7a7ac294183d5
+                  includedCampaigns:
+                  - id: 009e3727e1ebfbf4d22a83bd812a07c92a
+                    name: campaign name
+                - segmentId: 00ef0ad39fad1120b424205bc355ff9341
+                  includedCampaigns:
+                  - id: 00eea60a248d481f04138449ee3a22ec8c
+                    name: campaign name
+                  excludedCampaigns:
+                  - id: 009e3727e1ebfbf4d22a83bd812a07c92a
+                    name: campaign name
+          headers:
+            AMPLIFY-REQUEST-ID:
+              description: Request correlation / rate-limit signal
+              schema:
+                type: string
+        '400':
+          description: Bad Request - the request could not be understood or was missing required parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - authentication failed or the user lacks permission for the requested operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden - access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests - request exceeded rate limits; see the rate-limit-msec-left header
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      description: Error envelope returned on 400/401/403/404/429 responses.
+      properties:
+        moreInfo:
+          type: string
+          description: Short machine-readable hint identifying the failing operation.
+        errorMessage:
+          type: string
+          description: Human-readable error message.
+      examples:
+      - moreInfo: get-budget
+        errorMessage: access denied
+  securitySchemes:
+    OBTokenAuth:
+      type: apiKey
+      in: header
+      name: OB-TOKEN-V1
+      description: Token obtained from GET /login (HTTP Basic) or from https://my.outbrain.com/create-token. Valid for 30 days.
+    BasicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic credentials used only on GET /login to obtain an OB-TOKEN-V1 token.
