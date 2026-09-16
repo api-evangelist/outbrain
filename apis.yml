@@ -986,6 +986,8 @@ accessModel:
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/outbrain.png
 access: 3rd-Party
 common:
+- type: Website
+  url: https://outbrain.com
 - type: PostmanWorkspace
   url: https://www.postman.com/kinlaneapi/outbrain/overview
 - type: AgenticAccess
@@ -1238,7 +1240,7 @@ common:
   name: Teads Android SDK
   url: https://github.com/teads/TeadsSDK-android
 created: '2026-05-25T00:00:00.000Z'
-modified: '2026-08-13'
+modified: '2026-09-16'
 position: Consuming
 description: 'Outbrain Inc. (NASDAQ: OB), which closed its acquisition of Teads in early 2025 and now
   operates publicly as Teads, is one of the largest open-internet advertising platforms — reaching 2 billion+
