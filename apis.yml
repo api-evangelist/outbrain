@@ -365,13 +365,12 @@ apis:
     url: https://github.com/teads/teads-advertiser-conversion-api-gtm-template
 - aid: outbrain:outbrain-teads-in-chat-api
   name: Teads In-Chat API
-  description: 'Contextual sponsored-recommendation API for chatbot and LLM publishers, backing the Teads
-    Conversational AI Ads SDK (public beta since 2025-11-12). Takes a partner key plus one of contentUrl
-    / bundleUrl / portalUrl, a widgetJSId placement identifier and optional keywords, IAB categories or
-    free-text chat context, and returns recommendation sets grouped by engine with tracking pixels and
-    optional display creative.
-
-    '
+  description: >
+    Contextual sponsored-recommendation API for chatbot and LLM publishers, backing the Teads Conversational
+    AI Ads SDK (public beta since 2025-11-12). Takes a partner key plus one of contentUrl / bundleUrl
+    / portalUrl, a widgetJSId placement identifier and optional keywords, IAB categories or free-text
+    chat context, and returns recommendation sets grouped by engine with tracking pixels and optional
+    display creative.
   humanURL: https://developers.teads.com/docs/Chatbot-AI-SDK/Getting-Started/integration-guide
   baseURL: https://mv.outbrain.com/Multivac/api/in-chat-recs
   tags:
@@ -393,7 +392,8 @@ apis:
     url: components/outbrain-components.yml
 - aid: outbrain:outbrain-authentications-api
   name: Outbrain Authentications API
-  description: 'Token
+  description: >-
+    Token
 
     Obtaining a token should be your 1st step toward using Amplify API. You need to include it in all
     further requests using the HTTP Header OB-TOKEN-V1.
@@ -418,8 +418,8 @@ apis:
     Simply go to your Amplify API Token Page, fill in your password, hit generate, and you will get your
     token.
 
-    If you can''t see Amplify API Token form, this means that your username doesn''t have access to the
-    Amplify API. To register for the Amplify API please fil'
+    If you can't see Amplify API Token form, this means that your username doesn't have access to the
+    Amplify API. To register for the Amplify API please fil
   humanURL: https://developer.outbrain.com/home-page/amplify-api/
   baseURL: https://api.outbrain.com/amplify/v0.1
   tags:
@@ -465,7 +465,8 @@ apis:
     url: mailto:api@teads.tv
 - aid: outbrain:outbrain-geo-locations-api
   name: Outbrain Geo Locations API
-  description: 'GeoLocations are representatives of Outbrain Geographic Locations.
+  description: >-
+    GeoLocations are representatives of Outbrain Geographic Locations.
 
     GeoLocations are being used for campaigns to be targeted (or excluded) by geography.
 
@@ -524,7 +525,7 @@ apis:
 
     The parent of the geoLocation if exists (always a country)
 
-    A GeoLocation object'
+    A GeoLocation object
   humanURL: https://developer.outbrain.com/home-page/amplify-api/
   baseURL: https://api.outbrain.com/amplify/v0.1
   tags:
@@ -546,8 +547,9 @@ apis:
     url: mailto:api@teads.tv
 - aid: outbrain:outbrain-iab-category-targeting-api
   name: Outbrain IAB category Targeting API
-  description: 'IAB category Targeting gives you the abillity to select your preferred IAB categories
-    in your campaign setup.
+  description: >-
+    IAB category Targeting gives you the abillity to select your preferred IAB categories in your campaign
+    setup.
 
     The IAB category Targeting object has the following attributes:
 
@@ -601,7 +603,7 @@ apis:
 
     Array of IAB category
 
-    Will appear if this category has more specific sub categories'
+    Will appear if this category has more specific sub categories
   humanURL: https://developer.outbrain.com/home-page/amplify-api/
   baseURL: https://api.outbrain.com/amplify/v0.1
   tags:
@@ -623,8 +625,9 @@ apis:
     url: mailto:api@teads.tv
 - aid: outbrain:outbrain-interest-targeting-api
   name: Outbrain Interest Targeting API
-  description: 'Interest Targeting gives you the abillity to select your preferred interests categories
-    in your campaign setup.
+  description: >-
+    Interest Targeting gives you the abillity to select your preferred interests categories in your campaign
+    setup.
 
     Then, using our powerful interest insights and predictive technology, we’ll match you with audiences
     we know are interested in your desired categories and will surface your content to the people who
@@ -684,7 +687,7 @@ apis:
 
     Array of Interest Targeting
 
-    Will appear if the interest has m'
+    Will appear if the interest has m
   humanURL: https://developer.outbrain.com/home-page/amplify-api/
   baseURL: https://api.outbrain.com/amplify/v0.1
   tags:
@@ -704,35 +707,11 @@ apis:
     url: errors/outbrain-error-codes.yml
   - type: Support
     url: mailto:api@teads.tv
-- aid: outbrain:outbrain-meta-data-api
-  name: Outbrain Meta Data API
-  description: The Meta Data section represents the various values (Enumarations) that can be provided
-    as part of the different API end-points
-  humanURL: https://developer.outbrain.com/home-page/amplify-api/
-  baseURL: https://api.outbrain.com/amplify/v0.1
-  tags:
-  - Metadata
-  tags_raw:
-  - Meta Data
-  properties:
-  - type: OpenAPI
-    url: openapi/outbrain-meta-data-api-openapi.yml
-  - type: APIReference
-    url: https://amplifyv01.docs.apiary.io/
-  - type: Documentation
-    url: https://developer.outbrain.com/home-page/amplify-api/documentation/
-  - type: SignUp
-    url: https://www.outbrain.com/partner-api/
-  - type: APIReference
-    url: https://teadsapi.docs.apiary.io/
-  - type: ErrorCodes
-    url: errors/outbrain-error-codes.yml
-  - type: Support
-    url: mailto:api@teads.tv
 - aid: outbrain:outbrain-multiple-conversions-api
   name: Outbrain Multiple Conversions API
-  description: 'Multiple Conversions gives the ability to track any of the actions a user takes after
-    clicking through to your content.
+  description: >-
+    Multiple Conversions gives the ability to track any of the actions a user takes after clicking through
+    to your content.
 
     You can track everything from top of funnel (page landings and time on site) to bottom of funnel (e-book
     downloads and product purchases).
@@ -741,7 +720,7 @@ apis:
     Please note: This new feature requires the installation of the new multiple conversion pixel which
     can be retrieved from your account on Outbrain.com.  If you have the old conversion pixel placed you
     will need to remove that before installing the Multiple Conversion Pixel.  If both pixels are installed
-    there will be overcounting of data and results will be inaccurate.'
+    there will be overcounting of data and results will be inaccurate.
   humanURL: https://developer.outbrain.com/home-page/amplify-api/
   baseURL: https://api.outbrain.com/amplify/v0.1
   tags:
@@ -763,8 +742,9 @@ apis:
     url: mailto:api@teads.tv
 - aid: outbrain:outbrain-performance-reporting-api
   name: Outbrain Performance Reporting API
-  description: 'There are a multitude of reporting endpoints that allow you to retrieve metrics at various
-    levels of granularity.
+  description: >-
+    There are a multitude of reporting endpoints that allow you to retrieve metrics at various levels
+    of granularity.
 
 
     Note: All performance reports have a 10-30 minutes delay, therefore performance metrics that include
@@ -808,7 +788,7 @@ apis:
 
     Number
 
-    Count of the total results'
+    Count of the total results
   humanURL: https://developer.outbrain.com/home-page/amplify-api/
   baseURL: https://api.outbrain.com/amplify/v0.1
   tags:
@@ -861,7 +841,8 @@ apis:
     url: mailto:api@teads.tv
 - aid: outbrain:outbrain-sections-api
   name: Outbrain Sections API
-  description: A Section is a specific content within the publisher's site such as sports, business etc.
+  description: >-
+    A Section is a specific content within the publisher's site such as sports, business etc.
   humanURL: https://developer.outbrain.com/home-page/amplify-api/
   baseURL: https://api.outbrain.com/amplify/v0.1
   tags:
@@ -883,17 +864,17 @@ apis:
     url: mailto:api@teads.tv
 - aid: outbrain:outbrain-segments-api
   name: Outbrain Segments API
-  description: 'Segments give the ability to segment customers based on their actions, and retarget them
-    with new or existing campaigns. This translates into your campaigns reaching a highly engaged audience
-    that is more likely to convert and fulfill your brand''s goals. With this functionality you''ll be
-    able to segment customers in two ways: Audience Retargeting (Type: PIXEL) and Story Sequencing (Type:
-    CLICKERS).
+  description: >-
+    Segments give the ability to segment customers based on their actions, and retarget them with new
+    or existing campaigns. This translates into your campaigns reaching a highly engaged audience that
+    is more likely to convert and fulfill your brand's goals. With this functionality you'll be able to
+    segment customers in two ways: Audience Retargeting (Type: PIXEL) and Story Sequencing (Type: CLICKERS).
 
 
     Please note: The PIXEL feature requires the installation of the Outbrain Custom Audience pixel, which
     can be retrieved from your account on Outbrain.com.  If you have the old audience pixel installed,
     you will need to remove that before installing the new pixel.  For additional information regarding
-    obtaining and installing the pixel properly, please visit our help center here: http://help.outbrain.com/customer/en/portal/articles/2809479-how-can-i-create-custom-audiences'
+    obtaining and installing the pixel properly, please visit our help center here: http://help.outbrain.com/customer/en/portal/articles/2809479-how-can-i-create-custom-audiences
   humanURL: https://developer.outbrain.com/home-page/amplify-api/
   baseURL: https://api.outbrain.com/amplify/v0.1
   tags:
@@ -915,10 +896,11 @@ apis:
     url: mailto:api@teads.tv
 - aid: outbrain:outbrain-users-api
   name: Outbrain Users API
-  description: 'User represents a single person''s access to Outbrain services and to the site my.outbrain.com.
+  description: >-
+    User represents a single person's access to Outbrain services and to the site my.outbrain.com.
 
     A User is permitted to one or more Marketer accounts, each marketer with a role that specifies the
-    user permissions.'
+    user permissions.
   humanURL: https://developer.outbrain.com/home-page/amplify-api/
   baseURL: https://api.outbrain.com/amplify/v0.1
   tags:
@@ -928,6 +910,30 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/outbrain-users-api-openapi.yml
+  - type: APIReference
+    url: https://amplifyv01.docs.apiary.io/
+  - type: Documentation
+    url: https://developer.outbrain.com/home-page/amplify-api/documentation/
+  - type: SignUp
+    url: https://www.outbrain.com/partner-api/
+  - type: APIReference
+    url: https://teadsapi.docs.apiary.io/
+  - type: ErrorCodes
+    url: errors/outbrain-error-codes.yml
+  - type: Support
+    url: mailto:api@teads.tv
+- aid: outbrain:outbrain-metadata-api
+  name: Outbrain Metadata API
+  description: >-
+    The Meta Data section represents the various values (Enumarations) that can be provided as part of
+    the different API end-points
+  humanURL: https://developer.outbrain.com/home-page/amplify-api/
+  baseURL: https://api.outbrain.com/amplify/v0.1
+  tags:
+  - Metadata
+  properties:
+  - type: OpenAPI
+    url: openapi/outbrain-metadata-api-openapi.yml
   - type: APIReference
     url: https://amplifyv01.docs.apiary.io/
   - type: Documentation
