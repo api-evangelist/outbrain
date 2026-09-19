@@ -115,6 +115,8 @@ apis:
   humanURL: https://developers.teads.com/docs/category/start-here
   baseURL: https://r.teads.tv
   tags:
+  - Conversion
+  tags_raw:
   - Conversions
   properties:
   - type: OpenAPI
