@@ -1,21 +1,19 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Outbrain Amplify Authentication Conversions API
-  description: 'The Outbrain Amplify API enables advertisers, agencies, and technology partners to integrate Amplify campaign management and reporting into their own tools and platforms. The API is organized around core entities: Marketer (a customer account), Campaign (a collection of promoted links), PromotedLink (a single piece of promoted content), Budget, AudienceTargeting, and PerformanceBy* analytics resources for retrieving performance metrics.
-
-    '
-  version: '0.1'
+  title: Teads Advertiser Conversion Conversions API
+  description: Server-to-server Conversion API for advertisers running on the Teads / Outbrain combined open-internet platform. Lets advertisers send first-party conversion events directly from their backend (or via Google Tag Manager server-side container) to Teads for campaign measurement, optimization, attribution, and audience signals — independent of browser cookies. Modeled on the public Teads Conversion API GTM server-side template and Teads / Outbrain advertiser tagging documentation.
+  version: '1.0'
   contact:
-    name: Outbrain Developer Center
-    url: https://developer.outbrain.com
+    name: Teads Support
+    url: https://www.teads.com
   license:
-    name: Outbrain Amplify API Terms and Conditions
-    url: https://www.outbrain.com/legal/
+    name: Teads Terms of Service
+    url: https://www.teads.com/
 servers:
 - url: https://r.teads.tv
   description: Teads Conversion API endpoint
 security:
-- OBTokenAuth: []
+- BearerAuth: []
 tags:
 - name: Conversions
   description: Server-side conversion events
@@ -23,9 +21,7 @@ paths:
   /capi/event:
     post:
       summary: Send A Server Side Conversion Event
-      description: 'Submit a conversion event (e.g. purchase, lead, sign-up, add-to-cart) from the advertiser''s backend to Teads. Used for measurement, conversion attribution, and feeding Teads'' predictive AI optimization engine without requiring browser-side pixels.
-
-        '
+      description: Submit a conversion event (e.g. purchase, lead, sign-up, add-to-cart) from the advertiser's backend to Teads. Used for measurement, conversion attribution, and feeding Teads' predictive AI optimization engine without requiring browser-side pixels.
       operationId: sendConversionEvent
       tags:
       - Conversions
@@ -135,11 +131,6 @@ components:
             order_id:
               type: string
   securitySchemes:
-    OBTokenAuth:
-      type: apiKey
-      in: header
-      name: OB-TOKEN-V1
-      description: Token returned from /login. Send on all authenticated requests.
-    BasicAuth:
+    BearerAuth:
       type: http
-      scheme: basic
+      scheme: bearer

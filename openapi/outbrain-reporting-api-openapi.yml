@@ -1,21 +1,13 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Outbrain Amplify Authentication Reporting API
-  description: 'The Outbrain Amplify API enables advertisers, agencies, and technology partners to integrate Amplify campaign management and reporting into their own tools and platforms. The API is organized around core entities: Marketer (a customer account), Campaign (a collection of promoted links), PromotedLink (a single piece of promoted content), Budget, AudienceTargeting, and PerformanceBy* analytics resources for retrieving performance metrics.
-
-    '
-  version: '0.1'
-  contact:
-    name: Outbrain Developer Center
-    url: https://developer.outbrain.com
-  license:
-    name: Outbrain Amplify API Terms and Conditions
-    url: https://www.outbrain.com/legal/
+  title: Outbrain Reporting API
+  version: '1.0'
+  description: 'Operations tagged Reporting across 2 of this provider''s published API definitions: outbrain-amplify-api-openapi.yml, outbrain-teads-report-api-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.outbrain.com/amplify/v0.1
   description: Production Server
-security:
-- OBTokenAuth: []
+- url: https://api.teads.tv/v1/analytics
+  description: Teads Analytics reporting endpoint
 tags:
 - name: Reporting
   description: Performance reporting
@@ -23,9 +15,7 @@ paths:
   /reports/marketers/{marketerId}/campaigns:
     get:
       summary: Performance Report By Campaign
-      description: 'Retrieve performance metrics (impressions, clicks, spend, conversions, CPA, CTR) aggregated by campaign for the given marketer and date range. Limited to 10 requests per minute per marketer.
-
-        '
+      description: Retrieve performance metrics (impressions, clicks, spend, conversions, CPA, CTR) aggregated by campaign for the given marketer and date range. Limited to 10 requests per minute per marketer.
       operationId: reportPerformanceByCampaign
       tags:
       - Reporting
@@ -41,6 +31,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PerformanceReport'
+      security:
+      - OBTokenAuth: []
+    servers:
+    - url: https://api.outbrain.com/amplify/v0.1
+      description: Production Server
   /reports/marketers/{marketerId}/periodicContent:
     get:
       summary: Performance Report By Periodic Content
@@ -59,12 +54,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PerformanceReport'
+      security:
+      - OBTokenAuth: []
+    servers:
+    - url: https://api.outbrain.com/amplify/v0.1
+      description: Production Server
   /reports/marketers/{marketerId}/realtime:
     get:
       summary: Real Time Performance Report
-      description: 'Retrieve real-time performance metrics for a marketer. Limited to 50 requests per minute per marketer.
-
-        '
+      description: Retrieve real-time performance metrics for a marketer. Limited to 50 requests per minute per marketer.
       operationId: reportPerformanceRealtime
       tags:
       - Reporting
@@ -77,6 +75,638 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PerformanceReport'
+      security:
+      - OBTokenAuth: []
+    servers:
+    - url: https://api.outbrain.com/amplify/v0.1
+      description: Production Server
+  /custom:
+    post:
+      operationId: createReport
+      summary: Processing report
+      description: 'Trigger an asynchronous report processing
+
+
+        Response JSON body attributes:
+
+
+        -
+
+        id (String): unique identifier
+
+
+        -
+
+        start (Timestamp ISO 8601): timestamp when the report request was registered in Teads backend
+
+
+        -
+
+        lastStatusUpdate (Timestamp ISO 8601): timestamp of the last internal status update in Teads backend,
+
+
+        -
+
+        status (String): report status, it can following values:
+
+
+        - queued Teads platform has put the report in the queue to be processed, this stage may vary depending on our resources availability
+
+        - processing The report is now being computed
+
+        - error An issue prevented the report from being computed, please look at message field for more details
+
+        - finished The report is now finished, you can download the result at url field.
+
+        - killed The report was canceled during its process
+
+
+        -
+
+        valid (Boolean): true if the format and content report request is valid and is being process
+
+
+        -
+
+        reportProgress (Object): object containing report progress
+
+
+        - stepMax (Number): number of steps to finish report
+
+        - step (Number): current step in the report
+
+        - progressMax (Number): max progress to finish step
+
+        - progress (Number): current progress in the step
+
+
+        All filters, except for date are optional. emails and format are also optional groups. If not present, they will use their "default" value which are presented in the example above.
+
+        Filters fields are based on ids, ie use placements : [ 1 ] for filtering on placement with id 1.
+
+        Exceptions are _status that take the status as stored in database, ie 1 for active and format which takes string format, ie inread for inread insertion/placement.
+
+
+        Warning: format filtering can lead to long or failing requests, due to the amount of computing power it requires. If you encounter issues while using the format filter, we recommend dropping it and filtering afterwards if necessary.
+
+
+        Parameters
+
+
+        parameter
+
+        type
+
+        default
+
+        required
+
+        description
+
+
+        dimensions
+
+        array(text)
+
+        -
+
+        Yes
+
+        List of dimensions to query by
+
+
+        filters.date.start
+
+        text
+
+        -
+
+        Yes
+
+        Lower-bound timestamp (ISO8601 format)
+
+
+        filters.date.end
+
+        text
+
+        -
+
+        Yes
+
+        Upper-bound timestamp (ISO8601 format)
+
+
+        filters.date.timezone
+
+        text
+
+        inferred from filters.date.start timestamp
+
+        -
+
+        The timezone you would like the report to be rendered in: used to resolve DST shifts (should be provided if filters.date.start is specified in UTC/GMT)
+
+
+        metrics
+
+        array(text)
+
+        -
+
+        Yes
+
+        List of metrics to return
+
+
+        emails
+
+        array(text)
+
+        []
+
+        -
+
+        E-mail addresses of report recipients
+
+
+        filters.ad_sources
+
+        array(int)
+
+        []
+
+        -
+
+        filter of adsource id (ex: Google DBM id "3")
+
+
+        filters.ad_status
+
+        array(int)
+
+        []
+
+        -
+
+        filter on ad status id (ex: status "1", active)
+
+
+        filters.ads
+
+        array(int)
+
+        []
+
+        -
+
+        filter on ad id (ex: ad id "1")
+
+
+        filters.adsources
+
+        array(int)
+
+        []
+
+        -
+
+        filter on connection id (ex: connection id "1")
+
+
+        filters.advertisers
+
+        array(int)
+
+        []
+
+        -
+
+        filter on advertiser id (ex: advertiser id "1")
+
+
+        filters.browser
+
+        array(text)
+
+        []
+
+        -
+
+        filter on browser name (ex: browser "Chrome")
+
+
+        filters.connection_buy_type
+
+        array(text)
+
+        []
+
+        -
+
+        filter on connection_buy_type (ex: type "rtb")
+
+
+        filters.country
+
+        array(text)
+
+        []
+
+        -
+
+        (in ISO 3166-1 alpha-2 format, ex: US, FR)
+
+
+        filters.creatives
+
+        array(int)
+
+        []
+
+        -
+
+
+        filter on creative id (ex: creative id "1")
+
+
+        filters.demand_source
+
+        arr'
+      tags:
+      - Reporting
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              filters:
+                ads: []
+                adsources: []
+                advertisers: []
+                ad_sources: []
+                ad_status: []
+                browser: []
+                country: []
+                connection_buy_type: []
+                creatives: []
+                device: []
+                formats: []
+                insertions: []
+                insertion_status: []
+                operating_system: []
+                packs: []
+                page: []
+                placements:
+                - 17270
+                placement_status: []
+                publishers: []
+                scenarios: []
+                websites: []
+                date:
+                  start: '2020-01-01T00:00:00+01:00'
+                  end: '2020-01-01T23:59:00+01:00'
+                  timezone: Europe/Paris
+              dimensions:
+              - day
+              - placement
+              metrics:
+              - start
+              - complete
+              - click
+              - impression
+              - firstQuartile
+              - midpoint
+              - thirdQuartile
+              - teads_billing
+              emails:
+              - myemail@teads.tv
+              format: xlsx
+      responses:
+        '200':
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                id: abcdefgh-cff2-4753-a08b-ee4587de4e9d
+                start: '2020-12-14T16:35:05.269Z'
+                lastStatusUpdate: '2020-12-14T16:35:05.269Z'
+                status: queued
+                valid: true
+                reportProgress:
+                  stepMax: 4
+        '400':
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                obj.dimensions.dimensions.filters.insertions[0]:
+                - msg: error.expected.jsnumber
+                  args: []
+        '401':
+          description: Unauthorized - missing or invalid OAuth bearer token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - unknown report id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests - rate limit reached; a Retry-After header states the wait in seconds
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          headers:
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+      security:
+      - BearerAuth: []
+    servers:
+    - url: https://api.teads.tv/v1/analytics
+      description: Teads Analytics reporting endpoint
+  /custom/{id}:
+    get:
+      operationId: getReportStatus
+      summary: Get report status
+      description: 'Get the status of a report that is currently processing
+
+
+        Response JSON body attributes (list may not be exhaustive):
+
+
+        list[(Object)]:
+
+
+        -
+
+        id (String): unique identifier
+
+
+        -
+
+        status (String):
+
+
+        - queued Teads platform has put the report in the queue to be processed, this stage may vary depending on our resources availability
+
+        - processing The report is now being computed
+
+        - error An issue prevented the report from being computed, please look at message field for more details
+
+        - finished The report is now finished, you can download the result at url field.
+
+        - killed The report was canceled during its process
+
+
+        -
+
+        start (Timestamp ISO 8601): timestamp when the report request was registered in Teads backend
+
+
+        -
+
+        reportProgress (Object): object containing report progress
+
+
+        - stepMax (Number): number of steps to finish report
+
+        - step (Number): current step in the report
+
+        - progressMax (Number): max progress to finish step
+
+        - progress (Number): current progress in the step'
+      tags:
+      - Reporting
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Report identifier returned by POST /custom.
+      responses:
+        '200':
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                id: abcdefgh-cff2-4753-a08b-ee4587de4e9d
+                start: '2020-12-14T16:35:05.269Z'
+                lastStatusUpdate: '2020-12-14T16:35:05.269Z'
+                status: processing
+                valid: true
+                reportProgress:
+                  stepMax: 4
+                  step: 1
+                  progress: 1
+                  progressMax: 2
+        '404':
+          description: Response
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: The requested resource could not be found but may be available again in the future.
+        '400':
+          description: Bad Request - malformed report definition; body carries the REPORTING.ERROR.* code
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - missing or invalid OAuth bearer token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests - rate limit reached; a Retry-After header states the wait in seconds
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          headers:
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+      security:
+      - BearerAuth: []
+    servers:
+    - url: https://api.teads.tv/v1/analytics
+      description: Teads Analytics reporting endpoint
+  /running/list:
+    get:
+      operationId: listProcessingReports
+      summary: List processing reports
+      description: 'List reports that are currently processing.
+
+
+        Response JSON body attributes (list may not be exhaustive):
+
+
+        list[(Object)]:
+
+
+        -
+
+        id (String): unique identifier
+
+
+        -
+
+        status (String):
+
+
+        - queued Teads platform has put the report in the queue to be processed, this stage may vary depending on our resources availability
+
+        - processing The report is now being computed
+
+
+        -
+
+        start (Timestamp ISO 8601): timestamp when the report request was registered in Teads backend'
+      tags:
+      - Reporting
+      responses:
+        '200':
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+              example:
+              - id: abcdefgh-cff2-4753-a08b-ee4587de4e9d
+                status: processing
+                start: '2020-01-28T07:37:55.273Z'
+        '400':
+          description: Bad Request - malformed report definition; body carries the REPORTING.ERROR.* code
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - missing or invalid OAuth bearer token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - unknown report id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests - rate limit reached; a Retry-After header states the wait in seconds
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          headers:
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+      security:
+      - BearerAuth: []
+    servers:
+    - url: https://api.teads.tv/v1/analytics
+      description: Teads Analytics reporting endpoint
+  /custom/{id}/kill:
+    put:
+      operationId: cancelReport
+      summary: Cancel processing report
+      description: 'Cancel a report that is currently processing
+
+
+        Response JSON body attributes (list may not be exhaustive):
+
+
+        -
+
+        status (String):
+
+
+        - killed The report was canceled during its process
+
+
+        -
+
+        id (String): unique identifier'
+      tags:
+      - Reporting
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Report identifier returned by POST /custom.
+      responses:
+        '200':
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: killed
+                id: '{{report_id}}'
+        '400':
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: 400
+                msg: REPORTING.ERROR.APPLICATION_NOT_FOUND
+        '401':
+          description: Unauthorized - missing or invalid OAuth bearer token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - unknown report id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests - rate limit reached; a Retry-After header states the wait in seconds
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          headers:
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+      security:
+      - BearerAuth: []
+    servers:
+    - url: https://api.teads.tv/v1/analytics
+      description: Teads Analytics reporting endpoint
 components:
   parameters:
     ToDateQuery:
@@ -87,6 +717,13 @@ components:
         type: string
         format: date
       description: End date of the report range (YYYY-MM-DD).
+    MarketerIdPath:
+      name: marketerId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Marketer (customer account) identifier.
     FromDateQuery:
       name: from
       in: query
@@ -95,13 +732,6 @@ components:
         type: string
         format: date
       description: Start date of the report range (YYYY-MM-DD).
-    MarketerIdPath:
-      name: marketerId
-      in: path
-      required: true
-      schema:
-        type: string
-      description: Marketer (customer account) identifier.
     BreakdownQuery:
       name: breakdown
       in: query
@@ -149,6 +779,18 @@ components:
                 type: number
               cpa:
                 type: number
+    Error:
+      type: object
+      description: Teads reporting error envelope.
+      properties:
+        status:
+          type: integer
+        msg:
+          type: string
+          description: REPORTING.ERROR.* code
+      examples:
+      - status: 400
+        msg: REPORTING.ERROR.APPLICATION_NOT_FOUND
   securitySchemes:
     OBTokenAuth:
       type: apiKey
@@ -158,3 +800,10 @@ components:
     BasicAuth:
       type: http
       scheme: basic
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Teads OAuth bearer token supplied in the Authorization header. Requires a Teads platform account with reporting rights.
+x-refined-from:
+- outbrain-amplify-api-openapi.yml
+- outbrain-teads-report-api-openapi.yml

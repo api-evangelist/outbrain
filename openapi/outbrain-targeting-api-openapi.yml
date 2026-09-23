@@ -1,9 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Outbrain Amplify Authentication Targeting API
-  description: 'The Outbrain Amplify API enables advertisers, agencies, and technology partners to integrate Amplify campaign management and reporting into their own tools and platforms. The API is organized around core entities: Marketer (a customer account), Campaign (a collection of promoted links), PromotedLink (a single piece of promoted content), Budget, AudienceTargeting, and PerformanceBy* analytics resources for retrieving performance metrics.
-
-    '
+  title: Outbrain Amplify Targeting API
+  description: 'The Outbrain Amplify API enables advertisers, agencies, and technology partners to integrate Amplify campaign management and reporting into their own tools and platforms. The API is organized around core entities: Marketer (a customer account), Campaign (a collection of promoted links), PromotedLink (a single piece of promoted content), Budget, AudienceTargeting, and PerformanceBy* analytics resources for retrieving performance metrics.'
   version: '0.1'
   contact:
     name: Outbrain Developer Center
@@ -54,6 +52,14 @@ paths:
         '200':
           description: Audience targeting updated.
 components:
+  parameters:
+    CampaignIdPath:
+      name: campaignId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Campaign identifier.
   schemas:
     AudienceTargeting:
       type: object
@@ -83,14 +89,6 @@ components:
           type: array
           items:
             type: string
-  parameters:
-    CampaignIdPath:
-      name: campaignId
-      in: path
-      required: true
-      schema:
-        type: string
-      description: Campaign identifier.
   securitySchemes:
     OBTokenAuth:
       type: apiKey

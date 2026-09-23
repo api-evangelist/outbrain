@@ -1,16 +1,11 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Outbrain Amplify Authentication Marketers API
-  description: 'The Outbrain Amplify API enables advertisers, agencies, and technology partners to integrate Amplify campaign management and reporting into their own tools and platforms. The API is organized around core entities: Marketer (a customer account), Campaign (a collection of promoted links), PromotedLink (a single piece of promoted content), Budget, AudienceTargeting, and PerformanceBy* analytics resources for retrieving performance metrics.
-
-    '
+  title: Outbrain Marketers API
   version: '0.1'
   contact:
     name: Outbrain Developer Center
     url: https://developer.outbrain.com
-  license:
-    name: Outbrain Amplify API Terms and Conditions
-    url: https://www.outbrain.com/legal/
+  description: 'Operations tagged Marketers across 2 of this provider''s published API definitions: outbrain-amplify-api-full-openapi.yml, outbrain-amplify-api-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.outbrain.com/amplify/v0.1
   description: Production Server
@@ -18,22 +13,456 @@ security:
 - OBTokenAuth: []
 tags:
 - name: Marketers
-  description: Marketer (customer account) resources
+  description: 'Marketers are representatives of Teads customers. A single Marketer object may control campaigns for more than one end-buyer.
+
+
+    Marketers cannot be created via the API and must be created via the site or by an Outbrain Account Manager.'
 paths:
+  /marketers/{id}:
+    get:
+      operationId: getMarketersId
+      summary: Retrieve a Single Marketer
+      description: 'The Marketer object has the following attributes:
+
+
+        Property
+
+        Type
+
+        Semantic
+
+        Example
+
+
+        id
+
+        String
+
+        The Marketer''s id
+
+        "00f4b02153ee75f3c9dc4fc128ab041962"
+
+
+        name
+
+        String
+
+        The Marketer''s name
+
+        "my marketer"
+
+
+        enabled
+
+        Boolean
+
+        true when the Marketer is enabled
+
+        true
+
+
+        lastModified
+
+        Time
+
+        The time when the Marketer was last modified.
+
+        "2013-03-16 10:32:31"
+
+
+        creationTime
+
+        Time
+
+        The time when the Marketer was created.
+
+        "2013-01-14 07:19:16"
+
+
+        blockedSites
+
+        Marketer Blocked Sites
+
+        A property containing lists of blocked publishers and / or sections. The publishers and sections ids can be retrieved from the Publisher Performance Reporting section
+
+
+        bids
+
+        Bids
+
+        A property containing all marketer''s CPC adjustments
+
+
+        dynamicRetargeting
+
+        Dynamic Retargeting
+
+        Dynamic retargeting settings of the marketer
+
+
+        account
+
+        Account
+
+        A property containing all marketer''s account details
+
+
+        logoMetadata
+
+        Logo Meta Data
+
+        The Marketer''s brand logo. Copied onto new PromotedLinks that don''t set their own'
+      tags:
+      - Marketers
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: the Marketer's id
+        example: 00f4b02153ee75f3c9dc4fc128ab041962
+      - name: extraFields
+        in: query
+        required: false
+        schema:
+          type: string
+        description: the additional marketer fields you want to include in the response
+        example: Account
+      responses:
+        '200':
+          description: JSON representation of Marketer Resource
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                id: 00f4b02153ee75f3c9dc4fc128ab041962
+                name: my marketer
+                enabled: true
+                lastModified: '2014-04-20 14:52:13'
+                creationTime: '2013-06-19 21:17:11'
+                blockedSites:
+                  blockedPublishers:
+                  - id: 00f4b02153ee75f3c9dc4fc128ab041962
+                    name: Blocked Publisher Name 1
+                    creationTime: '2016-01-12 04:02:34'
+                    expiration: '2026-01-31'
+                  - id: 0095b3a4811c42fe570d1e730e7286adb4
+                    name: Blocked Publisher Name 2
+                    creationTime: '2016-01-12 04:02:34'
+                  blockedSections:
+                  - id: 00f4b02153ee75f3c9dc4fc128ab041962
+                    name: Blocked Section Name
+                    creationTime: '2016-01-12 04:02:34'
+                    expiration: '2026-01-31'
+                    publisher:
+                      id: 0095b3a4811c42fe570d1e730e7286adb4
+                      name: The name of the publisher the section belongs to
+                account:
+                  type: Agency
+                  salesForceAccountId: 00f4b02153ee75f3c9dc4fc128ab041965
+                logoMetadata:
+                  id: 00f4b02153ee75f3c9dc4fc128ab041962
+                  url: http://someImageUrl.com/logo.png
+          headers:
+            AMPLIFY-REQUEST-ID:
+              description: Request correlation / rate-limit signal
+              schema:
+                type: string
+        '400':
+          description: Bad Request - the request could not be understood or was missing required parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - authentication failed or the user lacks permission for the requested operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden - access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests - request exceeded rate limits; see the rate-limit-msec-left header
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      operationId: updateMarketersId
+      summary: Update a Single Marketer
+      description: 'The Marketer object has the following attributes:
+
+
+        Property
+
+        Type
+
+        Semantic
+
+        Example
+
+
+        id
+
+        String
+
+        The Marketer''s id
+
+        "00f4b02153ee75f3c9dc4fc128ab041962"
+
+
+        name
+
+        String
+
+        The Marketer''s name
+
+        "my marketer"
+
+
+        enabled
+
+        Boolean
+
+        true when the Marketer is enabled
+
+        true
+
+
+        lastModified
+
+        Time
+
+        The time when the Marketer was last modified.
+
+        "2013-03-16 10:32:31"
+
+
+        creationTime
+
+        Time
+
+        The time when the Marketer was created.
+
+        "2013-01-14 07:19:16"
+
+
+        blockedSites
+
+        Marketer Blocked Sites
+
+        A property containing lists of blocked publishers and / or sections. The publishers and sections ids can be retrieved from the Publisher Performance Reporting section
+
+
+        bids
+
+        Bids
+
+        A property containing all marketer''s CPC adjustments
+
+
+        dynamicRetargeting
+
+        Dynamic Retargeting
+
+        Dynamic retargeting settings of the marketer
+
+
+        account
+
+        Account
+
+        A property containing all marketer''s account details
+
+
+        logoMetadata
+
+        Logo Meta Data
+
+        The Marketer''s brand logo. Copied onto new PromotedLinks that don''t set their own'
+      tags:
+      - Marketers
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: the Marketer's id
+        example: 00f4b02153ee75f3c9dc4fc128ab041962
+      - name: extraFields
+        in: query
+        required: false
+        schema:
+          type: string
+        description: the additional marketer fields you want to include in the response
+        example: Account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              blockedSites:
+                blockedPublishers:
+                - id: 00f4b02153ee75f3c9dc4fc128ab041962
+                - id: 0095b3a4811c42fe570d1e730e7286adb4
+                blockedSections:
+                - id: 01f4b02153ee75f3f9dc4fce28ab041g65
+              logoMetadata:
+                url: http://someImageUrl.com/logo.png
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                id: 00f4b02153ee75f3c9dc4fc128ab041962
+                name: my marketer
+                enabled: true
+                lastModified: '2014-04-20 14:52:13'
+                creationTime: '2013-06-19 21:17:11'
+                blockedSites:
+                  blockedPublishers:
+                  - id: 00f4b02153ee75f3c9dc4fc128ab041962
+                    name: Blocked Publisher Name 1
+                    creationTime: '2016-01-12 04:02:34'
+                    expiration: '2026-01-20'
+                  - id: 0095b3a4811c42fe570d1e730e7286adb4
+                    name: Blocked Publisher Name 2
+                    creationTime: '2016-01-12 04:02:34'
+                  blockedSections:
+                  - id: 00f4b02153ee75f3c9dc4fc128ab041962
+                    name: Blocked Section Name
+                    creationTime: '2016-01-12 04:02:34'
+                    expiration: '2026-01-20'
+                    publisher:
+                      id: 0095b3a4811c42fe570d1e730e7286adb4
+                      name: The name of the publisher the section belongs to
+                logoMetadata:
+                  id: 00f4b02153ee75f3c9dc4fc128ab041962
+                  url: http://someImageUrl.com/logo.png
+          headers:
+            AMPLIFY-REQUEST-ID:
+              description: Request correlation / rate-limit signal
+              schema:
+                type: string
+        '400':
+          description: Bad Request - the request could not be understood or was missing required parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - authentication failed or the user lacks permission for the requested operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden - access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests - request exceeded rate limits; see the rate-limit-msec-left header
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    servers:
+    - url: https://api.outbrain.com/amplify/v0.1
+      description: Production Server
   /marketers:
     get:
-      summary: List Marketers For The Authenticated User
-      description: Retrieve all marketers (customer accounts) accessible to the authenticated user.
-      operationId: listMarketers
+      operationId: getMarketers
+      summary: List Marketers
+      description: Retrieve all Marketers associated with the current user (as identified by the token in the OB-TOKEN-V1 HTTP header).
       tags:
       - Marketers
       responses:
         '200':
-          description: A list of marketers.
+          description: Successful response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MarketerList'
+                type: object
+              example:
+                marketers:
+                - id: 00f4b02153ee75f3c9dc4fc128ab041962
+                  name: my marketer
+                  enabled: true
+                  lastModified: '2014-04-20 14:52:13'
+                  creationTime: '2013-06-19 21:17:11'
+                  blockedSites: {}
+                - id: 0095b3a4811c42fe570d1e730e7286adb4
+                  name: my other marketer
+                  enabled: false
+                  lastModified: '2014-08-05 14:52:13'
+                  creationTime: '2013-01-04 21:17:11'
+                  blockedSites: {}
+                count: 2
+          headers:
+            AMPLIFY-REQUEST-ID:
+              description: Request correlation / rate-limit signal
+              schema:
+                type: string
+        '400':
+          description: Bad Request - the request could not be understood or was missing required parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - authentication failed or the user lacks permission for the requested operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden - access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests - request exceeded rate limits; see the rate-limit-msec-left header
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    servers:
+    - url: https://api.outbrain.com/amplify/v0.1
+      description: Production Server
   /marketers/{marketerId}:
     get:
       summary: Get A Marketer By Id
@@ -50,25 +479,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Marketer'
+    servers:
+    - url: https://api.outbrain.com/amplify/v0.1
+      description: Production Server
 components:
-  parameters:
-    MarketerIdPath:
-      name: marketerId
-      in: path
-      required: true
-      schema:
-        type: string
-      description: Marketer (customer account) identifier.
   schemas:
-    MarketerList:
+    Error:
       type: object
+      description: Error envelope returned on 400/401/403/404/429 responses.
       properties:
-        count:
-          type: integer
-        marketers:
-          type: array
-          items:
-            $ref: '#/components/schemas/Marketer'
+        moreInfo:
+          type: string
+          description: Short machine-readable hint identifying the failing operation.
+        errorMessage:
+          type: string
+          description: Human-readable error message.
+      examples:
+      - moreInfo: get-budget
+        errorMessage: access denied
     Marketer:
       type: object
       properties:
@@ -83,12 +511,33 @@ components:
         creationTime:
           type: string
           format: date-time
+    MarketerList:
+      type: object
+      properties:
+        count:
+          type: integer
+        marketers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Marketer'
+  parameters:
+    MarketerIdPath:
+      name: marketerId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Marketer (customer account) identifier.
   securitySchemes:
     OBTokenAuth:
       type: apiKey
       in: header
       name: OB-TOKEN-V1
-      description: Token returned from /login. Send on all authenticated requests.
+      description: Token obtained from GET /login (HTTP Basic) or from https://my.outbrain.com/create-token. Valid for 30 days.
     BasicAuth:
       type: http
       scheme: basic
+      description: HTTP Basic credentials used only on GET /login to obtain an OB-TOKEN-V1 token.
+x-refined-from:
+- outbrain-amplify-api-full-openapi.yml
+- outbrain-amplify-api-openapi.yml

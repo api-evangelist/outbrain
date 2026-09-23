@@ -1,21 +1,19 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Outbrain Amplify Authentication Recommendations API
-  description: 'The Outbrain Amplify API enables advertisers, agencies, and technology partners to integrate Amplify campaign management and reporting into their own tools and platforms. The API is organized around core entities: Marketer (a customer account), Campaign (a collection of promoted links), PromotedLink (a single piece of promoted content), Budget, AudienceTargeting, and PerformanceBy* analytics resources for retrieving performance metrics.
-
-    '
-  version: '0.1'
+  title: Outbrain Engage Recommendations API
+  description: The Outbrain Engage API powers content recommendation widgets across the open web. It is the publisher-facing interface for retrieving personalized content recommendations (organic + sponsored) to render in Outbrain widgets. Used by the Outbrain JS Widget, the Mobile SDK (iOS/Android), Smartfeed implementations, and app mediation integrations.
+  version: '1.0'
   contact:
     name: Outbrain Developer Center
     url: https://developer.outbrain.com
   license:
-    name: Outbrain Amplify API Terms and Conditions
+    name: Outbrain Publisher Terms
     url: https://www.outbrain.com/legal/
 servers:
 - url: https://odb.outbrain.com
   description: Production Engage / recommendations endpoint
 security:
-- OBTokenAuth: []
+- PublisherKeyAuth: []
 tags:
 - name: Recommendations
   description: Retrieve content recommendations
@@ -23,9 +21,7 @@ paths:
   /utils/get:
     get:
       summary: Get Recommendations For A Widget
-      description: 'Fetch a set of recommended content items for a given publisher widget. Recommendations include both organic content and sponsored (paid) promoted links. Driven by the publisher key, widget ID, and the page URL.
-
-        '
+      description: Fetch a set of recommended content items for a given publisher widget. Recommendations include both organic content and sponsored (paid) promoted links. Driven by the publisher key, widget ID, and the page URL.
       operationId: getRecommendations
       tags:
       - Recommendations
@@ -128,11 +124,7 @@ components:
             prefix:
               type: string
   securitySchemes:
-    OBTokenAuth:
+    PublisherKeyAuth:
       type: apiKey
-      in: header
-      name: OB-TOKEN-V1
-      description: Token returned from /login. Send on all authenticated requests.
-    BasicAuth:
-      type: http
-      scheme: basic
+      in: query
+      name: publisherKey

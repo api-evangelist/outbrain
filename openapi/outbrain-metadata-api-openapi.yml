@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Outbrain Amplify Interest Targeting API
+  title: Outbrain Amplify Meta Data API
   version: '0.1'
   description: This API describes the interfaces for interacting with the Outbrain Amplify product.
   contact:
@@ -12,54 +12,40 @@ servers:
 security:
 - OBTokenAuth: []
 tags:
-- name: Interest Targeting
-  description: Interest Targeting gives you the abillity to select your preferred interests categories in your campaign setup.
+- name: Metadata
+  description: The Meta Data section represents the various values (Enumarations) that can be provided as part of the different API end-points
 paths:
-  /interests/search:
+  /metadata/browsers:
     get:
-      operationId: getInterestsSearch
-      summary: Search Interests by term
-      description: 'Returns all interests which complies to a given search term.
-
-        Results can be filtered by supplying additional query parameters.'
+      operationId: getMetadataBrowsers
+      summary: List Browsers
       tags:
-      - Interest Targeting
-      parameters:
-      - name: term
-        in: query
-        required: true
-        schema:
-          type: string
-        description: The search term
-      - name: limit
-        in: query
-        required: false
-        schema:
-          type: number
-        description: The limit of the search query.
-        example: '100'
+      - Metadata
       responses:
         '200':
-          description: All available interests which complies to the search
+          description: Successful response
           content:
             application/json:
               schema:
-                type: object
+                type: array
+                items:
+                  type: object
               example:
-                interests:
-                - id: 008e78c8c0fb3ed17d00baec8d2246c957
-                  name: Dentistry
-                  canBeTargeted: true
-                  reachEstimationCount: 283788
-                - id: 00f076b1618fe14032fea2b5427dd48a8e
-                  name: Cold and Flu
-                  canBeTargeted: true
-                  reachEstimationCount: 524168
-                - id: 00a389a8d7dbfa1f45cf86350a050e42d1
-                  name: Aging
-                  canBeTargeted: true
-                  reachEstimationCount: 5171084
-                count: 3
+              - Safari
+              - Opera
+              - Chrome
+              - UCBrowser
+              - InApp
+              - Samsung
+              - Firefox
+              - InternetExplorer
+              - Edge
+              - Other
+          headers:
+            AMPLIFY-REQUEST-ID:
+              description: Request correlation / rate-limit signal
+              schema:
+                type: string
         '400':
           description: Bad Request - the request could not be understood or was missing required parameters
           content:
@@ -90,21 +76,31 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /interests/all:
+  /metadata/operatingSystems:
     get:
-      operationId: getInterestsAll
-      summary: Retrieve all available interests
-      description: Returns all available interests.
+      operationId: getMetadataOperatingSystems
+      summary: List Operating Systems
       tags:
-      - Interest Targeting
+      - Metadata
       responses:
         '200':
-          description: All available interests.
+          description: Successful response
           content:
             application/json:
               schema:
+                type: array
+                items:
+                  type: object
+              example:
+              - Ios
+              - MacOs
+              - Android
+              - Windows
+          headers:
+            AMPLIFY-REQUEST-ID:
+              description: Request correlation / rate-limit signal
+              schema:
                 type: string
-              example: "{\n\"interests\": [\n   {\n        \"id\": \"00b4a4206b4700dc7f31859f25bf1b9171\",\n        \"name\": \"Home and Lifestyle\",\n        \"canBeTargeted\": false,\n        \"subConcepts\": [\n        {\n            \"id\": \"003a88d4853aa884699d77da749851a023\",\n            \"name\": \"Relationships\",\n            \"canBeTargeted\": true,\n            \"reachEstimationCount\": 16891959\n        },\n        {\n            \"id\": \"00e322b9b8570c0efcf64548aeec138a68\",\n            \"name\": \"Weddings\",\n            \"canBeTargeted\": true,\n            \"reachEstimationCount\": 22487517\n        }\n        ],\n        \"reachEstimationCount\": 760554\n    }\n]\n}\n<a name=\"iabCategory_obj\"></a>\n"
         '400':
           description: Bad Request - the request could not be understood or was missing required parameters
           content:

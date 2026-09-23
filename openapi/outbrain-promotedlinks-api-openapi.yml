@@ -1,16 +1,11 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Outbrain Amplify Authentication PromotedLinks API
-  description: 'The Outbrain Amplify API enables advertisers, agencies, and technology partners to integrate Amplify campaign management and reporting into their own tools and platforms. The API is organized around core entities: Marketer (a customer account), Campaign (a collection of promoted links), PromotedLink (a single piece of promoted content), Budget, AudienceTargeting, and PerformanceBy* analytics resources for retrieving performance metrics.
-
-    '
+  title: Outbrain Promoted Links API
   version: '0.1'
   contact:
     name: Outbrain Developer Center
     url: https://developer.outbrain.com
-  license:
-    name: Outbrain Amplify API Terms and Conditions
-    url: https://www.outbrain.com/legal/
+  description: 'Operations tagged PromotedLinks across 2 of this provider''s published API definitions: outbrain-amplify-api-full-openapi.yml, outbrain-amplify-api-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.outbrain.com/amplify/v0.1
   description: Production Server
@@ -18,9 +13,481 @@ security:
 - OBTokenAuth: []
 tags:
 - name: PromotedLinks
-  description: Promoted link (ad creative) management
+  description: A PromotedLink is the entity that describes a single piece of promoted content. As of April 12, 2021 each campaign is limited to 30,000 PromotedLinks.
 paths:
+  /promotedLinks/{id}:
+    get:
+      operationId: getPromotedLinksId
+      summary: Retrieve a Single PromotedLink
+      description: 'Note: some promoted link properties require using the Extra Field notion, e.g. logoMetadata needs extraFields=LogoMetaData.'
+      tags:
+      - PromotedLinks
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: the PromotedLink id
+        example: 00f4b02153ee75f3c9dc4fc128ab041962
+      - name: promotedLinkImageWidth
+        in: query
+        required: false
+        schema:
+          type: number
+        description: 'the width of the image (in pixels) as retrived in imageMetadata.url property, default value: 60'
+        example: '100'
+      - name: promotedLinkImageHeight
+        in: query
+        required: false
+        schema:
+          type: number
+        description: 'the height of the image (in pixels) as retrived in imageMetadata.url property, default value: 60'
+        example: '100'
+      responses:
+        '200':
+          description: JSON representation of Campaign Resource
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                id: 00f4b02153ee75f3c9dc4fc128ab041962
+                campaignId: abf4b02153ee75f3cadc4fc128ab0419ab
+                text: Yet another promoted link
+                metaData: This is the metaData of the promoted link
+                sectionName: Economics
+                description: This is the description of the promoted link
+                lastModified: '2013-04-15 14:52:13'
+                creationTime: '2013-01-22 21:17:11'
+                url: http://money.cnn.com/2013/11/26/news/economy/milk-farm-bill/
+                status: APPROVED
+                approvalStatus:
+                  status: Approved
+                  isEditable: false
+                enabled: true
+                archived: true
+                documentLanguage: EN
+                cpc: 0.35
+                baseUrl: http://money.cnn.com/2013/11/26/news/economy/milk-farm-bill/
+                onAirStatus:
+                  onAir: false
+                  reason: ADVERTISER_DISABLED
+                imageMetadata:
+                  requestedImageUrl: http://images.outbrain.com/imageserver/v2/s/gtE/n/plcyz/abc/iGYzT/plcyz-f8A-158x114.jpg
+                  originalImageUrl: http://images.outbrain.com/imageserver/v2/s/gtE/n/plcyz/abc/iGYzT/plcyz-f8A-158x114.jpg
+                  isAiGenerated: false
+                logoMetadata:
+                  id: 00f4b02153ee75f3c9dc4fc128ab041962
+                  url: http://someImageUrl.com/logo.png
+          headers:
+            AMPLIFY-REQUEST-ID:
+              description: Request correlation / rate-limit signal
+              schema:
+                type: string
+        '400':
+          description: Bad Request - the request could not be understood or was missing required parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - authentication failed or the user lacks permission for the requested operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden - access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests - request exceeded rate limits; see the rate-limit-msec-left header
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    servers:
+    - url: https://api.outbrain.com/amplify/v0.1
+      description: Production Server
+  /promotedLinks/{ids}:
+    put:
+      operationId: updatePromotedLinksIds
+      summary: Update an Existing PromotedLinks Status
+      description: 'To update a PromotedLink status send a JSON with the updated enabled value for one or more PromotedLinks.
+
+
+        Only the following PromotedLink attributes are updatable via this endpoint:
+
+
+        - enabled'
+      tags:
+      - PromotedLinks
+      parameters:
+      - name: ids
+        in: path
+        required: true
+        schema:
+          type: string
+        description: the PromotedLink ids
+        example: 00f4b02153ee75f3c9dc4fc128ab041962,00f4b02153ee75f3c9dc4fc128ab041963
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              enabled: true
+      responses:
+        '200':
+          description: Successful response
+        '400':
+          description: Bad Request - the request could not be understood or was missing required parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - authentication failed or the user lacks permission for the requested operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden - access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests - request exceeded rate limits; see the rate-limit-msec-left header
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    servers:
+    - url: https://api.outbrain.com/amplify/v0.1
+      description: Production Server
   /campaigns/{campaignId}/promotedLinks:
+    put:
+      operationId: updateCampaignsCampaignIdPromotedLinks
+      summary: Update Existing PromotedLinks CPC Value
+      description: 'To update a PromotedLink send a JSON with the updated value for one or more of the allowed PromotedLink attributes.
+
+
+        All attribute values left unset in this PUT will remain unchanged.
+
+
+        Only the following PromotedLink attributes are updatable:
+
+
+        -
+
+        cpc
+
+
+        -
+
+        enabled'
+      tags:
+      - PromotedLinks
+      parameters:
+      - name: campaignId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: the Campaign id
+        example: 00f4b02153ee75f3c9dc4fc128ab041962
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+            - id: abf4b02153ee75f3cadc4fc128ab0419ab
+              cpc: 0.7
+            - id: 00f4b02153ee75f3c9dc4fc128ab041962
+              cpc: 0.6
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+              example:
+              - operationStatus:
+                  status: Success
+                id: abf4b02153ee75f3cadc4fc128ab0419ab
+                promotedLink:
+                  id: abf4b02153ee75f3cadc4fc128ab0419ab
+                  text: Bobbi Kristina's Cousin Who Supported Nick Gordon Drops Music Video As A Tribute To Krissi
+                  creationTime: '2016-04-12 15:51:57'
+                  lastModified: '2016-04-12 15:51:58'
+                  url: http://perezhilton.com/2015-03-18-bobbi-kristina-cousin-jerod-brown-music-video-nick-gordon#.VQlQaumUf0o
+                  sectionName: PerezHilton
+                  status: APPROVED
+                  approvalStatus:
+                    status: Approved
+                    isEditable: false
+                  enabled: true
+                  campaignId: 00fd9565c16c994eef2fb6933af9378c60
+                  archived: false
+                  documentLanguage: EN
+                  cpc: 0.7
+                  baseUrl: http://perezhilton.com/2015-03-18-bobbi-kristina-cousin-jerod-brown-music-video-nick-gordon#.VQlQaumUf0o
+                  imageMetadata:
+                    requestedImageUrl: http://images.outbrain.com/imageserver/v2/s/gtE/n/plcyz/abc/iGYzT/plcyz-f8A-158x114.jpg
+                    originalImageUrl: http://images.outbrain.com/imageserver/v2/s/gtE/n/plcyz/abc/iGYzT/plcyz-f8A-158x114.jpg
+                    isAiGenerated: false
+              - operationStatus:
+                  status: Success
+                id: 00f4b02153ee75f3c9dc4fc128ab041962
+                promotedLink:
+                  id: 00f4b02153ee75f3c9dc4fc128ab041962
+                  text: My new promoted link
+                  creationTime: '2016-04-12 15:51:57'
+                  lastModified: '2016-04-12 15:51:58'
+                  url: http://www.engadget.com/2014/04/03/felix-baumgartner-smithsonian/
+                  sectionName: engdget
+                  status: APPROVED
+                  approvalStatus:
+                    status: Approved
+                    isEditable: false
+                  enabled: true
+                  campaignId: 00fd9565c16c994eef2fb6933af9378c60
+                  archived: false
+                  documentLanguage: EN
+                  cpc: 0.6
+                  baseUrl: http://www.engadget.com/2014/04/03/felix-baumgartner-smithsonian/
+                  imageMetadata:
+                    requestedImageUrl: http://images.outbrain.com/imageserver/v2/s/gtE/n/plcyz/abc/iGYzT/plcyz-f8A-158x114.jpg
+                    originalImageUrl: http://images.outbrain.com/imageserver/v2/s/gtE/n/plcyz/abc/iGYzT/plcyz-f8A-158x114.jpg
+                    isAiGenerated: false
+        '400':
+          description: Bad Request - the request could not be understood or was missing required parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - authentication failed or the user lacks permission for the requested operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden - access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests - request exceeded rate limits; see the rate-limit-msec-left header
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: createCampaignsCampaignIdPromotedLinks
+      summary: Create a PromotedLink
+      description: 'You can create a new promoted link and associate it with an existing campaign.
+
+        AmplifyAPi allows you to add your own headline, image and section name for the newly created promoted link.
+
+        If you''d like to set your own image, then you can do so by providing an http link for the hosted image or by uploadig an image file.
+
+        if the image is not provided, it will be set via our backend crawler.
+
+
+        POST a JSON hash with the following attributes:
+
+
+        -
+
+        text - optional, if not provided, the title will be set via our backend crawler.
+
+        NOTE: Outbrain supports the ability to include dynamic values in the headline (English-only) for location and day of week. For more information and instructions on the proper syntax please visit: https://www.outbrain.com/help/advertisers/add-content/#dynamic
+
+
+        -
+
+        url - mandatory
+
+
+        -
+
+        enabled - mandatory
+
+
+        -
+
+        cpcAdjustment - optional
+
+
+        -
+
+        sectionName - optional
+
+
+        -
+
+        description - optional
+
+
+        -
+
+        imageMetadata - optional
+
+
+        - id - optional, Outbrain image id in case the image has already been uploaded
+
+        - url - optional, http link for the hosted image
+
+
+        - If the image format is mp4, the video should be up to 10sec long
+
+
+        - playMode - optional, the image Play Mode type. Relevant to MP4 and GIF image types.
+
+        - Determines whether the clip would run once or loop 3 times.
+
+        - cropSettings - optional, array of Crop Point. Relevant for Standard images only
+
+        - cropType - optional, the image’s custom Crop Type
+
+        - aiGenerated - optional, whether this creative was fully or partially generated or modified by an AI tool
+
+
+        -
+
+        logoMetadata - optional, this PromotedLink''s own brand logo. If omitted, the advertiser''s Marketer.logoMetadata is copied in as a one-time default
+
+
+        - id - optional, Outbrain logo id if already uploaded
+
+        - url - optional, http link for the hosted logo image'
+      tags:
+      - PromotedLinks
+      parameters:
+      - name: campaignId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The Id of the Campaign
+        example: campaignId
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              text: My new promoted link
+              url: http://www.engadget.com/2014/04/03/felix-baumgartner-smithsonian/
+              enabled: true
+              cpc: 0.35
+              sectionName: sectionName
+              imageMetadata:
+                url: http://o.aolcdn.com/hss/storage/adam/f0a6ef54a08f4793bc037805ea57607/felix.jpg
+                aiGenerated: false
+      responses:
+        '200':
+          description: JSON representation of Campaign Resource
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                id: 00f4b02153ee75f3c9dc4fc128ab041962
+                campaignId: abf4b02153ee75f3cadc4fc128ab0419ab
+                text: Yet another promoted link
+                metaData: This is the metaData of the promoted link
+                sectionName: Economics
+                description: This is the description of the promoted link
+                lastModified: '2013-04-15 14:52:13'
+                creationTime: '2013-01-22 21:17:11'
+                url: http://money.cnn.com/2013/11/26/news/economy/milk-farm-bill/
+                status: APPROVED
+                approvalStatus:
+                  status: Approved
+                  isEditable: false
+                enabled: true
+                archived: true
+                documentLanguage: EN
+                cpc: 0.35
+                baseUrl: http://money.cnn.com/2013/11/26/news/economy/milk-farm-bill/
+                onAirStatus:
+                  onAir: false
+                  reason: ADVERTISER_DISABLED
+                imageMetadata:
+                  requestedImageUrl: http://images.outbrain.com/imageserver/v2/s/gtE/n/plcyz/abc/iGYzT/plcyz-f8A-158x114.jpg
+                  originalImageUrl: http://images.outbrain.com/imageserver/v2/s/gtE/n/plcyz/abc/iGYzT/plcyz-f8A-158x114.jpg
+                  isAiGenerated: false
+                logoMetadata:
+                  id: 00f4b02153ee75f3c9dc4fc128ab041962
+                  url: http://someImageUrl.com/logo.png
+          headers:
+            AMPLIFY-REQUEST-ID:
+              description: Request correlation / rate-limit signal
+              schema:
+                type: string
+        '400':
+          description: Bad Request - the request could not be understood or was missing required parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - authentication failed or the user lacks permission for the requested operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden - access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests - request exceeded rate limits; see the rate-limit-msec-left header
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
     get:
       summary: List Promoted Links For A Campaign
       description: Retrieve all promoted links (ad creatives) in a campaign.
@@ -36,27 +503,471 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PromotedLinkList'
+    servers:
+    - url: https://api.outbrain.com/amplify/v0.1
+      description: Production Server
+  /campaigns/{campaignId}/multiplePromotedLinks:
     post:
-      summary: Create A Promoted Link
-      description: Create a new promoted link inside a campaign.
-      operationId: createPromotedLink
+      operationId: createCampaignsCampaignIdMultiplePromotedLinks
+      summary: Create multiple PromotedLinks
+      description: 'You can create multiple new promoted links and associate them with an existing campaign.
+
+        AmplifyAPi allows you to add your own headline and image for the newly created promoted link.
+
+        If you''d like to set your own image, then you can do so by providing an http link for the hosted image or by uploadig an image file.
+
+        if the image is not provided, it will be set via our backend crawler.
+
+
+        linking to a hosted image
+
+
+        POST a JSON hash with the following attributes:
+
+
+        -
+
+        text - optional, if not provided, the title will be set via our backend crawler. NOTE: Outbrain now supports the ability to include dynamic values in the headline (English-only) for location and day of week. For more information and instructions on the proper syntax please visit: http://help.outbrain.com/customer/en/portal/articles/1374775-how-do-i-add-more-content-to-my-campaign#dtitle
+
+
+        -
+
+        url - mandatory
+
+
+        -
+
+        enabled - mandatory
+
+
+        -
+
+        cpcAdjustment - optional
+
+
+        -
+
+        sectionName - optional
+
+
+        -
+
+        description - optional
+
+
+        -
+
+        imageMetadata - optional
+
+
+        - id - optional, Outbrain image id in case the image has already been uploaded
+
+        - url - optional, http link for the hosted image
+
+
+        - If the image format is mp4, the video should be up to 10sec long
+
+
+        - playMode - optional, the image Play Mode type. Relevant to MP4 and GIF image types.
+
+        - Determines whether the clip would run once or loop 3 times.
+
+        - cropSettings - optional, array of Crop Point. Relevant for Standard images only
+
+        - cropType - optional, the image’s custom Crop Type
+
+        - aiGenerated - optional, whether this creative was fully or partially generated or modified by an AI tool
+
+
+        -
+
+        logoMetadata - optional, this PromotedLink''s own brand logo. If omitted, the advertiser''s Marketer.logoMetadata is copied in as a one-time default
+
+
+        - id - optional, Outbrain logo id if already uploaded
+
+        - url - optional, http link for the hosted logo image
+
+
+        Notes regarding the response:
+
+
+        Since some ads creation may succeed and some may fail, the response is constructed as follows:
+
+
+        -
+
+        operationStatus - OperationStatus
+
+
+        -
+
+        url - The recent created url (if the response is successful) or the provided url (if present).
+
+
+        -
+
+        promotedLink - The recent created promoted link (if the response is successful)'
       tags:
       - PromotedLinks
       parameters:
-      - $ref: '#/components/parameters/CampaignIdPath'
+      - name: campaignId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The Id of the Campaign
+        example: campaignId
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PromotedLinkRequest'
+              type: object
+            example:
+            - url: http://money.cnn.com/2013/11/26/news/economy/milk-farm-bill/
+              enabled: true
+              text: My new promoted link 1
+              cpc: 0.35
+              sectionName: sectionName1
+              imageMetadata:
+                url: http://o.aolcdn.com/hss/storage/adam/f0a6ef54a08f4793bc037805ea57607/felix.jpg
+                aiGenerated: true
+            - enabled: true
+              text: My new promoted link 2
+              cpc: 0.43
+              sectionName: sectionName2
+              imageMetadata:
+                url: http://o.aolcdn.com/hss/storage/adam/f0a6ef54a08f4793bc037805ea57607/felix.jpg
+                aiGenerated: false
+            - url: http://money.cnn.com/2013/11/26/news/economy/milk-farm-bill/
+              enabled: true
+              text: <script>alert('Hello')</script>
+              cpc: 0.27
+              sectionName: sectionName3
+              imageMetadata:
+                url: http://o.aolcdn.com/hss/storage/adam/f0a6ef54a08f4793bc037805ea57607/felix.jpg
+                aiGenerated: false
       responses:
-        '201':
-          description: Promoted link created.
+        '200':
+          description: Successful response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PromotedLink'
+                type: array
+                items:
+                  type: object
+              example:
+              - operationStatus:
+                  status: Success
+                url: http://money.cnn.com/2013/11/26/news/economy/milk-farm-bill/
+                promotedLink:
+                  id: 00eb863c4b969c83168189eb7a440ed4b7
+                  text: My new promoted link 1
+                  creationTime: '2016-05-03 16:04:40'
+                  lastModified: '2016-05-03 16:04:40'
+                  url: http://money.cnn.com/2013/11/26/news/economy/milk-farm-bill/
+                  sectionName: Economics
+                  status: PENDING
+                  approvalStatus:
+                    status: Pending
+                    isEditable: true
+                  enabled: true
+                  campaignId: 00fd9565c16c994eef2fb6933af9378c60
+                  archived: false
+                  documentLanguage: EN
+                  cpc: 0.35
+                  baseUrl: http://money.cnn.com/2013/11/26/news/economy/milk-farm-bill/
+                  imageMetadata:
+                    requestedImageUrl: http://images.outbrain.com/imageserver/v2/s/gtE/n/plcyz/abc/iGYzT/plcyz-f8A-158x114.jpg
+                    originalImageUrl: http://images.outbrain.com/imageserver/v2/s/gtE/n/plcyz/abc/iGYzT/plcyz-f8A-158x114.jpg
+                    isAiGenerated: true
+              - operationStatus:
+                  status: Failure
+                  reason:
+                  - Ad url cannot be empty
+              - operationStatus:
+                  status: Failure
+                  reason:
+                  - The script tag is not allowed for security reasons. This tag should not affect the display of the input.
+                  url: http://money.cnn.com/2013/11/26/news/economy/milk-farm-bill/
+        '400':
+          description: Bad Request - the request could not be understood or was missing required parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - authentication failed or the user lacks permission for the requested operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden - access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests - request exceeded rate limits; see the rate-limit-msec-left header
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    servers:
+    - url: https://api.outbrain.com/amplify/v0.1
+      description: Production Server
+  /campaigns/{campaignId}/promotedLinks/:
+    put:
+      operationId: updateCampaignsCampaignIdPromotedLinks2
+      summary: Update multiple PromotedLinks
+      description: 'You can update as much as 500 multiple promoted links at once that belong to an existing campaign.
+
+
+        PUT a JSON with the following attributes:
+
+
+        -
+
+        enabled
+
+
+        -
+
+        cpc
+
+
+        -
+
+        title - only if ApprovalStatus::isEditable is true
+
+
+        -
+
+        sectionName - only if ApprovalStatus::isEditable is true
+
+
+        -
+
+        description - only if ApprovalStatus::isEditable is true
+
+
+        -
+
+        imageMetadata:
+
+
+        - url - only if ApprovalStatus::isEditable is true
+
+
+        -
+
+        logoMetadata - optional, this PromotedLink''s own brand logo
+
+
+        - id - optional, Outbrain logo id if already uploaded
+
+        - url - optional, http link for the hosted logo image
+
+
+        Notes regarding the response:
+
+
+        Since some ads creation may succeed and some may fail, the response is constructed as follows:
+
+
+        -
+
+        operationStatus - OperationStatus
+
+
+        -
+
+        id - The id of the updated Promoted Link
+
+
+        -
+
+        promotedLink - The updated promoted link (if the response is successful)'
+      tags:
+      - PromotedLinks
+      parameters:
+      - name: campaignId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The Id of the Campaign
+        example: campaignId
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+            - id: 0092e5c3547371af0887d9dd243485532b
+              enabled: true
+            - id: 11t2e5c3547371af0887d9dd243485532c
+              enabled: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: string
+              example: "[\n    {\n        \"operationStatus\": {\n            \"status\": \"Success\"\n        },\n        \"url\": \"http://money.cnn.com/2013/11/26/news/economy/milk-farm-bill/\",\n        \"promotedLink\": {\n            \"id\": \"0092e5c3547371af0887d9dd243485532b\",\n            \"text\": \"My updated promoted link 1\",\n            \"creationTime\": \"2016-05-03 16:04:40\",\n            \"lastModified\": \"2016-05-03 16:04:40\",\n            \"url\": \"http://money.cnn.com/2013/11/26/news/economy/milk-farm-bill/\",\n            \"sectionName\": \"Economics\",\n            \"status\": \"PENDING\",\n            \"approvalStatus\": {\n              \"status\": \"Pending\",\n              \"isEditable\" : false\n            },\n            \"enabled\": true,\n            \"campaignId\": \"00fd9565c16c994eef2fb6933af9378c60\",\n            \"archived\": false,\n            \"documentLanguage\": \"EN\",\n            \"cpc\": 0.35,\n            \"baseUrl\": \"http://money.cnn.com/2013/11/26/news/economy/milk-farm-bill/\",\n            \"imageMetadata\": {\n                \"requestedImageUrl\": \"http://images.outbrain.com/imageserver/v2/s/gtE/n/plcyz/abc/iGYzT/plcyz-f8A-158x114.jpg\",\n                \"originalImageUrl\": \"http://images.outbrain.com/imageserver/v2/s/gtE/n/plcyz/abc/iGYzT/plcyz-f8A-158x114.jpg\",\n                \"isAiGenerated\": true,\n            }\n        }\n    },\n    {\n        \"operationStatus\": {\n            \"status\": \"Success\"\n        },\n        \"url\": \"http://money.cnn.com/2013/11/26/news/economy/milk-farm-bill/\",\n        \"promotedLink\": {\n            \"id\": \"11t2e5c3547371af0887d9dd243485532c\",\n            \"text\": \"My updated promoted link 2\",\n            \"creationTime\": \"2016-05-03 16:04:40\",\n            \"lastModified\": \"2016-05-03 16:04:40\",\n            \"url\": \"http://money.cnn.com/2013/11/26/news/economy/milk-farm-bill/\",\n            \"sectionName\": \"Economics\",\n            \"status\": \"PENDING\",\n            \"approvalStatus\": {\n              \"status\": \"Pending\",\n              \"isEditable\" : false\n            },\n            \"enabled\": true,\n           "
+        '400':
+          description: Bad Request - the request could not be understood or was missing required parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - authentication failed or the user lacks permission for the requested operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden - access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests - request exceeded rate limits; see the rate-limit-msec-left header
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    servers:
+    - url: https://api.outbrain.com/amplify/v0.1
+      description: Production Server
+  /campaigns/{id}/promotedLinks:
+    get:
+      operationId: getCampaignsIdPromotedLinks
+      summary: List PromotedLinks for Campaign
+      description: 'Note: some promoted link properties require using the Extra Field notion'
+      tags:
+      - PromotedLinks
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The Id of the Campaign
+        example: abf4b02153ee75f3cadc4fc128ab0419ab
+      - name: enabled
+        in: query
+        required: false
+        schema:
+          type: boolean
+        description: filter based on enabled property of the PromotedLinks object
+        example: 'true'
+      - name: statuses
+        in: query
+        required: false
+        schema:
+          type: string
+        description: filter based on statuses - comma separated list of status
+        example: APPROVED,PENDING,REJECTED
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: number
+        description: num of PromotedLinks to retrieve. default is 100. Maximum is 500
+        example: '200'
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: number
+        description: index of the first PromotedLink in the result, zero based. default is 0
+        example: '3'
+      - name: sort
+        in: query
+        required: false
+        schema:
+          type: string
+        description: SortField supports only the 'creationTime' value
+        example: -creationTime
+      - name: promotedLinkImageWidth
+        in: query
+        required: false
+        schema:
+          type: number
+        description: 'the width of the image (in pixels) as retrived in imageMetadata.url property, default value: 60'
+        example: '100'
+      - name: promotedLinkImageHeight
+        in: query
+        required: false
+        schema:
+          type: number
+        description: 'the height of the image (in pixels) as retrived in imageMetadata.url property, default value: 60'
+        example: '100'
+      responses:
+        '200':
+          description: JSON representation of all PromotedLinks associated with Campaign {id}
+          content:
+            application/json:
+              schema:
+                type: string
+              example: "{\n    \"promotedLinks\": [\n        {\n            \"id\": \"00f4b02153ee75f3c9dc4fc128ab041962\",\n            \"campaignId\": \"abf4b02153ee75f3cadc4fc128ab0419ab\",\n            \"text\": \"Yet another promoted link\",\n            \"sectionName\": \"Economics\",\n            \"lastModified\": \"2013-04-15 14:52:13\",\n            \"creationTime\": \"2013-01-22 21:17:11\",\n            \"url\": \"http://money.outbrain.com/2013/11/26/news/economy/milk-farm-bill/\",\n            \"status\": \"APPROVED\",\n            \"approvalStatus\": {\n              \"status\": \"Approved\",\n              \"isEditable\" : false\n            },\n            \"enabled\": true,\n            \"archived\": true,\n            \"documentLanguage\": \"EN\",\n            \"cpc\": 0.3,\n            \"baseUrl\": \"http://money.outbrain.com/2013/11/26/news/economy/milk-farm-bill/\",\n            \"imageMetadata\": {\n                \"requestedImageUrl\": \"http://images.outbrain.com/imageserver/v2/s/gtE/n/plcyz/abc/iGYzT/plcyz-f8A-158x114.jpg\",\n                \"originalImageUrl\": \"http://images.outbrain.com/imageserver/v2/s/gtE/n/plcyz/abc/iGYzT/plcyz-f8A-158x114.jpg\",\n                \"isAiGenerated\": true,\n            }\n        },\n        {\n            \"id\": \"00a935af95cdb6363d0f00f225504a35a7\",\n            \"campaignId\": \"abf4b02153ee75f3cadc4fc128ab0419ab\",\n            \"text\": \"Yet another promoted link\",\n            \"sectionName\": \"Economics\",\n            \"lastModified\": \"2013-04-15 14:52:13\",\n            \"creationTime\": \"2013-01-22 21:17:11\",\n            \"url\": \"http://money.outbrain.com/2013/11/26/news/economy/milk-farm-bill/\",\n            \"status\": \"APPROVED\",\n            \"approvalStatus\": {\n                \"status\": \"Approved\",\n                \"isEditable\" : false\n            },\n            \"enabled\": true,\n            \"archived\": true,\n            \"documentLanguage\": \"EN\",\n            \"cpc\": 0.2,\n            \"baseUrl\": \"http://money.outbrain.com/2013/11/26/news/economy/milk-farm-bill/\",\n            \"imageMetadata\": {\n                \"url\": \"http://images.outb"
+          headers:
+            AMPLIFY-REQUEST-ID:
+              description: Request correlation / rate-limit signal
+              schema:
+                type: string
+        '400':
+          description: Bad Request - the request could not be understood or was missing required parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - authentication failed or the user lacks permission for the requested operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden - access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests - request exceeded rate limits; see the rate-limit-msec-left header
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    servers:
+    - url: https://api.outbrain.com/amplify/v0.1
+      description: Production Server
   /promotedLinks/{promotedLinkId}:
     get:
       summary: Get A Promoted Link By Id
@@ -90,22 +1001,24 @@ paths:
       responses:
         '200':
           description: Promoted link updated.
+    servers:
+    - url: https://api.outbrain.com/amplify/v0.1
+      description: Production Server
 components:
-  parameters:
-    PromotedLinkIdPath:
-      name: promotedLinkId
-      in: path
-      required: true
-      schema:
-        type: string
-    CampaignIdPath:
-      name: campaignId
-      in: path
-      required: true
-      schema:
-        type: string
-      description: Campaign identifier.
   schemas:
+    Error:
+      type: object
+      description: Error envelope returned on 400/401/403/404/429 responses.
+      properties:
+        moreInfo:
+          type: string
+          description: Short machine-readable hint identifying the failing operation.
+        errorMessage:
+          type: string
+          description: Human-readable error message.
+      examples:
+      - moreInfo: get-budget
+        errorMessage: access denied
     PromotedLinkRequest:
       type: object
       required:
@@ -154,12 +1067,30 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PromotedLink'
+  parameters:
+    PromotedLinkIdPath:
+      name: promotedLinkId
+      in: path
+      required: true
+      schema:
+        type: string
+    CampaignIdPath:
+      name: campaignId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Campaign identifier.
   securitySchemes:
     OBTokenAuth:
       type: apiKey
       in: header
       name: OB-TOKEN-V1
-      description: Token returned from /login. Send on all authenticated requests.
+      description: Token obtained from GET /login (HTTP Basic) or from https://my.outbrain.com/create-token. Valid for 30 days.
     BasicAuth:
       type: http
       scheme: basic
+      description: HTTP Basic credentials used only on GET /login to obtain an OB-TOKEN-V1 token.
+x-refined-from:
+- outbrain-amplify-api-full-openapi.yml
+- outbrain-amplify-api-openapi.yml

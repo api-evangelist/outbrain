@@ -1,16 +1,11 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Outbrain Amplify Authentication Campaigns API
-  description: 'The Outbrain Amplify API enables advertisers, agencies, and technology partners to integrate Amplify campaign management and reporting into their own tools and platforms. The API is organized around core entities: Marketer (a customer account), Campaign (a collection of promoted links), PromotedLink (a single piece of promoted content), Budget, AudienceTargeting, and PerformanceBy* analytics resources for retrieving performance metrics.
-
-    '
+  title: Outbrain Campaigns API
   version: '0.1'
   contact:
     name: Outbrain Developer Center
     url: https://developer.outbrain.com
-  license:
-    name: Outbrain Amplify API Terms and Conditions
-    url: https://www.outbrain.com/legal/
+  description: 'Operations tagged Campaigns across 2 of this provider''s published API definitions: outbrain-amplify-api-full-openapi.yml, outbrain-amplify-api-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.outbrain.com/amplify/v0.1
   description: Production Server
@@ -18,8 +13,1481 @@ security:
 - OBTokenAuth: []
 tags:
 - name: Campaigns
-  description: Campaign management
+  description: Campaigns contain many PromotedLinks and define Budget, targeting, cpc, etc.
 paths:
+  /campaigns/{id}:
+    get:
+      operationId: getCampaignsId
+      summary: Retrieve a Single Campaign
+      description: 'Note: some campaign properties require using the Extra Field notion'
+      tags:
+      - Campaigns
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: the id of the Campaign
+        example: 00f4b02153ee75f3c9dc4fc128ab0411ab
+      - name: extraFields
+        in: query
+        required: false
+        schema:
+          type: string
+        description: the additional campaign fields you want to include in the response
+        example: CustomAudience,Locations,InterestsTargeting,BidBySections,BlockedSites,PlatformTargeting,CampaignOptimization,Scheduling,IABCategories,CampaignPixels,VolumeControl
+      responses:
+        '200':
+          description: JSON representation of Campaign Resource
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                id: 00f4b02153ee75f3c9dc4fc128ab041962
+                name: Boost 'ABC' Brand
+                marketerId: 00f4b02153ee75f3c9dc4fc128ab041562
+                lastModified: '2013-04-15 14:52:13'
+                creationTime: '2013-01-26 21:17:11'
+                campaignOnAir: false
+                onAirReason: CAMPAIGN_FLY_DATES_PAST
+                enabled: true
+                autoArchived: false
+                currency: USD
+                cpc: 0.13
+                minimumCpc: 0.1
+                autoExpirationOfPromotedLinks: 7
+                amountSpent: 150.0
+                targeting:
+                  platform:
+                  - MOBILE
+                  - DESKTOP
+                  locations:
+                  - name: Prince Edward Island
+                    canonicalName: Prince Edward Island, Canada
+                    id: a7fd4b0f63f8437cf04690b481e5eab1
+                    geoType: Region
+                    parent:
+                      geoType: Country
+                      canonicalName: Canada
+                      id: aa4ab4c893b9fb5618476cb27f264ef8
+                      name: Canada
+                  operatingSystems:
+                  - MacOs
+                  - Windows
+                  browsers:
+                  - Chrome
+                feeds:
+                - http://rss.cnn.com/rss/edition.rss
+                - http://rss.cnn.com/rss/sport.rss
+                budget:
+                  id: 00f4b02153ee75f3c9dc4fc128ab041962
+                  name: Boost 'ABC' Brand budget
+                  shared: true
+                  amount: 2000.0
+                  amountRemaining: 100.0
+                  creationTime: '2013-06-03 22:14:41'
+                  lastModified: '2013-06-03 22:14:41'
+                  startDate: '2013-09-16'
+                  runForever: true
+                  type: MONTHLY
+                  currency: USD
+                liveStatus:
+                  campaignOnAir: false
+                  onAirReason: Campaign Fly Dates
+                  amountSpent: 523.35
+                suffixTrackingCode: trck=12
+                prefixTrackingCode:
+                  prefix: http://www.marketersServer.com?redirectTo=
+                  encode: true
+                contentType: NATIVE_VIDEO
+                cpcPerAdEnabled: true
+                blockedSites:
+                  blockedPublishers:
+                  - id: 00f4b02153ee75f3c9dc4fc128ab041962
+                    name: Blocked Publisher Name 1
+                    creationTime: '2016-01-12 04:02:34'
+                    expiration: '2026-01-20'
+                  - id: 0095b3a4811c42fe570d1e730e7286adb4
+                    name: Blocked Publisher Name 2
+                    creationTime: '2016-01-12 04:02:34'
+                  blockedSections:
+                  - id: 00f4b02153ee75f3c9dc4fc128ab041962
+                    name: Blocked Section Name
+                    creationTime: '2016-01-12 04:02:34'
+                    publisher:
+                      id: 0095b3a4811c42fe570d1e730e7286adb4
+                      name: The name of the publisher the section belongs to
+                  marketerBlockedSites: {}
+                bids:
+                  bySection:
+                  - sectionId: 009e769d5444de4570582abe8ff7689883
+                    sectionName: Sports
+                    publisherId: 00f3022e3638c88cb5e46768e45c471441
+                    cpcAdjustment: 0.1
+                    campaignId: 00f4b02153ee75f3c9dc4fc128ab041962
+                    creationTime: '2013-01-14 07:19:16'
+                    lastModified: '2013-01-14 07:21:16'
+                  - sectionId: 000b4b1c9dda9d79fe9ff53e0faefa615d
+                    sectionName: Culture
+                    publisherId: 00d3a87281bbace0171560533ac547f6cc
+                    cpcAdjustment: 0.1
+                    campaignId: 00f4b02153ee75f3c9dc4fc128ab041962
+                    creationTime: '2013-01-14 07:19:16'
+                    lastModified: '2013-01-14 07:27:16'
+                campaignOptimization:
+                  optimizationType: TRAFFIC
+                volumeControl:
+                  adjustments:
+                  - sectionId: 009e769d5444de4570582abe8ff7689883
+                    adjustmentLevel: INCREASE
+                onAirType: Scheduled
+                scheduling:
+                  cpc:
+                  - startDay: Sunday
+                    endDay: Monday
+                    startHour: 3
+                    endHour: 1
+                    cpcAdjustment: 0.1
+                  onAir:
+                  - startDay: Sunday
+                    endDay: Sunday
+                    startHour: 8
+                    endHour: 12
+                objective: Awareness
+                creativeFormat: Standard
+                pixels:
+                  trackingPixels:
+                  - http://outbrain.com/1
+                  - http://outbrain.com/2
+                  impressionPixels:
+                  - http://outbrain.com/3
+                  - http://outbrain.com/4
+          headers:
+            AMPLIFY-REQUEST-ID:
+              description: Request correlation / rate-limit signal
+              schema:
+                type: string
+        '400':
+          description: Bad Request - the request could not be understood or was missing required parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - authentication failed or the user lacks permission for the requested operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden - access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests - request exceeded rate limits; see the rate-limit-msec-left header
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      operationId: updateCampaignsId
+      summary: Update an Existing Campaign
+      description: 'To update a campaign send a JSON with the updated value for one or more of the updatable campaign attributes.
+
+
+        All attribute values left unset in this PUT will remain unchanged.
+
+
+        Only the following Campaign properties are updatable:
+
+
+        -
+
+        name - Maximum length is 100 characters
+
+
+        -
+
+        enabled
+
+
+        -
+
+        cpc - The cpc must be higher than the minimumCpc
+
+
+        -
+
+        targeting.platform - See Targeting object
+
+
+        -
+
+        targeting.locations - See Targeting object
+
+
+        -
+
+        targeting.excludedLocations - See Targeting object
+
+
+        -
+
+        targeting.language - See Targeting object
+
+
+        -
+
+        targeting.excludeAdBlockUsers - See Targeting object
+
+
+        -
+
+        targeting.operatingSystems - See Targeting object
+
+
+        -
+
+        targeting.browsers - See Targeting object
+
+
+        -
+
+        targeting.network - See Targeting object
+
+
+        -
+
+        suffixTrackingCode - Tracking code parameters that will be appended to the Campaign''s PromotedLinks. Use the value "EMPTY_SUFFIX" to delete.
+
+
+        -
+
+        prefixTrackingCode - A marketer''s prefix for a PromotedLink. The prefixTrackingCode must be in a valid url form and must end with some parameter followed by an equals sign. Use the value "EMPTY_PREFIX" to delete.
+
+
+        -
+
+        cpcPerAdEnabled (deprecation date 20.4.20) - Indicates whether or not the ''Cpc Per Ad'' feature is enabled for this campaign.
+
+
+        -
+
+        blockedSites - The publishers / sections which should be blocked. Note that this is a full list including publishers / sections which are already blocked.
+
+
+        -
+
+        startHour - Time (12 hour format: ''HH:MM AM/PM'') of the day when this Campaign should run. For this feature to work, the campaign budget type must be "DAILY" or "AUTOMATIC" it cannot be "Spend_ASAP"
+
+
+        -
+
+        trackingPixels - Deprecated please use pixel.trackingPixels instead (will be removed in 1.7.2021). Array of Tracking Pixels
+
+
+        -
+
+        archived - Use value archived to archive campaign. If you wish to unarchive please resend the archived request. Archived campaigns are not returned by the campaigns APIs
+
+
+        -
+
+        bids - See Bids object
+
+
+        -
+
+        campaignOptimization - See CampaignOptimization object
+
+
+        -
+
+        volumeControl - See Volume Control object
+
+
+        -
+
+        onAirType - See Campaign On Air Type object
+
+
+        -
+
+        scheduling - See Campaign Scheduling Rules object
+
+
+        -
+
+        objective - See Campaign Objective object
+
+
+        -
+
+        pixels - See Pixels object.'
+      tags:
+      - Campaigns
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: the id of the Campaign
+        example: 00f4b02153ee75f3c9dc4fc128ab0411ab
+      - name: extraFields
+        in: query
+        required: false
+        schema:
+          type: string
+        description: the additional campaign fields you want to include in the response
+        example: CustomAudience,Locations,InterestsTargeting,BidBySections,BlockedSites,PlatformTargeting,CampaignOptimization,Scheduling,IABCategories,CampaignPixels,VolumeControl
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: JSON representation of Campaign Resource
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                id: 00f4b02153ee75f3c9dc4fc128ab041962
+                name: Boost 'ABC' Brand
+                marketerId: 00f4b02153ee75f3c9dc4fc128ab041562
+                lastModified: '2013-04-15 14:52:13'
+                creationTime: '2013-01-26 21:17:11'
+                campaignOnAir: false
+                onAirReason: CAMPAIGN_FLY_DATES_PAST
+                enabled: true
+                autoArchived: false
+                currency: USD
+                cpc: 0.13
+                minimumCpc: 0.1
+                autoExpirationOfPromotedLinks: 7
+                amountSpent: 150.0
+                targeting:
+                  platform:
+                  - MOBILE
+                  - DESKTOP
+                  locations:
+                  - name: Prince Edward Island
+                    canonicalName: Prince Edward Island, Canada
+                    id: a7fd4b0f63f8437cf04690b481e5eab1
+                    geoType: Region
+                    parent:
+                      geoType: Country
+                      canonicalName: Canada
+                      id: aa4ab4c893b9fb5618476cb27f264ef8
+                      name: Canada
+                  operatingSystems:
+                  - MacOs
+                  - Windows
+                  browsers:
+                  - Chrome
+                feeds:
+                - http://rss.cnn.com/rss/edition.rss
+                - http://rss.cnn.com/rss/sport.rss
+                budget:
+                  id: 00f4b02153ee75f3c9dc4fc128ab041962
+                  name: Boost 'ABC' Brand budget
+                  shared: true
+                  amount: 2000.0
+                  amountRemaining: 100.0
+                  creationTime: '2013-06-03 22:14:41'
+                  lastModified: '2013-06-03 22:14:41'
+                  startDate: '2013-09-16'
+                  runForever: true
+                  type: MONTHLY
+                  currency: USD
+                liveStatus:
+                  campaignOnAir: false
+                  onAirReason: Campaign Fly Dates
+                  amountSpent: 523.35
+                suffixTrackingCode: trck=12
+                prefixTrackingCode:
+                  prefix: http://www.marketersServer.com?redirectTo=
+                  encode: true
+                contentType: NATIVE_VIDEO
+                cpcPerAdEnabled: true
+                blockedSites:
+                  blockedPublishers:
+                  - id: 00f4b02153ee75f3c9dc4fc128ab041962
+                    name: Blocked Publisher Name 1
+                    creationTime: '2016-01-12 04:02:34'
+                    expiration: '2026-01-20'
+                  - id: 0095b3a4811c42fe570d1e730e7286adb4
+                    name: Blocked Publisher Name 2
+                    creationTime: '2016-01-12 04:02:34'
+                  blockedSections:
+                  - id: 00f4b02153ee75f3c9dc4fc128ab041962
+                    name: Blocked Section Name
+                    creationTime: '2016-01-12 04:02:34'
+                    publisher:
+                      id: 0095b3a4811c42fe570d1e730e7286adb4
+                      name: The name of the publisher the section belongs to
+                  marketerBlockedSites: {}
+                bids:
+                  bySection:
+                  - sectionId: 009e769d5444de4570582abe8ff7689883
+                    sectionName: Sports
+                    publisherId: 00f3022e3638c88cb5e46768e45c471441
+                    cpcAdjustment: 0.1
+                    campaignId: 00f4b02153ee75f3c9dc4fc128ab041962
+                    creationTime: '2013-01-14 07:19:16'
+                    lastModified: '2013-01-14 07:21:16'
+                  - sectionId: 000b4b1c9dda9d79fe9ff53e0faefa615d
+                    sectionName: Culture
+                    publisherId: 00d3a87281bbace0171560533ac547f6cc
+                    cpcAdjustment: 0.1
+                    campaignId: 00f4b02153ee75f3c9dc4fc128ab041962
+                    creationTime: '2013-01-14 07:19:16'
+                    lastModified: '2013-01-14 07:27:16'
+                campaignOptimization:
+                  optimizationType: TRAFFIC
+                volumeControl:
+                  adjustments:
+                  - sectionId: 009e769d5444de4570582abe8ff7689883
+                    adjustmentLevel: INCREASE
+                onAirType: Scheduled
+                scheduling:
+                  cpc:
+                  - startDay: Sunday
+                    endDay: Monday
+                    startHour: 3
+                    endHour: 1
+                    cpcAdjustment: 0.1
+                  onAir:
+                  - startDay: Sunday
+                    endDay: Sunday
+                    startHour: 8
+                    endHour: 12
+                objective: Awareness
+                creativeFormat: Standard
+                pixels:
+                  trackingPixels:
+                  - http://outbrain.com/1
+                  - http://outbrain.com/2
+                  impressionPixels:
+                  - http://outbrain.com/3
+                  - http://outbrain.com/4
+          headers:
+            AMPLIFY-REQUEST-ID:
+              description: Request correlation / rate-limit signal
+              schema:
+                type: string
+        '400':
+          description: Bad Request - the request could not be understood or was missing required parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - authentication failed or the user lacks permission for the requested operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden - access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests - request exceeded rate limits; see the rate-limit-msec-left header
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    servers:
+    - url: https://api.outbrain.com/amplify/v0.1
+      description: Production Server
+  /campaigns:
+    post:
+      operationId: createCampaigns
+      summary: Create a new Campaign
+      description: 'Property
+
+        Type
+
+        Semantic
+
+        Example
+
+
+        name
+
+        String
+
+        The name of this Campaign. Must be unique per each marketer. Maximum length is 100 characters.
+
+        "My Campaign"
+
+
+        budgetId
+
+        String
+
+        The id of the budget to associate the new campaign with.
+
+        "00f4b02153ee75f3c9dc4fc128ab041962"
+
+
+        enabled
+
+        Boolean
+
+        Is the campaign enabled
+
+        true
+
+
+        cpc
+
+        Money
+
+        Cost per click. See Currencies for valid cpc values.
+
+        0.58
+
+
+        targeting
+
+        Targeting Object
+
+        See Targeting object
+
+
+        feeds
+
+        String array
+
+        An array of strings where each element contains the URL of the rss feed. optional
+
+
+        suffixTrackingCode
+
+        String
+
+        Tracking code parameters that will be appended to the Campaign''s PromotedLinks. optional
+
+        "utm_source=outb&utm_medium=cpc&utm_campaign=Celebrity-2-1"
+
+
+        blockedSites
+
+        Campaign Blocked Sites
+
+        A property containing lists of blocked publishers and / or sections. The publishers and sections ids can be retrieved from the Publisher Performance Reporting section
+
+        { "blockedSites": { "blockedPublishers": [ { "id": "00f4b02153ee75f3c9dc4fc128ab041962", "expiration": "2026-01-15"} ],"blockedSections": [ {"id": "01f4b02153ee75f3f9dc4fce28ab041g65", "expiration": "2026-01-15"}} ] } }
+
+
+        startHour
+
+        Time (12 hour format: ''HH:MM AM/PM'')
+
+        Time of the day when this Campaign should start. For this feature to work, the campaign budget type must be "DAILY" or "AUTOMATIC" it cannot be "Spend_ASAP"
+
+        10:30 AM
+
+
+        trackingPixels
+
+        Array of Tracking Pixels
+
+        Deprecated please use pixels.trackingPixels instead (will be removed in 1.7.2021). Array of tracking pixels attached to each promoted link under this campaign
+
+
+        bids
+
+        Bids
+
+        CPC adjustments
+
+
+        campaignOptimization
+
+        CampaignOptimization
+
+        Conversion optimization settings
+
+
+        onAirType
+
+        Campaign On Air Type
+
+        Represents the scheduling type for the campaign to be on air
+
+        "Scheduled"
+
+
+        objective
+
+        Campaign Objective
+
+        The campaign objective
+
+
+        creativeFormat
+
+        Campaign creative format
+
+        The campaign creative format. Default is Standard. optional
+
+
+        pixels
+
+        Pixels
+
+        The campaign impression and tracking pixels.
+
+
+        dynamicRetargeting
+
+        Boolean
+
+        true if this is a dynamic retargeting campaign. This can be set to true only if the marketer has uploaded their products feed to Outbrain'
+      tags:
+      - Campaigns
+      parameters:
+      - name: extraFields
+        in: query
+        required: false
+        schema:
+          type: string
+        description: the additional campaign fields you want to include in the response
+        example: CustomAudience,Locations,InterestsTargeting,BidBySections,BlockedSites,PlatformTargeting,CampaignOptimization,Scheduling,IABCategories,CampaignPixels
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              name: new campaign
+              cpc: 0.05
+              enabled: true
+              budgetId: 004177467f7724bacae68b46524e3c6c3b
+              targeting:
+                platform:
+                - DESKTOP
+                - MOBILE
+                locations:
+                - a7fd4b0f63f8437cf04690b481e5eab1
+                operatingSystems:
+                - MacOs
+                - Windows
+                browsers:
+                - Chrome
+              suffixTrackingCode: utm_source=outb&utm_medium=cpc&utm_campaign=abc%20def
+              feeds:
+              - http://myfeedurl.com/feed/first
+              - http://myfeedurl.com/feed/another
+              bids:
+                bySection:
+                - sectionId: 009e769d5444de4570582abe8ff7689883
+                  cpcAdjustment: 0.1
+                - sectionId: 00f3022e3638c88cb5e46768e45c471441
+                  cpcAdjustment: -0.1
+              onAirType: Scheduled
+              scheduling:
+                cpc:
+                - startDay: Sunday
+                  endDay: Monday
+                  startHour: 3
+                  endHour: 1
+                  cpcAdjustment: 0.1
+                onAir:
+                - startDay: Sunday
+                  endDay: Sunday
+                  startHour: 8
+                  endHour: 12
+              objective: Awareness
+              creativeFormat: Standard
+              pixels:
+                trackingPixels:
+                - http://outbrain.com/1
+                - http://outbrain.com/2
+                impressionPixels:
+                - http://outbrain.com/3
+                - http://outbrain.com/4
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                id: 00f346fb73eefe9cdc93477727c6ee501d
+                name: new campaign
+                enabled: true
+                creationTime: '2014-12-22 07:46:22'
+                lastModified: '2014-12-22 07:46:22'
+                cpc: 0.05
+                autoArchived: false
+                minimumCpc: 0.02
+                currency: GBP
+                targeting:
+                  platform:
+                  - DESKTOP
+                  - MOBILE
+                  locations:
+                  - name: Prince Edward Island
+                    canonicalName: Prince Edward Island, Canada
+                    id: a7fd4b0f63f8437cf04690b481e5eab1
+                    geoType: Region
+                    parent:
+                      geoType: Country
+                      canonicalName: Canada
+                      id: aa4ab4c893b9fb5618476cb27f264ef8
+                      name: Canada
+                  operatingSystems:
+                  - MacOs
+                  - Windows
+                  browsers:
+                  - Chrome
+                marketerId: 00e28bea9eba98e0c8a14958e2196793af
+                feeds:
+                - http://myfeedurl.com/feed/first
+                - http://myfeedurl.com/feed/another
+                contentType: ARTICLES
+                budget:
+                  id: 004177467f7724bacae68b46524e3c6c3b
+                  name: new campaign
+                  shared: false
+                  amount: 100.0
+                  currency: GBP
+                  amountRemaining: 100.0
+                  amountSpent: 0.0
+                  creationTime: '2014-12-22 07:46:22'
+                  lastModified: '2014-12-22 07:46:22'
+                  startDate: '2014-06-26'
+                  endDate: '2016-07-26'
+                  runForever: false
+                  type: CAMPAIGN
+                  pacing: SPEND_ASAP
+                suffixTrackingCode: utm_source=outb&utm_medium=cpc&utm_campaign=abc
+                liveStatus:
+                  amountSpent: 0.0
+                  campaignOnAir: false
+                  onAirReason: CAMPAIGN_FLY_DATES_PAST
+                blockedSites: {}
+                bids:
+                  bySection:
+                  - sectionId: 009e769d5444de4570582abe8ff7689883
+                    sectionName: Sports
+                    publisherId: 00f3022e3638c88cb5e46768e45c471441
+                    cpcAdjustment: 0.1
+                    campaignId: 00f4b02153ee75f3c9dc4fc128ab041962
+                    creationTime: '2013-01-14 07:19:16'
+                    lastModified: '2013-01-14 07:21:16'
+                  - sectionId: 000b4b1c9dda9d79fe9ff53e0faefa615d
+                    sectionName: Culture
+                    publisherId: 00d3a87281bbace0171560533ac547f6cc
+                    cpcAdjustment: 0.1
+                    campaignId: 00f4b02153ee75f3c9dc4fc128ab041962
+                    creationTime: '2013-01-14 07:19:16'
+                    lastModified: '2013-01-14 07:21:16'
+                onAirType: Scheduled
+                scheduling:
+                  cpc:
+                  - startDay: Sunday
+                    endDay: Monday
+                    startHour: 3
+                    endHour: 1
+                    cpcAdjustment: 0.1
+                  onAir:
+                  - startDay: Sunday
+                    endDay: Sunday
+                    startHour: 8
+                    endHour: 12
+                objective: Awareness
+                creativeFormat: Standard
+          headers:
+            AMPLIFY-REQUEST-ID:
+              description: Request correlation / rate-limit signal
+              schema:
+                type: string
+        '400':
+          description: Bad Request - the request could not be understood or was missing required parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - authentication failed or the user lacks permission for the requested operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden - access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests - request exceeded rate limits; see the rate-limit-msec-left header
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      operationId: updateCampaigns
+      summary: Update Multiple Campaigns
+      description: '-
+
+        You can update as much as 25 multiple campaigns at once
+
+
+        -
+
+        some campaign properties require using the Extra Field notion
+
+
+        Notes regarding the request:
+
+
+        The request should be an array of objects that includes:
+
+
+        -
+
+        id - the campaign''s id you want to update
+
+
+        -
+
+        the properties you want to update, same as for a single campaign
+
+
+        Notes regarding the response:
+
+
+        Since some campaigns update may succeed and some may fail, the response is constructed as follows:
+
+
+        -
+
+        operationStatus - OperationStatus
+
+
+        -
+
+        id - the campaign''s id
+
+
+        -
+
+        campaign - The recent updated campaign (if the response is successful)'
+      tags:
+      - Campaigns
+      parameters:
+      - name: extraFields
+        in: query
+        required: false
+        schema:
+          type: string
+        description: the additional campaign fields you want to include in the response
+        example: CustomAudience,Locations,InterestsTargeting,BidBySections,BlockedSites,PlatformTargeting,CampaignOptimization,Scheduling,IABCategories,CampaignPixels
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+            - id: 00f863c5674af5c5f63415500f699a04e5
+              name: new campaign name
+            - id: 00edb86a9edd703c67af97b31466188e56
+              cpc: 0.5
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+              example:
+              - operationStatus:
+                  status: Success
+                id: 00f863c5674af5c5f63415500f699a04e5
+                campaign:
+                  name: new campaign name
+                  enabled: true
+                  creationTime: '2014-12-22 07:46:22'
+                  lastModified: '2014-12-22 07:46:22'
+                  cpc: 0.05
+                  autoArchived: false
+                  minimumCpc: 0.02
+                  currency: GBP
+                  targeting:
+                    platform:
+                    - DESKTOP
+                    - MOBILE
+                  marketerId: 00e28bea9eba98e0c8a14958e2196793af
+                  contentType: ARTICLES
+                  budget:
+                    id: 004177467f7724bacae68b46524e3c6c3b
+                    name: new campaign
+                    shared: false
+                    amount: 100.0
+                    currency: GBP
+                    amountRemaining: 100.0
+                    amountSpent: 0.0
+                    creationTime: '2014-12-22 07:46:22'
+                    lastModified: '2014-12-22 07:46:22'
+                    startDate: '2014-06-26'
+                    endDate: '2016-07-26'
+                    runForever: false
+                    type: CAMPAIGN
+                    pacing: SPEND_ASAP
+                  suffixTrackingCode: utm_source=outb&utm_medium=cpc&utm_campaign=abc
+                  liveStatus:
+                    amountSpent: 0.0
+                    campaignOnAir: false
+                    onAirReason: CAMPAIGN_FLY_DATES_PAST
+                  objective: Awareness
+              - operationStatus:
+                  status: Failure
+                  reason:
+                  - The provided cpc is below the campaign's cpc limit 0.6
+                id: 00edb86a9edd703c67af97b31466188e56
+          headers:
+            AMPLIFY-REQUEST-ID:
+              description: Request correlation / rate-limit signal
+              schema:
+                type: string
+        '400':
+          description: Bad Request - the request could not be understood or was missing required parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - authentication failed or the user lacks permission for the requested operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden - access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests - request exceeded rate limits; see the rate-limit-msec-left header
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    servers:
+    - url: https://api.outbrain.com/amplify/v0.1
+      description: Production Server
+  /campaigns/{campaignIds}/multiple:
+    get:
+      operationId: getCampaignsCampaignIdsMultiple
+      summary: Retrieve Multiple Campaigns
+      description: '-
+
+        You can retrieve as much as 50 multiple campaigns at once.
+
+
+        -
+
+        some campaign properties require using the Extra Field notion'
+      tags:
+      - Campaigns
+      parameters:
+      - name: campaignIds
+        in: path
+        required: true
+        schema:
+          type: string
+        description: the ids of the Campaigns
+        example: 00f4b02153ee75f3c9dc4fc128ab0411ab,00f863c5674af5c5f63415500f699a04e5
+      - name: extraFields
+        in: query
+        required: false
+        schema:
+          type: string
+        description: the additional campaign fields you want to include in the response
+        example: CustomAudience,Locations,InterestsTargeting,BidBySections,BlockedSites,PlatformTargeting,CampaignOptimization,Scheduling,IABCategories,CampaignPixels
+      responses:
+        '200':
+          description: JSON representation of Campaigns Resource
+          headers:
+            AMPLIFY-REQUEST-ID:
+              description: Request correlation / rate-limit signal
+              schema:
+                type: string
+        '400':
+          description: Bad Request - the request could not be understood or was missing required parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - authentication failed or the user lacks permission for the requested operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden - access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests - request exceeded rate limits; see the rate-limit-msec-left header
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    servers:
+    - url: https://api.outbrain.com/amplify/v0.1
+      description: Production Server
+  /budgets/{id}/campaigns:
+    get:
+      operationId: getBudgetsIdCampaigns
+      summary: List all Campaigns associated with a Budget
+      description: 'Note: some campaign properties require using the Extra Field notion'
+      tags:
+      - Campaigns
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: the Budget id
+        example: 00f4b02153ee75f3c9dc4fc128ab041962
+      responses:
+        '200':
+          description: JSON representation of Budget Resource
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                count: 1
+                campaigns:
+                - id: 00f4b02153ee75f3c9dc4fc128ab041962
+                  name: Boost 'ABC' Brand
+                  marketerId: 00f4b02153ee75f3c9dc4fc128ab04396a
+                  onAirReason: CAMPAIGN_FLY_DATES_PAST
+                  enabled: true
+                  autoArchived: false
+                  currency: USD
+                  lastModified: '2013-04-15 14:52:13'
+                  creationTime: '2013-01-26 21:17:11'
+                  cpc: 0.13
+                  minimumCpc: 0.1
+                  amountSpent: 150.0
+                  targeting:
+                    platform:
+                    - MOBILE
+                    - DESKTOP
+                    locations: []
+                    operatingSystems:
+                    - MacOs
+                    - Windows
+                    browsers:
+                    - Chrome
+                  feeds:
+                  - http://rss.cnn.com/rss/edition.rss
+                  - http://rss.cnn.com/rss/sport.rss
+                  budget:
+                    id: 00f4b02153ee75f3c9dc4fc128ab041962
+                    name: Boost 'ABC' Brand budget
+                    shared: false
+                    amount: 100.0
+                    currency: USD
+                    amountRemaining: 100.0
+                    amountSpent: 0.0
+                    creationTime: '2013-10-16 12:24:01'
+                    lastModified: '2013-10-16 12:24:01'
+                    startDate: '2013-11-16'
+                    runForever: false
+                    type: CAMPAIGN
+                    pacing: DAILY_TARGET
+                    dailyTarget: 200.0
+                    maximumAmount: 200.0
+                  suffixTrackingCode: trck=12
+                  prefixTrackingCode:
+                    prefix: http://www.marketersServer.com?redirectTo=
+                    encode: true
+                  liveStatus:
+                    campaignOnAir: false
+                    onAirReason: Campaign Fly Dates
+                    amountSpent: 523.35
+                marketerBlockedSites:
+                  blockedPublishers:
+                  - id: 00b3ab380551a6f472014ed47cd3e68268
+                    name: Abc
+                    creationTime: '2017-12-07 09:47:56'
+                  blockedSections:
+                  - id: 001b044a932722469d1e453b8415055b5a
+                    name: Def
+                    publisher:
+                      id: 00b3ab380551a6f472014ed47cd3e68268
+                      name: AdvertiserBlacklistReadTest-1B5Nk
+                    creationTime: '2017-12-07 09:47:57'
+          headers:
+            AMPLIFY-REQUEST-ID:
+              description: Request correlation / rate-limit signal
+              schema:
+                type: string
+        '400':
+          description: Bad Request - the request could not be understood or was missing required parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - authentication failed or the user lacks permission for the requested operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden - access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests - request exceeded rate limits; see the rate-limit-msec-left header
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    servers:
+    - url: https://api.outbrain.com/amplify/v0.1
+      description: Production Server
+  /marketers/{id}/campaigns:
+    get:
+      operationId: getMarketersIdCampaigns
+      summary: List all Campaigns associated with a Marketer
+      description: 'Note: some campaign properties require using the Extra Field notion'
+      tags:
+      - Campaigns
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: the id of the Marketer.
+        example: 00f4b02153ee75f3c9dc4fc128ab0411ab
+      - name: extraFields
+        in: query
+        required: false
+        schema:
+          type: string
+        description: the additional campaign fields you want to include in the response.
+        example: CustomAudience,Locations,InterestsTargeting,BidBySections,BlockedSites,PlatformTargeting,CampaignOptimization,Scheduling,IABCategories,CampaignPixels
+      - name: includeArchived
+        in: query
+        required: false
+        schema:
+          type: boolean
+        description: filter based on autoArchived property of the campaign object.
+        example: 'true'
+      - name: fromBudgetStartDate
+        in: query
+        required: false
+        schema:
+          type: string
+        description: filter based on budget startDate property. If provided, toBudgetEndDate parameter must be provided as well.
+        example: '2020-10-01'
+      - name: toBudgetEndDate
+        in: query
+        required: false
+        schema:
+          type: string
+        description: filter based on budget endDate property. If provided, fromBudgetStartDate parameter must be provided as well.
+        example: '2020-11-01'
+      - name: fetch
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Fetch Type is one of [basic,all]. in basic fetch mode only the campaign id and name will be retrieved. This fetch type is optimised for low response time and smaller response payload. When fetch is basic, paging is ignored.
+        example: basic
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: number
+        description: number of Campaigns to retrieve. default is 25, maximum is 50. When fetch is basic, paging is ignored.
+        example: '10'
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: number
+        description: index of the first Campaign in the result, zero based. default is 0 When fetch is basic, paging is ignored.
+        example: '3'
+      - name: daysToLookBackForChanges
+        in: query
+        required: false
+        schema:
+          type: number
+        description: filter based on campaigns that were modified in the last days.
+        example: '5'
+      responses:
+        '200':
+          description: JSON representation of all the campaigns associated with Marketer {id}
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                count: 1
+                campaigns:
+                - id: 00f4b02153ee75f3c9dc4fc128ab041962
+                  name: Boost 'ABC' Brand
+                  marketerId: 00f4b02153ee75f3c9dc4fc128ab0411ab
+                  onAirReason: CAMPAIGN_FLY_DATES_PAST
+                  enabled: true
+                  lastModified: '2013-04-15 14:52:13'
+                  creationTime: '2013-01-26 21:17:11'
+                  autoArchived: false
+                  currency: USD
+                  cpc: 0.13
+                  minimumCpc: 0.13
+                  amountSpent: 150.0
+                  targeting:
+                    platform:
+                    - MOBILE
+                    - DESKTOP
+                    locations: []
+                    operatingSystems:
+                    - MacOs
+                    - Windows
+                    browsers:
+                    - Chrome
+                  feeds:
+                  - http://rss.cnn.com/rss/edition.rss
+                  - http://rss.cnn.com/rss/sport.rss
+                  budget:
+                    id: 00f4b02153ee75f3c9dc4fc128ab041962
+                    name: Boost 'ABC' Brand budget
+                    shared: false
+                    amount: 100.0
+                    currency: USD
+                    amountRemaining: 100.0
+                    amountSpent: 0.0
+                    creationTime: '2013-10-16 12:24:01'
+                    lastModified: '2013-10-16 12:24:01'
+                    startDate: '2013-11-16'
+                    runForever: false
+                    type: CAMPAIGN
+                    pacing: DAILY_TARGET
+                    dailyTarget: 200.0
+                    maximumAmount: 200.0
+                  suffixTrackingCode: trck=12
+                  prefixTrackingCode:
+                    prefix: http://www.marketersServer.com?redirectTo=
+                    encode: true
+                  liveStatus:
+                    campaignOnAir: false
+                    onAirReason: Campaign Fly Dates
+                    amountSpent: 523.35
+                marketerBlockedSites:
+                  blockedPublishers:
+                  - id: 00b3ab380551a6f472014ed47cd3e68268
+                    name: Abc
+                    creationTime: '2017-12-07 09:47:56'
+                  blockedSections:
+                  - id: 001b044a932722469d1e453b8415055b5a
+                    name: Def
+                    publisher:
+                      id: 00b3ab380551a6f472014ed47cd3e68268
+                      name: AdvertiserBlacklistReadTest-1B5Nk
+                    creationTime: '2017-12-07 09:47:57'
+          headers:
+            AMPLIFY-REQUEST-ID:
+              description: Request correlation / rate-limit signal
+              schema:
+                type: string
+        '400':
+          description: Bad Request - the request could not be understood or was missing required parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - authentication failed or the user lacks permission for the requested operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden - access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests - request exceeded rate limits; see the rate-limit-msec-left header
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    servers:
+    - url: https://api.outbrain.com/amplify/v0.1
+      description: Production Server
+  /campaigns/{campaignId}/locations:
+    get:
+      operationId: getCampaignsCampaignIdLocations
+      summary: Retrieve Campaign GeoLocations
+      description: A new endpoint has been added which returns all targeted and excluded locations of a given campaign. It can be called in order to retrieve a campaign's geotargeting.
+      tags:
+      - Campaigns
+      parameters:
+      - name: campaignId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Array of all GeoLocations which complies to the search
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                geoLocations:
+                - id: fc4deb5112fb4415a9edacdf4aafb0d8
+                  name: United States
+                  canonicalName: United States
+                  geoType: Country
+                  code: US
+                - id: c20768bb56a25c22299c38801e935c3a
+                  name: United Kingdom
+                  geoType: Country
+                  canonicalName: United Kingdom
+                  code: GB
+                excludedGeoLocations:
+                - name: Alabama
+                  id: 5d01f8eab282fcd783aff5c09bb8fc7a
+                  parent:
+                    geoType: Country
+                    canonicalName: United States
+                    name: United States
+                    id: fc4deb5112fb4415a9edacdf4aafb0d8
+                  geoType: Region
+                  canonicalName: Alabama, United States
+                - parent:
+                    geoType: Country
+                    canonicalName: United States
+                    name: United States
+                    id: fc4deb5112fb4415a9edacdf4aafb0d8
+                  geoType: DMA
+                  canonicalName: Eugene OR, United States
+                  name: Eugene OR
+                  id: be482a98eeddfc2009ac2f1c181eac79
+                - parent:
+                    canonicalName: United States
+                    geoType: Country
+                    id: fc4deb5112fb4415a9edacdf4aafb0d8
+                    name: United States
+                  geoType: PostalCode
+                  canonicalName: 96373, FPO, , United States
+                  name: 96373, FPO
+                  id: 419268adfd7cc1751233df8337b97671
+        '400':
+          description: Bad Request - the request could not be understood or was missing required parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - authentication failed or the user lacks permission for the requested operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden - access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests - request exceeded rate limits; see the rate-limit-msec-left header
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    servers:
+    - url: https://api.outbrain.com/amplify/v0.1
+      description: Production Server
   /marketers/{marketerId}/campaigns:
     get:
       summary: List Campaigns For A Marketer
@@ -57,6 +1525,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Campaign'
+    servers:
+    - url: https://api.outbrain.com/amplify/v0.1
+      description: Production Server
   /campaigns/{campaignId}:
     get:
       summary: Get A Campaign By Id
@@ -94,23 +1565,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Campaign'
+    servers:
+    - url: https://api.outbrain.com/amplify/v0.1
+      description: Production Server
 components:
-  parameters:
-    CampaignIdPath:
-      name: campaignId
-      in: path
-      required: true
-      schema:
-        type: string
-      description: Campaign identifier.
-    MarketerIdPath:
-      name: marketerId
-      in: path
-      required: true
-      schema:
-        type: string
-      description: Marketer (customer account) identifier.
   schemas:
+    Error:
+      type: object
+      description: Error envelope returned on 400/401/403/404/429 responses.
+      properties:
+        moreInfo:
+          type: string
+          description: Short machine-readable hint identifying the failing operation.
+        errorMessage:
+          type: string
+          description: Human-readable error message.
+      examples:
+      - moreInfo: get-budget
+        errorMessage: access denied
     Campaign:
       type: object
       properties:
@@ -141,6 +1613,22 @@ components:
           - awareness
           - conversions
           - leadGeneration
+    CampaignRequest:
+      type: object
+      required:
+      - name
+      - cpc
+      properties:
+        name:
+          type: string
+        enabled:
+          type: boolean
+        budgetId:
+          type: string
+        cpc:
+          type: number
+        objective:
+          type: string
     CampaignList:
       type: object
       properties:
@@ -178,28 +1666,31 @@ components:
           type: array
           items:
             type: string
-    CampaignRequest:
-      type: object
-      required:
-      - name
-      - cpc
-      properties:
-        name:
-          type: string
-        enabled:
-          type: boolean
-        budgetId:
-          type: string
-        cpc:
-          type: number
-        objective:
-          type: string
+  parameters:
+    MarketerIdPath:
+      name: marketerId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Marketer (customer account) identifier.
+    CampaignIdPath:
+      name: campaignId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Campaign identifier.
   securitySchemes:
     OBTokenAuth:
       type: apiKey
       in: header
       name: OB-TOKEN-V1
-      description: Token returned from /login. Send on all authenticated requests.
+      description: Token obtained from GET /login (HTTP Basic) or from https://my.outbrain.com/create-token. Valid for 30 days.
     BasicAuth:
       type: http
       scheme: basic
+      description: HTTP Basic credentials used only on GET /login to obtain an OB-TOKEN-V1 token.
+x-refined-from:
+- outbrain-amplify-api-full-openapi.yml
+- outbrain-amplify-api-openapi.yml
