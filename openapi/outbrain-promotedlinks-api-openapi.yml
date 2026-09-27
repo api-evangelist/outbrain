@@ -1019,22 +1019,15 @@ components:
       examples:
       - moreInfo: get-budget
         errorMessage: access denied
-    PromotedLinkRequest:
+    PromotedLinkList:
       type: object
-      required:
-      - text
-      - url
       properties:
-        text:
-          type: string
-        url:
-          type: string
-          format: uri
-        imageUrl:
-          type: string
-          format: uri
-        enabled:
-          type: boolean
+        count:
+          type: integer
+        promotedLinks:
+          type: array
+          items:
+            $ref: '#/components/schemas/PromotedLink'
     PromotedLink:
       type: object
       properties:
@@ -1058,15 +1051,22 @@ components:
           - pending
           - approved
           - rejected
-    PromotedLinkList:
+    PromotedLinkRequest:
       type: object
+      required:
+      - text
+      - url
       properties:
-        count:
-          type: integer
-        promotedLinks:
-          type: array
-          items:
-            $ref: '#/components/schemas/PromotedLink'
+        text:
+          type: string
+        url:
+          type: string
+          format: uri
+        imageUrl:
+          type: string
+          format: uri
+        enabled:
+          type: boolean
   parameters:
     PromotedLinkIdPath:
       name: promotedLinkId

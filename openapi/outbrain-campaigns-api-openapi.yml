@@ -1583,6 +1583,50 @@ components:
       examples:
       - moreInfo: get-budget
         errorMessage: access denied
+    CampaignRequest:
+      type: object
+      required:
+      - name
+      - cpc
+      properties:
+        name:
+          type: string
+        enabled:
+          type: boolean
+        budgetId:
+          type: string
+        cpc:
+          type: number
+        objective:
+          type: string
+    AudienceTargeting:
+      type: object
+      properties:
+        geoTargeting:
+          type: array
+          items:
+            type: string
+          description: ISO country codes.
+        platformTargeting:
+          type: array
+          items:
+            type: string
+            enum:
+            - DESKTOP
+            - TABLET
+            - SMARTPHONE
+        operatingSystems:
+          type: array
+          items:
+            type: string
+        browsers:
+          type: array
+          items:
+            type: string
+        interestSegments:
+          type: array
+          items:
+            type: string
     Campaign:
       type: object
       properties:
@@ -1613,22 +1657,6 @@ components:
           - awareness
           - conversions
           - leadGeneration
-    CampaignRequest:
-      type: object
-      required:
-      - name
-      - cpc
-      properties:
-        name:
-          type: string
-        enabled:
-          type: boolean
-        budgetId:
-          type: string
-        cpc:
-          type: number
-        objective:
-          type: string
     CampaignList:
       type: object
       properties:
@@ -1638,34 +1666,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Campaign'
-    AudienceTargeting:
-      type: object
-      properties:
-        geoTargeting:
-          type: array
-          items:
-            type: string
-          description: ISO country codes.
-        platformTargeting:
-          type: array
-          items:
-            type: string
-            enum:
-            - DESKTOP
-            - TABLET
-            - SMARTPHONE
-        operatingSystems:
-          type: array
-          items:
-            type: string
-        browsers:
-          type: array
-          items:
-            type: string
-        interestSegments:
-          type: array
-          items:
-            type: string
   parameters:
     MarketerIdPath:
       name: marketerId
