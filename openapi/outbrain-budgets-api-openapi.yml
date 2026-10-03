@@ -771,6 +771,27 @@ components:
       examples:
       - moreInfo: get-budget
         errorMessage: access denied
+    BudgetRequest:
+      type: object
+      required:
+      - name
+      - amount
+      - type
+      properties:
+        name:
+          type: string
+        amount:
+          type: number
+        currency:
+          type: string
+        type:
+          type: string
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
     BudgetList:
       type: object
       properties:
@@ -805,34 +826,7 @@ components:
         endDate:
           type: string
           format: date
-    BudgetRequest:
-      type: object
-      required:
-      - name
-      - amount
-      - type
-      properties:
-        name:
-          type: string
-        amount:
-          type: number
-        currency:
-          type: string
-        type:
-          type: string
-        startDate:
-          type: string
-          format: date
-        endDate:
-          type: string
-          format: date
   parameters:
-    BudgetIdPath:
-      name: budgetId
-      in: path
-      required: true
-      schema:
-        type: string
     MarketerIdPath:
       name: marketerId
       in: path
@@ -840,6 +834,12 @@ components:
       schema:
         type: string
       description: Marketer (customer account) identifier.
+    BudgetIdPath:
+      name: budgetId
+      in: path
+      required: true
+      schema:
+        type: string
   securitySchemes:
     OBTokenAuth:
       type: apiKey

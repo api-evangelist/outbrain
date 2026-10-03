@@ -52,6 +52,14 @@ paths:
         '200':
           description: Audience targeting updated.
 components:
+  parameters:
+    CampaignIdPath:
+      name: campaignId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Campaign identifier.
   schemas:
     AudienceTargeting:
       type: object
@@ -81,14 +89,6 @@ components:
           type: array
           items:
             type: string
-  parameters:
-    CampaignIdPath:
-      name: campaignId
-      in: path
-      required: true
-      schema:
-        type: string
-      description: Campaign identifier.
   securitySchemes:
     OBTokenAuth:
       type: apiKey

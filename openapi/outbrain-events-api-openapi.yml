@@ -52,6 +52,22 @@ paths:
           description: Event recorded.
 components:
   schemas:
+    ClickEvent:
+      type: object
+      required:
+      - widgetJSId
+      - publisherKey
+      - recommendationId
+      properties:
+        widgetJSId:
+          type: string
+        publisherKey:
+          type: string
+        recommendationId:
+          type: string
+        permalink:
+          type: string
+          format: uri
     ImpressionEvent:
       type: object
       required:
@@ -67,22 +83,6 @@ components:
           type: array
           items:
             type: string
-        permalink:
-          type: string
-          format: uri
-    ClickEvent:
-      type: object
-      required:
-      - widgetJSId
-      - publisherKey
-      - recommendationId
-      properties:
-        widgetJSId:
-          type: string
-        publisherKey:
-          type: string
-        recommendationId:
-          type: string
         permalink:
           type: string
           format: uri

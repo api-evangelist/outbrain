@@ -1019,15 +1019,22 @@ components:
       examples:
       - moreInfo: get-budget
         errorMessage: access denied
-    PromotedLinkList:
+    PromotedLinkRequest:
       type: object
+      required:
+      - text
+      - url
       properties:
-        count:
-          type: integer
-        promotedLinks:
-          type: array
-          items:
-            $ref: '#/components/schemas/PromotedLink'
+        text:
+          type: string
+        url:
+          type: string
+          format: uri
+        imageUrl:
+          type: string
+          format: uri
+        enabled:
+          type: boolean
     PromotedLink:
       type: object
       properties:
@@ -1051,29 +1058,16 @@ components:
           - pending
           - approved
           - rejected
-    PromotedLinkRequest:
+    PromotedLinkList:
       type: object
-      required:
-      - text
-      - url
       properties:
-        text:
-          type: string
-        url:
-          type: string
-          format: uri
-        imageUrl:
-          type: string
-          format: uri
-        enabled:
-          type: boolean
+        count:
+          type: integer
+        promotedLinks:
+          type: array
+          items:
+            $ref: '#/components/schemas/PromotedLink'
   parameters:
-    PromotedLinkIdPath:
-      name: promotedLinkId
-      in: path
-      required: true
-      schema:
-        type: string
     CampaignIdPath:
       name: campaignId
       in: path
@@ -1081,6 +1075,12 @@ components:
       schema:
         type: string
       description: Campaign identifier.
+    PromotedLinkIdPath:
+      name: promotedLinkId
+      in: path
+      required: true
+      schema:
+        type: string
   securitySchemes:
     OBTokenAuth:
       type: apiKey
