@@ -709,14 +709,6 @@ paths:
       description: Teads Analytics reporting endpoint
 components:
   parameters:
-    ToDateQuery:
-      name: to
-      in: query
-      required: true
-      schema:
-        type: string
-        format: date
-      description: End date of the report range (YYYY-MM-DD).
     MarketerIdPath:
       name: marketerId
       in: path
@@ -724,14 +716,6 @@ components:
       schema:
         type: string
       description: Marketer (customer account) identifier.
-    FromDateQuery:
-      name: from
-      in: query
-      required: true
-      schema:
-        type: string
-        format: date
-      description: Start date of the report range (YYYY-MM-DD).
     BreakdownQuery:
       name: breakdown
       in: query
@@ -746,6 +730,22 @@ components:
         - country
         - platform
       description: Breakdown dimension for the report.
+    ToDateQuery:
+      name: to
+      in: query
+      required: true
+      schema:
+        type: string
+        format: date
+      description: End date of the report range (YYYY-MM-DD).
+    FromDateQuery:
+      name: from
+      in: query
+      required: true
+      schema:
+        type: string
+        format: date
+      description: Start date of the report range (YYYY-MM-DD).
   schemas:
     PerformanceReport:
       type: object

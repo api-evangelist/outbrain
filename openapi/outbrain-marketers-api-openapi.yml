@@ -497,15 +497,6 @@ components:
       examples:
       - moreInfo: get-budget
         errorMessage: access denied
-    MarketerList:
-      type: object
-      properties:
-        count:
-          type: integer
-        marketers:
-          type: array
-          items:
-            $ref: '#/components/schemas/Marketer'
     Marketer:
       type: object
       properties:
@@ -520,6 +511,15 @@ components:
         creationTime:
           type: string
           format: date-time
+    MarketerList:
+      type: object
+      properties:
+        count:
+          type: integer
+        marketers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Marketer'
   parameters:
     MarketerIdPath:
       name: marketerId

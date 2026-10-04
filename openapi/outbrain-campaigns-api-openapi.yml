@@ -1583,15 +1583,6 @@ components:
       examples:
       - moreInfo: get-budget
         errorMessage: access denied
-    CampaignList:
-      type: object
-      properties:
-        count:
-          type: integer
-        campaigns:
-          type: array
-          items:
-            $ref: '#/components/schemas/Campaign'
     Campaign:
       type: object
       properties:
@@ -1650,6 +1641,15 @@ components:
           type: array
           items:
             type: string
+    CampaignList:
+      type: object
+      properties:
+        count:
+          type: integer
+        campaigns:
+          type: array
+          items:
+            $ref: '#/components/schemas/Campaign'
     CampaignRequest:
       type: object
       required:
