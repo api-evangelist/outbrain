@@ -1,0 +1,88 @@
+slug: outbrain
+provider: Outbrain
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 7
+edges:
+- tag: Campaigns
+  spec_file: outbrain-campaigns-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.8
+  evidence: POST /marketers/{marketerId}/campaigns Create A Campaign For A Marketer; GET /campaigns/{campaignId}/locations
+    Retrieve Campaign GeoLocations; schema AudienceTargeting
+  reason: Create/update/list of paid native advertising campaigns with audience and geo targeting on an
+    open-web ad platform — execution of paid digital media, i.e. Digital Marketing Management. Residual
+    ambiguity with Demand Generation keeps this at 0.8.
+- tag: PromotedLinks
+  spec_file: outbrain-promotedlinks-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.8
+  evidence: POST /campaigns/{campaignId}/promotedLinks Create a PromotedLink; PUT /campaigns/{campaignId}/promotedLinks
+    Update Existing PromotedLinks CPC Value
+  reason: Creation and bid management of promoted ad units inside campaigns — paid-media/native advertising
+    execution, i.e. digital marketing management.
+- tag: Targeting
+  spec_file: outbrain-targeting-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.8
+  evidence: GET /campaigns/{campaignId}/targeting/audience Get Audience Targeting For A Campaign; schema
+    AudienceTargeting
+  reason: Reads and updates audience targeting on advertising campaigns — core paid-media/digital marketing
+    campaign configuration.
+- tag: Multiple Conversions
+  spec_file: outbrain-multiple-conversions-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.74
+  evidence: POST /marketers/{marketerId}/conversionEvents Create a Conversion Event; GET /marketers/{id}/engagementMetrics
+    Retrieve Marketer's Engagement Metrics
+  reason: Conversion-event definition and engagement metrics for advertising campaigns = digital marketing
+    conversion tracking/measurement. Could also be read as marketing measurement operations, hence 0.74.
+- tag: Interest Targeting
+  spec_file: outbrain-interest-targeting-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.72
+  evidence: GET /interests/search  Search Interests by term; GET /interests/all  Retrieve all available
+    interests — within the 'Outbrain Amplify' advertising product
+  reason: Interest taxonomy lookup used to target paid native advertising campaigns; this is digital/paid-media
+    marketing tooling. Some risk it is merely reference metadata, hence moderate confidence.
+- tag: PromotedLinksSequences
+  spec_file: outbrain-promotedlinkssequences-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.72
+  evidence: POST /campaigns/{campaignId}/promotedLinksSequences Create a PromotedLinkSequence; GET /campaigns/{campaignId}/promotedLinksSequences
+    List PromotedLinksSequences for Campaign
+  reason: Sequenced promoted-ad creative delivery within advertising campaigns; paid-media campaign execution
+    under digital marketing.
+- tag: Budgets
+  spec_file: outbrain-budgets-api-openapi.yml
+  capability_id: BC-400.50
+  capability_id_l1: BC-400
+  capability_name: Marketing Operations Management
+  confidence: 0.7
+  evidence: POST /marketers/{marketerId}/budgets createBudget Create A Budget; GET /marketers/{id}/budgets
+    List Budgets for a Marketer
+  reason: Budgets here are advertising spend budgets held by a marketer account and attached to campaigns,
+    i.e. management of marketing budget within an ad platform, which maps to Marketing Operations Management
+    (marketing budget, technology, measurement). Some ambiguity versus digital/paid-media execution, hence
+    0.7.

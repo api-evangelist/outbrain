@@ -999,6 +999,9 @@ accessModel:
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/outbrain.png
 access: 3rd-Party
 common:
+- type: CapabilityMap
+  url: capabilities/outbrain-capability-edges.yml
+  name: Outbrain Business Capability Map
 - type: Website
   url: https://outbrain.com
 - type: PostmanWorkspace
