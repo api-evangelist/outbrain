@@ -126,3 +126,46 @@ plans:
         unit: 1
         price: negotiated
         userMultiplied: false
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - free
+  - metered
+  - revenue-share
+  units:
+  - money
+  plans:
+  - name: Amplify Self-Service
+    access: other
+    model: metered
+    model_how: stated
+    units:
+    - money
+    - other
+    periods:
+    - per-use
+  - name: Amplify Managed Service
+    access: paid
+    model: free
+    model_how: derived
+    units:
+    - money
+    periods:
+    - month
+  - name: Teads Programmatic / Direct
+    access: paid
+    model: free
+    model_how: derived
+    units:
+    - other
+    periods:
+    - per-use
+  - name: Engage Publisher (Revenue Share)
+    access: partner
+    model: revenue-share
+    model_how: stated
+    units:
+    - other
+    periods:
+    - month
