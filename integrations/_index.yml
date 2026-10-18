@@ -43,3 +43,58 @@
     detected: '2026-10-14'
   status: not-a-workflow
   arazzo: null
+- slug: outbrain-fivetran
+  label: Fivetran
+  partner: fivetran
+  partner_name: Fivetran
+  type: marketplace
+  marketplace: fivetran-connectors
+  channel: elt-connector
+  evidence: https://fivetran.com/docs/connectors/applications/outbrain
+  source: edge
+  relationship: ipaas-bridge
+  contract_reference:
+    register: Fivetran connectors (fivetran.com/docs/connectors, docs-sitemap.xml + Partner-Built program)
+    spec_file: null
+    role: elt-connector:fivetran
+    registered_name: Outbrain
+    matched_domain: outbrain.com
+    matched_by: domain
+    detected_by: sweep-data-integration.py
+    detected: '2026-10-18'
+    signal_note: one edge per (provider, platform); connectors, streams, packages and usage are context, never read
+    connector_paths:
+    - connectors/applications/outbrain
+    vendor_link: https://www.outbrain.com/amplify/
+    builder: Fivetran
+  status: pending-generation
+  arazzo: null
+- slug: outbrain-meltano
+  label: Meltano
+  partner: meltano
+  partner_name: Meltano
+  type: marketplace
+  marketplace: meltano-hub
+  channel: elt-connector
+  evidence: https://hub.meltano.com/extractors/tap-outbrain--dbt-labs
+  source: edge
+  relationship: ipaas-bridge
+  contract_reference:
+    register: Meltano Hub (github.com/meltano/hub _data/meltano extractors + loaders)
+    spec_file: null
+    role: elt-connector:meltano-hub
+    registered_name: Outbrain
+    matched_domain: outbrain.com
+    matched_by: domain
+    detected_by: sweep-data-integration.py
+    detected: '2026-10-18'
+    signal_note: one edge per (provider, platform); connectors, streams, packages and usage are context, never read
+    plugins:
+    - tap-outbrain--dbt-labs
+    maintenance_status:
+    - inactive
+    quality:
+    - silver
+    builder: 'community (Meltano Hub variant maintainers: dbt-labs)'
+  status: pending-partner-spec
+  arazzo: null
